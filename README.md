@@ -16,7 +16,6 @@
 | Student Name | Student Email | GitHub Username |
 |    :---:     |     :---:     |     :---:       |
 | Rebecca Zumaeta      |  rzumaeta@mail.sfsu.edu         |     rezum            |
-| Jeremiah Ruvalcaba      |  jruvalcaba@mail.sfsu.edu       |     jeremiahruvalcaba     |
 | Luong Dang    |  ldang2@mail.sfsu.edu           |     luongdang0701         |
 | Bryan Fetner      |  bfetner@mail.sfsu.edu          |     bfetner            |
 | Vishakha Tyagi      |  vtyagi@mail.sfsu.edu           |     Vishakha2002            |
