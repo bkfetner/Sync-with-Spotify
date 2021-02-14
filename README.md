@@ -14,7 +14,7 @@
 
 
 | Student Name | Student Email | GitHub Username | Role |
-|    :---:     |     :---:     |     :---:       |
+|    :---:     |     :---:     |     :---:       |   :---:   |
 | Rebecca Zumaeta      |  rzumaeta@mail.sfsu.edu         |     rezum            | Team Lead|
 | Luong Dang    |  ldang2@mail.sfsu.edu           |     luongdang0701         | Back-End Lead |
 | Bryan Fetner      |  bfetner@mail.sfsu.edu          |     bfetner            | Front-End Lead |
