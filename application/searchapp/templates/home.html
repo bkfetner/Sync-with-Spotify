@@ -107,6 +107,16 @@
           />
         </form>
       </div>
+
+      <div class="result_box">
+        {% for room in object_list %}
+        <div class="result_card">
+          <img src="{% static 'tfotl.jpg' %}" />
+          <br />{{ room.room_name }}<br />
+          <em>{{ room.genre }}</em>
+        </div>
+        {% endfor %}
+      </div>
     </div>
 
     <!-- Optional JavaScript; choose one of the two! -->
