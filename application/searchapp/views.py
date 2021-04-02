@@ -6,9 +6,12 @@ from .models import Rooms
 from .forms import AddRoomsForm
 from django.shortcuts import render
 
-
-class HomePageView(TemplateView):
-    template_name = 'home.html'
+def homepage(request):
+    object_list = Rooms.objects.all()
+    context = {
+        'object_list': object_list
+    }
+    return render(request, 'home.html', context)
 
 # class SearchResultsView(ListView):
 #     model = Rooms
