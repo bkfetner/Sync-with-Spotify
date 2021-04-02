@@ -90,3 +90,9 @@ def add_room(request):
 
 class add_confirmation(TemplateView):
     template_name = 'add_confirmation.html'
+
+def submitpage(request):
+    data = request.POST.get('r_name')
+
+    context = {'data': data}
+    return render(request, 'room.html', context)

@@ -67,7 +67,7 @@
       <div class="container">
         <h2 class="text-center my-3">Create a New Room</h2>
 
-        <form action="/add/" method="post">
+        <form action="{% url 'room' %}" method="post">
           {% csrf_token %}
           <div class="mb-3">
             <label for="r_name">Room Name</label>
