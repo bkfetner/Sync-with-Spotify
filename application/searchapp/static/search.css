@@ -67,3 +67,78 @@
   -moz-border-radius: 20px;
   border-radius: 15px;
 }
+
+.room_album_image img {
+  max-width: 200px;
+  max-height: 200px;
+  border-radius: 10px;
+  margin-bottom: 30px;
+}
+
+.room_play_button img {
+  width: 50px; 
+  height: 50px; 
+  margin-top: 30px;
+  margin-left: 75px;
+}
+
+.progress1 {
+  width: 1px;
+  height: 4px;
+  background: #7de9d7;
+  transition: width .1s linear;
+}
+
+.container1 {
+  width: 200px;
+  background: rgb(80, 79, 79);
+  text-align: center;
+  padding-bottom: 10px;
+}
+
+.grid1 {
+  height: 500px;
+  width: 80%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  margin-top: 50px;
+  justify-items: center;
+}
+
+.musicplayer {
+  padding: 10px;
+}
+
+.queue1 {
+  border-color:rgb(80, 79, 79);
+  border-width: 2px;
+  border-radius: 10px;
+  border-style: solid;
+  width: 300px;
+}
+
+.songdiv {
+  margin-top: 15px;
+  margin-left: 15px;
+}
+
+.songdiv img {
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+}
+
+.chatdiv {
+  border-color:rgb(80, 79, 79);
+  border-width: 2px;
+  border-radius: 10px;
+  border-style: solid;
+  width: 300px;
+  height: 450px;
+}
+
+.chatflex {
+  display: flex;
+  flex-direction: column;
+
+}
