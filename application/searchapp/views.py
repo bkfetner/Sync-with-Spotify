@@ -93,6 +93,18 @@ class add_confirmation(TemplateView):
 
 def submitpage(request):
     data = request.POST.get('r_name')
+    if 'r_name' in request.POST:
+        name = request.POST['r_name']
+    else:
+        name = False
+
+    if 'r_genre' in request.POST:
+        genre = request.POST['r_genre']
+    else:
+        genre = False
+    ins = Rooms(room_name=name, genre=genre)
+    ins.save()
+    print("Saved to db")
 
     context = {'data': data}
     return render(request, 'room.html', context)
