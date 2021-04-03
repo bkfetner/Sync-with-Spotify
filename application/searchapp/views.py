@@ -43,12 +43,20 @@ class SearchResultsView(ListView):
         return object_list
 
 
-class SearchByName(TemplateView):
-    template_name = 'searchbyname.html'
 
+def searchbynamepage(request):
+    object_list = Rooms.objects.all()
+    context = {
+        'object_list': object_list
+    }
+    return render(request, 'searchbyname.html', context)
 
-class SearchByGenre(TemplateView):
-    template_name = 'searchbygenre.html'
+def searchbygenrepage(request):
+    object_list = Rooms.objects.all()
+    context = {
+        'object_list': object_list
+    }
+    return render(request, 'searchbygenre.html', context)
 
 
 class SearchByNameView(ListView):
