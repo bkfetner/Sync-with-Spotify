@@ -119,6 +119,17 @@
           />
         </form>
       </div>
+      <div class="result_box">
+        {% for room in object_list %}
+        <div class="result_card">
+          <a href="{% url 'room' %}">
+            <img src="{% static 'image0.png' %}" />
+          </a>
+          <br />{{ room.room_name }}<br />
+          <em>{{ room.genre }}</em>
+        </div>
+        {% endfor %}
+      </div>
     </div>
 
     <!-- Optional JavaScript; choose one of the two! -->
