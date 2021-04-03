@@ -13,21 +13,25 @@ body {
   background-color: var(--color1) !important;
 }
 
-.old_body {
+/*.old_body {
   display: flex;
   flex-direction: column;
   margin: auto;
   align-items: center;
   font-family: "Franklin Gothic Medium";
-}
+} */
 
 .main {
   display: flex;
   flex-direction: column;
   margin: auto;
   align-items: center;
-  font-family: "Franklin Gothic Medium";
+  font-family: Arial, sans-serif;
   color: var(--color4);
+}
+
+.main h4 {
+  color: var(--color3);
 }
 
 .bg-dark-sync {
@@ -44,6 +48,14 @@ body {
 
 .sync-toggler-color:hover {
   color: var(--color4) !important;
+}
+
+.sync-button-color {
+  background-color: var(--color2) !important;
+}
+
+.sync-button-color:hover {
+  background-color: var(--color3) !important;
 }
 
 .result_box {
@@ -75,6 +87,8 @@ body {
   width: 100%;
   align-items: center;
   justify-content: center;
+  margin-top: 30px;
+  margin-bottom: 50px;
 }
 
 .search_bar {
