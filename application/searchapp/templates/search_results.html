@@ -110,7 +110,9 @@
       <div class="result_box">
         {% for room in object_list %}
         <div class="result_card">
-          <img src="{% static 'image0.png' %}" />
+          <a href="{% url 'room' %}">
+            <img src="{% static 'image0.png' %}" />
+          </a>
           <br />{{ room.room_name }}<br />
           <em>{{ room.genre }}</em>
         </div>
