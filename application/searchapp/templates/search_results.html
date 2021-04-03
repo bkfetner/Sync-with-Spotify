@@ -4,7 +4,12 @@
     <meta charset="UTF-8" />
 
     {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'search.css' %}" />
+    <!--<link rel="stylesheet" type="text/css" href="{% static 'search.css' %}" />-->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../static/search.css?version=4"
+    />
 
     <!-- Bootstrap CSS -->
     <link
@@ -18,9 +23,9 @@
   </head>
   <body>
     <!-- Begin Nav Bar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark-sync">
       <div class="container-fluid">
-        <a class="navbar-brand" href="{% url 'home' %}">Sync</a>
+        <a class="navbar-brand sync-type-color" href="{% url 'home' %}">Sync</a>
         <button
           class="navbar-toggler"
           type="button"
@@ -36,22 +41,15 @@
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
               <a
-                class="nav-link"
+                class="nav-link sync-toggler-color"
                 aria-current="page"
                 href="{% url 'add_room' %}"
                 >Create</a
               >
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'home' %}">Join</a>
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link disabled"
-                href="#"
-                tabindex="-1"
-                aria-disabled="true"
-                >Disabled</a
+              <a class="nav-link sync-toggler-color" href="{% url 'home' %}"
+                >Join</a
               >
             </li>
           </ul>
@@ -60,14 +58,16 @@
     </nav>
     <!-- End Nav Bar -->
     <div class="main">
-      <h1>Search Results</h1>
+      <h1 style="margin-bottom: 30px; margin-top: 30px">Search Results</h1>
       {% if not object_list %}
-      <p>Sorry, Couldn't find any such room name or genre...</p>
+      <h4 style="margin-bottom: 30px; margin-top: 30px">
+        Sorry, Couldn't find any such room name or genre...
+      </h4>
       {% else %}
       <div class="search_box">
         <div class="dropdown" style="float: left">
           <button
-            class="btn btn-secondary dropdown-toggle"
+            class="btn btn-secondary dropdown-toggle sync-button-color"
             type="button"
             id="dropdownMenuButton1"
             data-bs-toggle="dropdown"
@@ -101,7 +101,7 @@
           <input
             type="submit"
             value="Search for Room"
-            class="btn btn-dark"
+            class="btn btn-dark sync-button-color"
             style="float: left"
           />
         </form>
