@@ -18,6 +18,16 @@
 7. Database name (basically the name that contains all your tables)
 8. Instructions on how to use the above information.
 
+
+1. http://18.218.242.136:8000/
+2. ubuntu
+3. it is the pem file, to run it, run: ssh - i sg.pem 
+4. sync-db.cldl9j2fxicq.us-east-2.rds.amazonaws.com , port: 3306
+5. admin
+6. 12345678
+7. sync-db 
+9. will figure out 
+
 # Most important things to Remember
 ## These values need to kept update to date throughout the semester. <br>
 ## <strong>Failure to do so will result it points be deducted from milestone submissions.</strong><br>
