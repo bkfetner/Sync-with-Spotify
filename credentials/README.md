@@ -22,11 +22,16 @@
 1. http://18.218.242.136:8000/
 2. ubuntu
 3. it is the pem file, to run it, run: ssh - i sg.pem 
-4. sync-db.cldl9j2fxicq.us-east-2.rds.amazonaws.com , port: 3306
-5. admin
-6. 12345678
-7. sync-db 
-9. will figure out 
+4. DB end point: sync-db.cldl9j2fxicq.us-east-2.rds.amazonaws.com 
+   port: 3306
+7. admin
+8. 12345678
+9. djangosearchdb 
+10. copy and paste server url into a browser to view
+   run the ssh by running this command: ssh -i sg.pem ubuntu@18.218.242.136
+   run this command to run the database: mysql -u admin -h sync-db.cldl9j2fxicq.us-east-2.rds.amazonaws.com -p
+   then it will prompt to input password: 12345678
+   if you would like to see the database tables through workbench, put the endpoint link as the host 
 
 # Most important things to Remember
 ## These values need to kept update to date throughout the semester. <br>
