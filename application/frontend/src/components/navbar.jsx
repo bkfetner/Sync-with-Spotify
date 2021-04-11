@@ -10,6 +10,7 @@ const NavBar = () => {
         <Nav className="mr-auto">
           <Nav.Link href="/Create">Create</Nav.Link>
           <Nav.Link href="/Join">Join</Nav.Link>
+          <Nav.Link href="/Room">Room</Nav.Link>
         </Nav>
 
         <Navbar.Toggle />
