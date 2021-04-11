@@ -36,7 +36,8 @@ body {
 }
 
 .bg-dark-sync {
-  background-color: var(--color2);
+  font-family: Arial, sans-serif;
+  background-color: var(--color2) !important;
 }
 
 .sync-type-color {
@@ -93,7 +94,9 @@ body {
 }
 
 .search_bar {
-  width: 50%;
+  width: 100%;
+  padding: 5px;
+  border-radius: 5px;
 }
 
 .search_button {
