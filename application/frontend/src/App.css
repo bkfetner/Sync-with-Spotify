@@ -11,7 +11,7 @@
 
 body {
   background-color: var(--color1) !important;
-  color: var(--color4);
+  color: var(--color4) !important;
 }
 
 /*.old_body {
@@ -28,6 +28,14 @@ body {
   margin: auto;
   align-items: center;
   font-family: Arial, sans-serif;
+  color: var(--color4) !important;
+}
+
+.main h1 {
+  color: var(--color4);
+}
+
+.main h2 {
   color: var(--color4);
 }
 
