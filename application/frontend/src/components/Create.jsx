@@ -8,7 +8,7 @@ import { withRouter, Route, useHistory } from "react-router-dom";
 
 const { Option } = Select;
 
-const Create = () => {
+const Create = (props) => {
   const [roomName, setRoomName] = useState();
   const [roomGenre, setGenre] = useState();
 
@@ -37,8 +37,6 @@ const Create = () => {
 
   const genreList = ["Rock", "Pop", "Classical"];
   const validateRG = (validRG) => {
-    console.log(validRG);
-    console.log(genreList.includes(validRG));
     return genreList.includes(validRG);
   };
 
@@ -46,27 +44,34 @@ const Create = () => {
     setIsModalVisible(true);
   };
 
-  const MoveToRoom = () => {
-    console.log(this);
-  };
-
   let history = useHistory();
+
+  const updatePropHistory = () => {
+    history.push({
+      pathname: "/room",
+      state: {
+        pushRoomName: roomName,
+        pushRoomGenre: roomGenre,
+      },
+    });
+  };
 
   const handleOk = () => {
     setIsModalVisible(false);
-    console.log("ok");
-    history.push("/Room");
-    MoveToRoom();
-  };
-
-  const handleCancel = () => {
-    setIsModalVisible(false);
+    if (validateRN(roomName) && validateRG(roomGenre)) {
+      updatePropHistory();
+      console.log(props.history.push.state.pushRoomName);
+      history.push("/Room");
+    }
   };
 
   const [modalMessage, setModalMessage] = useState();
+  const [successModalMessage, setSuccessModalMessage] = useState();
 
   const onClickFunks = () => {
     //insertData();
+    setModalMessage("");
+    setSuccessModalMessage("");
     if (!validateRN(roomName)) {
       setModalMessage("Invalid roomname, must input at least one character.");
       showModal();
@@ -74,7 +79,9 @@ const Create = () => {
       setModalMessage("You have selected an invalid genre.");
       showModal();
     } else {
-      setModalMessage("");
+      setSuccessModalMessage(
+        "You have successfully created a room! Press ok to continue."
+      );
       showModal();
     }
   };
@@ -147,14 +154,19 @@ const Create = () => {
       </Form>
 
       <Modal
-        title="Basic Modal"
+        title="Room Creation"
         visible={isModalVisible}
         onOk={handleOk}
-        afterClose={handleCancel}
+        onCancel={handleOk}
         cancelButtonProps={{ style: { display: "none" } }}
       >
-        <p>Room Name: {roomName}</p>
-        <p>Genre: {roomGenre}</p>
+        <p>
+          <strong>Room Name:</strong> {roomName}
+        </p>
+        <p>
+          <strong>Genre:</strong> {roomGenre}
+        </p>
+        <p>{successModalMessage}</p>
         <p style={{ color: "red" }}>{modalMessage}</p>
       </Modal>
     </div>
