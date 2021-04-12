@@ -60,7 +60,6 @@ const Create = (props) => {
     setIsModalVisible(false);
     if (validateRN(roomName) && validateRG(roomGenre)) {
       updatePropHistory();
-      console.log(props.history.push.state.pushRoomName);
       history.push("/Room");
     }
   };
@@ -70,6 +69,9 @@ const Create = (props) => {
 
   const onClickFunks = () => {
     //insertData();
+    console.log(roomName);
+    console.log(roomGenre);
+
     setModalMessage("");
     setSuccessModalMessage("");
     if (!validateRN(roomName)) {
@@ -123,9 +125,9 @@ const Create = (props) => {
           //rules={[{ required: true, message: "Please input your genre!" }]}
         >
           <Input
-            onChange={(e) => {
+          /* onChange={(e) => {
               setGenre(e.target.value);
-            }}
+            }} */
           />
         </Form.Item>
 
@@ -134,7 +136,12 @@ const Create = (props) => {
           name="genre2"
           //rules={[{ required: true, message: 'Province is required' }]}
         >
-          <Select placeholder="Select genre">
+          <Select
+            placeholder="Select genre"
+            onChange={(value) => {
+              setGenre(value);
+            }}
+          >
             <Option value="Rock">Rock</Option>
             <Option value="Pop">Pop</Option>
             <Option value="Classical">Classical</Option>
