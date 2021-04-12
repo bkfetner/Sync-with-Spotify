@@ -11,6 +11,8 @@ const NavBar = () => {
           <Nav.Link href="/Create">Create</Nav.Link>
           <Nav.Link href="/Join">Join</Nav.Link>
           <Nav.Link href="/Room">Room</Nav.Link>
+          <Nav.Link href="/Contact">Contact us</Nav.Link>
+          <Nav.Link href="/Aboutus">About us</Nav.Link>
         </Nav>
 
         <Navbar.Toggle />
