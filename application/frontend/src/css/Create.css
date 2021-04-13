@@ -1,0 +1,23 @@
+* {
+  box-sizing: border-box;
+}
+
+.asterisk-override:before {
+  content: unset !important;
+}
+
+.text-color {
+  color: var(--color4) !important;
+}
+
+[title="Roomname"] {
+  color: var(--color4) !important;
+}
+
+[title="Genre"] {
+  color: var(--color4) !important;
+}
+
+[title="Genre2"] {
+  color: var(--color4) !important;
+}
