@@ -1,18 +1,21 @@
-import React, { Component, useState } from "react";
+import React, { Component, useState, setState } from "react";
 import "antd/dist/antd.css";
 import { Form, Input, Button, Checkbox, Modal, message, Select } from "antd";
 import Axios from "axios";
 import "../css/Create.css";
 import Room from "./Room";
-import { withRouter, Route, useHistory } from "react-router-dom";
+import { withRouter, useHistory, useLocation } from "react-router-dom";
 
 const { Option } = Select;
 
 const Create = (props) => {
+  console.log(props);
+
   const [roomName, setRoomName] = useState();
   const [roomGenre, setGenre] = useState();
 
   const insertData = () => {
+    console.log("roomName: " + roomName + ", roomGenre: " + roomGenre);
     var data = {
       room_name: roomName,
       genre: roomGenre,
@@ -35,32 +38,23 @@ const Create = (props) => {
     return false;
   };
 
-  const genreList = ["Rock", "Pop", "Classical"];
-  const validateRG = (validRG) => {
-    return genreList.includes(validRG);
-  };
-
   const showModal = () => {
     setIsModalVisible(true);
   };
 
-  let history = useHistory();
+  const history = useHistory();
 
   const updatePropHistory = () => {
-    history.push({
-      pathname: "/room",
-      state: {
-        pushRoomName: roomName,
-        pushRoomGenre: roomGenre,
-      },
-    });
+    console.log(props);
   };
 
   const handleOk = () => {
     setIsModalVisible(false);
-    if (validateRN(roomName) && validateRG(roomGenre)) {
-      updatePropHistory();
-      history.push("/Room");
+    if (validateRN(roomName) && roomGenre) {
+      props.history.push({
+        pathname: "/Room",
+        state: { roomName: roomName, roomGenre: roomGenre },
+      });
     }
   };
 
@@ -69,16 +63,14 @@ const Create = (props) => {
 
   const onClickFunks = () => {
     //insertData();
-    console.log(roomName);
-    console.log(roomGenre);
 
     setModalMessage("");
     setSuccessModalMessage("");
     if (!validateRN(roomName)) {
       setModalMessage("Invalid roomname, must input at least one character.");
       showModal();
-    } else if (!validateRG(roomGenre)) {
-      setModalMessage("You have selected an invalid genre.");
+    } else if (!roomGenre) {
+      setModalMessage("Please select a genre from the dropdown menu.");
       showModal();
     } else {
       setSuccessModalMessage(
@@ -123,18 +115,6 @@ const Create = (props) => {
         <Form.Item
           label="Genre"
           name="genre"
-          //rules={[{ required: true, message: "Please input your genre!" }]}
-        >
-          <Input
-          /* onChange={(e) => {
-              setGenre(e.target.value);
-            }} */
-          />
-        </Form.Item>
-
-        <Form.Item
-          label="Genre2"
-          name="genre2"
           //rules={[{ required: true, message: 'Province is required' }]}
         >
           <Select
@@ -181,4 +161,4 @@ const Create = (props) => {
   );
 };
 
-export default Create;
+export default withRouter(Create);
