@@ -1,0 +1,26 @@
+
+
+.banner {
+    position: absolute;
+    bottom: 35rem;
+    left: 37%;
+    font-size: 4em;
+    margin-bottom: auto;
+}
+
+.subtext1 {
+    position: absolute;
+    bottom: 28rem;
+    left: 32%;
+    font-size: 1.8em;
+    vertical-align: middle;
+    
+}
+
+.landingButton {
+    position: absolute;
+    bottom: 15rem;
+    left: 43%;
+    font-size: 1.8em;
+    vertical-align: middle;
+}
