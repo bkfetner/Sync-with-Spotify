@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Landing from "./components/Landing";
-import Search from "./components/Search";
+import Home from "./components/Home";
 import Modal from "./components/Modal";
 import Create from "./components/Create";
 import Join from "./components/Join";
@@ -19,7 +19,7 @@ class App extends React.Component {
         <div>
           <NavBar />
           <Switch>
-            <Route path="/Search" exact component={Search} />
+            <Route path="/Home" exact component={Home} />
             <Route path="/Create" exact component={Create} />
             <Route path="/Join" exact component={Join} />
             <Route path="/Room" exact component={Room} />

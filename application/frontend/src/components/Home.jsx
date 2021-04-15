@@ -3,7 +3,7 @@ import { Form, Input, Button, Checkbox } from "antd";
 import { Link } from "react-router-dom";
 import Axios from "axios";
 
-const Search = () => {
+const Home = () => {
   const [roomName, setRoomName] = useState();
   const [roomGenre, setGenre] = useState();
 
@@ -20,7 +20,7 @@ const Search = () => {
       })
       .catch((er) => console.log(er));
   };
-  
+
   return (
     <div>
       <div class="main">
@@ -109,4 +109,4 @@ const Search = () => {
   );
 };
 
-export default Search;
+export default Home;
