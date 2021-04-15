@@ -4,7 +4,7 @@ function MusicPlayer(props) {
   console.log(props);
   const audioEl = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [buttonImage, setButtonImage] = useState("./assets/image0.png");
+  const [buttonImage, setButtonImage] = useState("./assets/play.png");
 
   useEffect(() => {
     if (isPlaying) {
@@ -17,15 +17,15 @@ function MusicPlayer(props) {
   const buttonControl = () => {
     if (isPlaying) {
       setIsPlaying(false);
-      setButtonImage("./assets/image0.png");
+      setButtonImage("./assets/play.png");
     } else {
       setIsPlaying(true);
-      setButtonImage("./assets/play.png");
+      setButtonImage("./assets/pause.png");
     }
   };
 
   return (
-    <div className="music-player">
+    <div className="music-player" style={{alignSelf: 'center'}}>
       <audio src={props.currentSong.songUrl} ref={audioEl}></audio>
       <img
         src={props.currentSong.songImageUrl}
