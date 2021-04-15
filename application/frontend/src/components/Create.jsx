@@ -62,7 +62,7 @@ const Create = (props) => {
   const [successModalMessage, setSuccessModalMessage] = useState();
 
   const onClickFunks = () => {
-    //insertData();
+    insertData();
 
     setModalMessage("");
     setSuccessModalMessage("");
