@@ -77,7 +77,7 @@ const Create = (props) => {
         "You have successfully created a room! Press ok to continue."
       );
       showModal();
-      insertData();
+      
     }
   };
 
