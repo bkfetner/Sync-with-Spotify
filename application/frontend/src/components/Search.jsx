@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, { Component, useEffect, useState } from "react";
 import { Form, Input, Button, Checkbox } from "antd";
 import { Link } from "react-router-dom";
 import Axios from "axios";
@@ -20,6 +20,7 @@ const Search = () => {
       })
       .catch((er) => console.log(er));
   };
+  
   return (
     <div>
       <div class="main">
