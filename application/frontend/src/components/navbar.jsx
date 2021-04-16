@@ -1,11 +1,16 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Navbar, Nav, Form, FormControl, Button } from "react-bootstrap";
+import { Navbar, Nav, Form, FormControl, Button, Image } from "react-bootstrap";
 
 const NavBar = () => {
   return (
     <div>
       <Navbar bg="dark" variant="dark" className="bg-dark-sync" fixed="top">
+        <Image
+          src="/assets/logoImage2.png"
+          href="/Home"
+          style={{ width: "65px", marginRight: "10px" }}
+        />
         <Navbar.Brand href="/Home">Sync</Navbar.Brand>
         <Nav className="mr-auto">
           <Nav.Link href="/Create">Create</Nav.Link>
