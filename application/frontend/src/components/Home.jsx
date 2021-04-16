@@ -3,7 +3,6 @@ import { Form, Input, Button, Checkbox } from "antd";
 import { Link } from "react-router-dom";
 import Axios from "axios";
 import "../css/Home.css";
-import Animate from "rc-animate";
 
 const Home = () => {
   const textSets = [
