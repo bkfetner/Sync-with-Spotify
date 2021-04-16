@@ -1,0 +1,53 @@
+* {
+  box-sizing: border-box;
+}
+
+.home-main {
+  padding-top: 10px;
+}
+
+.text-and-button-column {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  height: 800px;
+  padding-top: 50px;
+}
+
+.text-only {
+  display: flex;
+  flex-direction: column;
+  height: 80%;
+  justify-content: center;
+  padding-right: 100px;
+  width: 700px;
+}
+
+.text-only > ul > li {
+  font-size: 20pt;
+  padding: 10px;
+}
+
+.top-text {
+  font-size: 40pt !important;
+  font-weight: bolder;
+  color: var(--color3);
+  line-height: 120%;
+}
+
+.button-column {
+  display: flex;
+  flex-direction: column;
+  height: 80%;
+  justify-content: space-evenly;
+}
+
+.home-button-design {
+  font-weight: normal;
+  font-size: 20pt;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-right: 30px;
+  padding-left: 30px;
+  border-radius: 20px;
+}
