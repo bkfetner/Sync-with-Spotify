@@ -99,7 +99,7 @@ const Create = (props) => {
 
   return (
     <div>
-      <Form {...formItemLayout} className="text-color">
+      <Form {...formItemLayout} className="text-color" style= {{marginTop: "150px" , marginLeft: "400px"}}>
         <Form.Item
           label="Roomname"
           name="roomname"
