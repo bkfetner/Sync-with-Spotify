@@ -66,7 +66,7 @@ const Home = () => {
               style={{ marginBottom: "30px" }}
               onMouseOver={() => {
                 console.log("join-over");
-                setMainText(textSets[1]);
+                setMainText(textSets[2]);
               }}
               onMouseOut={() => {
                 console.log("join-out");
@@ -81,7 +81,7 @@ const Home = () => {
               style={{ marginBottom: "30px" }}
               onMouseOver={() => {
                 console.log("create-over");
-                setMainText(textSets[2]);
+                setMainText(textSets[1]);
               }}
               onMouseOut={() => {
                 console.log("create-out");
