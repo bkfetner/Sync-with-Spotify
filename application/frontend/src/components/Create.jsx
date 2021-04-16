@@ -77,7 +77,6 @@ const Create = (props) => {
         "You have successfully created a room! Press ok to continue."
       );
       showModal();
-      
     }
   };
 
@@ -99,7 +98,11 @@ const Create = (props) => {
 
   return (
     <div>
-      <Form {...formItemLayout} className="text-color" style= {{marginTop: "150px" , marginLeft: "400px"}}>
+      <Form
+        {...formItemLayout}
+        className="text-color"
+        style={{ marginTop: "150px", marginLeft: "400px" }}
+      >
         <Form.Item
           label="Roomname"
           name="roomname"
