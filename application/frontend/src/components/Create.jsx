@@ -116,6 +116,7 @@ const Create = (props) => {
           //rules={[{ required: true, message: "Please input your roomname!" }]}
         >
           <Input
+            placeholder="e.g. Bill's Room of Splendor"
             onChange={(e) => {
               setRoomName(e.target.value);
             }}
