@@ -1,5 +1,5 @@
 import React, { Component, useEffect, useState } from "react";
-import { Form, Input, Button, Checkbox } from "antd";
+import { Form, Input, Button, Checkbox, Row, Col, Typography, Card } from "antd";
 import { Link } from "react-router-dom";
 import Axios from "axios";
 import "../css/Home.css";
@@ -29,37 +29,19 @@ const Home = (props) => {
   {
     /* For searching rooms */
   }
-  const [searchValue, setSearchValue] = useState("");
-  const [options, setOptions] = useState([]);
+  
   const [viewData, setViewData] = useState([]);
-  const [searchedData, setSearchedData] = useState([]);
-  const viewRooms = () => {};
-  useEffect(() => {
+  
+  
+  useEffect(() =>{
+      
     Axios.get("http://localhost:8000/api/adds/")
-      .then((res) => {
-        let tempOptions = [];
-        res.data.forEach((d) => {
-          tempOptions.push({ value: d.room_name });
-        });
-        setOptions(tempOptions);
-        setViewData(res.data);
-      })
-      .catch((er) => console.log(er));
-  }, []);
-
-  useEffect(() => {
-    if (searchValue === "") {
-      setSearchedData([]);
-    }
-  }, [searchValue]);
-
-  const searchRoom = () => {
-    if (searchValue === "") return;
-    let result = viewData.filter((d) =>
-      d.room_name.toLowerCase().includes(searchValue.toLowerCase())
-    );
-    setSearchedData(result);
-  };
+    .then((res) => {
+      setViewData(res.data)
+    })
+    .catch((er) => console.log(er));
+},[])
+  
 
   console.log(props.displayCreate);
 
@@ -94,6 +76,42 @@ const Home = (props) => {
         <div style={{ width: "500px" }}>{createStatus && <Create />}</div>
 
         <div className="spacer"></div>
+
+        <div> 
+    
+      <div class="main">
+        <h1 style={{ marginTop: "30px", marginBottom: "30px" }}>
+         Recommended Rooms
+        </h1>
+      </div>
+      <Row gutter={[40, 16]}>
+      {  viewData?.map((d,index) => <Col xs={24} md={8}>
+          <Card 
+              title="Room Details" 
+              extra={<a href="#"></a>} 
+              hoverable
+              bordered
+              style={{ width: "80%" , marginLeft: "50px"}}
+          >
+          <Row>
+            
+              <Col xs={24}>
+                Room Name:<Typography.Text style={{float: "right"}} >{d.room_name}</Typography.Text>                                        
+              </Col>
+          
+              <Col xs={24}>
+                Genre:<Typography.Text style={{float: "right"}} >{d.genre}</Typography.Text>                                        
+              </Col>
+          </Row>
+        </Card>
+        
+        </Col>)}
+
+      </Row>
+      
+        
+
+    </div>
 
         {/*<h1 style={{ marginTop: "30px", marginBottom: "30px" }}>
           Welcome to Sync!
