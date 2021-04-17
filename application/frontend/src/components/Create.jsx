@@ -152,6 +152,7 @@ const Create = (props) => {
             type="primary"
             htmlType="submit"
             onClick={() => onClickFunks()}
+            className="sync-button-color"
           >
             Submit
           </Button>

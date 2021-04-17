@@ -15,7 +15,7 @@ const NavBar = () => {
           Sync
         </Navbar.Brand>
         <Nav className="mr-auto">
-          <Nav.Link href="/Create">Create</Nav.Link>
+          <Nav.Link href="/Createpage">Create</Nav.Link>
           <Nav.Link href="/Join">Join</Nav.Link>
           <Nav.Link href="/Room">Room</Nav.Link>
           <Nav.Link href="/Contact">Contact us</Nav.Link>
