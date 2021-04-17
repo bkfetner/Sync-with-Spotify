@@ -2,8 +2,10 @@
   box-sizing: border-box;
 }
 
-.asterisk-override:before {
-  content: unset !important;
+.create-main {
+  background-color: var(--color2);
+  padding: 25px;
+  border-radius: 10px;
 }
 
 .text-color {

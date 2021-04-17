@@ -13,6 +13,7 @@ const Create = (props) => {
 
   const [roomName, setRoomName] = useState();
   const [roomGenre, setGenre] = useState();
+  const [tosStatus, setTosStatus] = useState(false);
 
   const insertData = () => {
     console.log("roomName: " + roomName + ", roomGenre: " + roomGenre);
@@ -50,7 +51,7 @@ const Create = (props) => {
 
   const handleOk = () => {
     setIsModalVisible(false);
-    if (validateRN(roomName) && roomGenre) {
+    if (validateRN(roomName) && roomGenre && tosStatus) {
       props.history.push({
         pathname: "/Room",
         state: { roomName: roomName, roomGenre: roomGenre },
@@ -62,8 +63,6 @@ const Create = (props) => {
   const [successModalMessage, setSuccessModalMessage] = useState();
 
   const onClickFunks = () => {
-    insertData();
-
     setModalMessage("");
     setSuccessModalMessage("");
     if (!validateRN(roomName)) {
@@ -72,36 +71,44 @@ const Create = (props) => {
     } else if (!roomGenre) {
       setModalMessage("Please select a genre from the dropdown menu.");
       showModal();
+    } else if (!tosStatus) {
+      setModalMessage("You must accept the terms for service.");
+      showModal();
     } else {
       setSuccessModalMessage(
         "You have successfully created a room! Press ok to continue."
       );
+      insertData();
       showModal();
     }
   };
 
+  const confirmTos = () => {
+    setTosStatus(!tosStatus);
+  };
+
   const formItemLayout = {
     labelCol: {
-      span: 4,
+      span: 5,
     },
     wrapperCol: {
-      span: 8,
+      span: 0,
     },
   };
 
-  const buttonItemLayout = {
+  const otherItemLayout = {
     wrapperCol: {
-      span: 8,
-      offset: 4,
+      span: 0,
+      offset: 5,
     },
   };
 
   return (
-    <div>
+    <div className="create-main">
       <Form
         {...formItemLayout}
         className="text-color"
-        style={{ marginTop: "150px", marginLeft: "400px" }}
+        /*  style={{ marginTop: "150px", marginLeft: "400px" }} */
       >
         <Form.Item
           label="Roomname"
@@ -133,7 +140,14 @@ const Create = (props) => {
           </Select>
         </Form.Item>
 
-        <Form.Item {...buttonItemLayout}>
+        <Form.Item {...otherItemLayout}>
+          <Checkbox onChange={confirmTos} className="text-color">
+            {" "}
+            Click here to accept our Terms of Service.
+          </Checkbox>
+        </Form.Item>
+
+        <Form.Item {...otherItemLayout} style={{ marginBottom: "0px" }}>
           <Button
             type="primary"
             htmlType="submit"

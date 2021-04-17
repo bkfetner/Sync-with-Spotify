@@ -6,6 +6,7 @@
   --color1: #222831;
   --color2: #393e46;
   --color3: #00adb5;
+  --color3-darker: #007c82;
   --color4: #eeeeee;
 }
 
@@ -61,11 +62,17 @@ body {
 }
 
 .sync-button-color {
-  background-color: var(--color2) !important;
+  color: var(--color4) !important;
+  background-color: var(--color3) !important;
 }
 
 .sync-button-color:hover {
-  background-color: var(--color3) !important;
+  background-color: var(--color3-darker) !important;
+}
+
+.sync-button-color:active {
+  color: var(--color3) !important;
+  background-color: var(--color4) !important;
 }
 
 .result_box {

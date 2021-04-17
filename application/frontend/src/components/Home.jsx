@@ -3,34 +3,14 @@ import { Form, Input, Button, Checkbox } from "antd";
 import { Link } from "react-router-dom";
 import Axios from "axios";
 import "../css/Home.css";
+import Create from "./Create";
 
-const Home = () => {
-  const textSets = [
-    {
-      main: "Visit a Listening Room",
-      one: "Look for a room to join.",
-      two: "Create a new room to start fresh.",
-      three: "Listen to music together.",
-    },
-    {
-      main: "Create a New Room",
-      one: "Name to your specification.",
-      two: "Choose the genre you want to feature.",
-      three: "Add songs you want to share and invite others to join.",
-    },
-    {
-      main: "Join a Room",
-      one: "Look through our recommended rooms.",
-      two:
-        "Search for a room based on roomname or genre to find on the suits your interests.",
-      three: "Use a shared room code to join your friends room.",
-    },
-  ];
-
+const Home = (props) => {
+  {
+    /* For creating rooms */
+  }
   const [roomName, setRoomName] = useState();
   const [roomGenre, setGenre] = useState();
-
-  const [mainText, setMainText] = useState(textSets[0]);
 
   const insertData = () => {
     var data = {
@@ -46,52 +26,74 @@ const Home = () => {
       .catch((er) => console.log(er));
   };
 
+  {
+    /* For searching rooms */
+  }
+  const [searchValue, setSearchValue] = useState("");
+  const [options, setOptions] = useState([]);
+  const [viewData, setViewData] = useState([]);
+  const [searchedData, setSearchedData] = useState([]);
+  const viewRooms = () => {};
+  useEffect(() => {
+    Axios.get("http://localhost:8000/api/adds/")
+      .then((res) => {
+        let tempOptions = [];
+        res.data.forEach((d) => {
+          tempOptions.push({ value: d.room_name });
+        });
+        setOptions(tempOptions);
+        setViewData(res.data);
+      })
+      .catch((er) => console.log(er));
+  }, []);
+
+  useEffect(() => {
+    if (searchValue === "") {
+      setSearchedData([]);
+    }
+  }, [searchValue]);
+
+  const searchRoom = () => {
+    if (searchValue === "") return;
+    let result = viewData.filter((d) =>
+      d.room_name.toLowerCase().includes(searchValue.toLowerCase())
+    );
+    setSearchedData(result);
+  };
+
+  console.log(props.displayCreate);
+
+  const [createStatus, setCreateStatus] = useState(false);
+
+  const toggleCreate = () => {
+    setCreateStatus(!createStatus);
+  };
+
   return (
     <div>
       <div className="main home-main">
-        <div className="text-and-button-column">
-          <div className="text-only">
-            <div className="top-text">{mainText.main}</div>
-            <ul>
-              <li>{mainText.one}</li>
-              <li>{mainText.two}</li>
-              <li>{mainText.three}</li>
-            </ul>
-          </div>
-
-          <div className="button-column">
-            <Link
-              to="/Join"
-              class="btn btn-dark sync-button-color home-button-design"
-              style={{ marginBottom: "30px" }}
-              onMouseOver={() => {
-                console.log("join-over");
-                setMainText(textSets[2]);
-              }}
-              onMouseOut={() => {
-                console.log("join-out");
-                setMainText(textSets[0]);
-              }}
-            >
-              Join
-            </Link>
-            <Link
-              to="/Create"
-              class="btn btn-dark sync-button-color home-button-design"
-              style={{ marginBottom: "30px" }}
-              onMouseOver={() => {
-                console.log("create-over");
-                setMainText(textSets[1]);
-              }}
-              onMouseOut={() => {
-                console.log("create-out");
-                setMainText(textSets[0]);
-              }}
-            >
-              Create
-            </Link>
-          </div>
+        <div className="home-top-text-block">
+          Search for a room to join, or create your own room!
         </div>
+        <div className="button-column">
+          <Link
+            to="/Join"
+            class="btn btn-dark sync-button-color home-button-design"
+            style={{ marginBottom: "30px" }}
+          >
+            Join a Room
+          </Link>
+          <button
+            class="btn btn-dark sync-button-color home-button-design"
+            style={{ marginBottom: "30px" }}
+            onClick={() => toggleCreate()}
+          >
+            Create a Room
+          </button>
+        </div>
+        <div style={{ width: "500px" }}>{createStatus && <Create />}</div>
+
+        <div className="spacer"></div>
 
         {/*<h1 style={{ marginTop: "30px", marginBottom: "30px" }}>
           Welcome to Sync!

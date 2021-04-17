@@ -3,36 +3,12 @@
 }
 
 .home-main {
-  padding-top: 10px;
+  padding-top: 70px;
 }
 
-.text-and-button-column {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  height: 800px;
-  padding-top: 50px;
-}
-
-.text-only {
-  display: flex;
-  flex-direction: column;
-  height: 80%;
-  justify-content: center;
-  padding-right: 100px;
-  width: 700px;
-}
-
-.text-only > ul > li {
-  font-size: 20pt;
-  padding: 10px;
-}
-
-.top-text {
-  font-size: 40pt !important;
-  font-weight: bolder;
-  color: var(--color3);
-  line-height: 120%;
+.home-top-text-block {
+  font-size: 22pt;
+  margin-bottom: 30px;
 }
 
 .button-column {
@@ -43,11 +19,18 @@
 }
 
 .home-button-design {
-  font-weight: normal;
-  font-size: 20pt;
-  padding-top: 20px;
-  padding-bottom: 20px;
-  padding-right: 30px;
+  font-weight: 500;
+  font-size: 18pt;
+  padding-top: 10px;
+  padding-bottom: 10px;
   padding-left: 30px;
-  border-radius: 20px;
+  padding-right: 30px;
+  border-radius: 30px;
+}
+
+.spacer {
+  width: 90%;
+  height: 3px;
+  background-color: var(--color2);
+  margin-top: 40px;
 }

@@ -6,12 +6,14 @@ const NavBar = () => {
   return (
     <div>
       <Navbar bg="dark" variant="dark" className="bg-dark-sync" fixed="top">
-        <Image
-          src="/assets/logoImage2.png"
-          href="/Home"
-          style={{ width: "65px", marginRight: "10px" }}
-        />
-        <Navbar.Brand href="/Home">Sync</Navbar.Brand>
+        <Navbar.Brand href="/Home">
+          <Image
+            src="/assets/logoImage2.png"
+            href="/Home"
+            style={{ width: "65px", marginRight: "10px" }}
+          />
+          Sync
+        </Navbar.Brand>
         <Nav className="mr-auto">
           <Nav.Link href="/Create">Create</Nav.Link>
           <Nav.Link href="/Join">Join</Nav.Link>
