@@ -6,6 +6,7 @@
   background-color: var(--color2);
   padding: 25px;
   border-radius: 10px;
+  width: 500px;
 }
 
 .text-color {
@@ -22,4 +23,16 @@
 
 [title="Genre2"] {
   color: var(--color4) !important;
+}
+
+.createpage-flex {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 120px;
+}
+
+.createpage-top-text-block {
+  font-size: 22pt;
+  margin-bottom: 30px;
 }
