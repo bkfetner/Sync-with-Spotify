@@ -5,7 +5,9 @@ import { Navbar, Nav, Form, FormControl, Button, Image } from "react-bootstrap";
 const NavBar = () => {
   return (
     <div>
-      <Navbar bg="dark" variant="dark" className="bg-dark-sync" fixed="top">
+      <Navbar bg="dark" variant="dark" className="bg-dark-sync">
+        {" "}
+        {/*fixed="top" TOOK THIS OFF, WAS ADDING SCROLL TO PAGES WHEN NOT NEEDED*/}
         <Navbar.Brand href="/Home">
           <Image
             src="/assets/logoImage2.png"
@@ -21,7 +23,6 @@ const NavBar = () => {
           <Nav.Link href="/Contact">Contact us</Nav.Link>
           <Nav.Link href="/Aboutus">About us</Nav.Link>
         </Nav>
-
         <Navbar.Toggle />
         <Navbar.Collapse className="justify-content-end">
           <Navbar.Text>
@@ -29,7 +30,6 @@ const NavBar = () => {
           </Navbar.Text>
         </Navbar.Collapse>
       </Navbar>
-      <div style={{ marginTop: "50px" }}></div>
     </div>
   );
 };

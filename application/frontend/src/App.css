@@ -167,25 +167,6 @@ body {
   justify-items: center;
 } */
 
-.grid1 {
-  height: 80%;
-  min-height: 500px;
-  display: flex;
-  flex-direction: row;
-  margin-top: 50px;
-  justify-content: center;
-}
-
-.musicplayer {
-  padding: 10px;
-}
-
-.queue1 {
-  border-radius: 10px;
-  width: 300px;
-  background-color: var(--color2);
-}
-
 .queue-header {
   display: flex;
   flex-direction: row;
@@ -215,9 +196,4 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-}
-
-.chatflex {
-  display: flex;
-  flex-direction: column;
 }

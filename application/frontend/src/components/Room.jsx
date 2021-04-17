@@ -1,8 +1,10 @@
 import React, { Component, useState, useEffect } from "react";
 import { Form, Input, Button, Checkbox } from "antd";
 import Axios from "axios";
+import MusicPlayer from "./Roomcomponents/MusicPlayer.jsx";
+import Chat from "./Roomcomponents/Chat.jsx";
+import "../css/Room.css";
 
-import MusicPlayer from "./MusicPlayer.jsx";
 {
   /*import albumCover from "./assets/image0.png";
     import playButton from "../assets/play_button.png";
@@ -23,8 +25,8 @@ const Room = (props) => {
 
   return (
     <div>
-      <div class="main">
-        <strong style={{ marginTop: "20px", fontSize: "xxx-large" }}>
+      <div class="main room-main">
+        <strong style={{ fontSize: "xxx-large" }}>
           {props.location.state.roomName}
         </strong>
         <em>Room Genre: {props.location.state.roomGenre}</em>
@@ -90,7 +92,8 @@ const Room = (props) => {
             <MusicPlayer currentSong={songs} />
           </div>
           <div class="chatflex">
-            The {props.location.state.roomName} Chat Room
+            <Chat />
+            {/* The {props.location.state.roomName} Chat Room
             <div class="chatdiv">
               <div style={{ marginTop: "15px", marginLeft: "15px" }}></div>
               <div style={{ margin: "15px" }}>
@@ -101,7 +104,7 @@ const Room = (props) => {
             <div style={{ marginTop: "15px" }}>
               <input type="text" />
               <button>Send</button>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
