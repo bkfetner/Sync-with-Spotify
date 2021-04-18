@@ -19,14 +19,14 @@ const NavBar = () => {
         <Nav className="mr-auto">
           <Nav.Link href="/Createpage">Create</Nav.Link>
           <Nav.Link href="/Join">Join</Nav.Link>
-          <Nav.Link href="/Room">Room</Nav.Link>
+          {/* <Nav.Link href="/Room">Room</Nav.Link>
           <Nav.Link href="/Contact">Contact us</Nav.Link>
-          <Nav.Link href="/Aboutus">About us</Nav.Link>
+          <Nav.Link href="/Aboutus">About us</Nav.Link> */}
         </Nav>
         <Navbar.Toggle />
         <Navbar.Collapse className="justify-content-end">
           <Navbar.Text>
-            signed in as, <Link href="#login">User Name</Link>
+            signed in as, <a href="/">User Name</a>
           </Navbar.Text>
         </Navbar.Collapse>
       </Navbar>
