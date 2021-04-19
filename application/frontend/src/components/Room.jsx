@@ -4,6 +4,7 @@ import Axios from "axios";
 import MusicPlayer from "./Roomcomponents/MusicPlayer.jsx";
 import Chat from "./Roomcomponents/Chat.jsx";
 import "../css/Room.css";
+import { Redirect } from "react-router-dom";
 
 {
   /*import albumCover from "./assets/image0.png";
@@ -114,6 +115,12 @@ const Room = (props) => {
   });
 
   const [currentSong, setCurrentSong] = useState(0);
+
+  console.log(props);
+
+  if (!props.location.state) {
+    return <Redirect to="/Home" />;
+  }
 
   return (
     <div>
