@@ -14,6 +14,7 @@ class Rooms(models.Model):
  #   room_id = models.CharField(max_length=20)
     room_name = models.CharField(max_length=255)
     genre = models.CharField(max_length=255)
+    roomImageUrl = models.CharField(max_length=255,null=True)
 
     def str(self):
         return self.room_name

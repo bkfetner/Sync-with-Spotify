@@ -19,7 +19,7 @@ const Join = () => {
       Axios.get("http://localhost:8000/api/adds/")
       .then((res) => {
         let tempOptions = []
-        res.data.forEach(d => {
+        res.data.forEach(d => {       
             tempOptions.push({value: d.room_name})
         });
         setOptions(tempOptions)
@@ -45,7 +45,7 @@ const Join = () => {
             <Row>
                 <Col xs={24}>
                 <div class="main">
-                   <h1 style={{ marginTop: "30px", marginBottom: "30px" }}> Recommended Rooms</h1>
+                   <h2 style={{ marginTop: "30px", marginBottom: "30px" }}>  Search for rooms here</h2>
                 </div>
                 </Col>
             </Row>
@@ -94,20 +94,19 @@ const Join = () => {
 
                 </Col>
 
-                <Col xs={24}>
+                <Col xs={24} >
 
                     <Row gutter={[40, 16]}>
 
-                        {searchedData && (searchedData.map((d, index) => <Col xs={24} md={8} key={index}>
+                        {searchedData && (searchedData.map((d, index) => <Col className="gutter-row" span={6} key={index}>
                             <Card
                                 hoverable
                                 bordered
-                                style={{ width: "80%" ,marginLeft: "50px"}}
+                                style={{ width: "80%" ,marginLeft: "620px"}}
+                                cover={<img alt="example"src={d.roomImageUrl} />}
                                 >
                                 <Row>
-                                <Col xs={24}>
-                                  Room  Id:<Typography.Text style={{float: "right"}} level={5}>{d.id}</Typography.Text>                                        
-                                </Col>
+                                
                                  <Col xs={24}>
                                   Room Name:<Typography.Text style={{float: "right"}}level={5}>{d.room_name}</Typography.Text>                                        
                                     </Col>
@@ -130,7 +129,7 @@ const Join = () => {
                 <Col xs={24}>
                 <div class="main">
                   <h2 style={{ marginTop: "30px", marginBottom: "30px" }}>
-                  { searchedData && searchedData.length > 0 ? "All Rooms" : "Rooms"}
+                  { searchedData && searchedData.length > 0 ? "All Rooms" : "Recommended Rooms"}
                   </h2>
                 </div>
                    
@@ -141,16 +140,15 @@ const Join = () => {
 
                     <Row gutter={[40, 16]}>
 
-                        {viewData && (viewData.map((d, index) => <Col xs={24} md={8} key={index}>
+                        {viewData && (viewData.map((d, index) => <Col className="gutter-row" span={6} key={index}>
                             <Card
                                 hoverable
                                 bordered
-                                style={{ width: "80%",marginLeft: "50px" }}
+                                style={{ width: "80%",marginLeft: "30px" }}
+                                cover={<img alt="example"src={d.roomImageUrl} />}
                                  >
                                 <Row>
-                                <Col xs={24}>
-                                  Room  Id:<Typography.Text style={{float: "right"}} level={5}>{d.id}</Typography.Text>                                        
-                                </Col>
+                                
                                  <Col xs={24}>
                                   Room Name:<Typography.Text style={{float: "right"}}level={5}>{d.room_name}</Typography.Text>                                        
                                     </Col>
