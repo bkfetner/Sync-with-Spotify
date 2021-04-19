@@ -108,7 +108,7 @@ const Create = (props) => {
     var data = {
       room_name: roomName,
       genre: roomGenre,
-      roomImageUrl : room_url.url
+      roomImageUrl: room_url.url,
     };
     Axios.post("http://localhost:8000/api/adds/", data)
       .then((res) => {
@@ -141,6 +141,8 @@ const Create = (props) => {
   const handleOk = () => {
     setIsModalVisible(false);
     if (validateRN(roomName) && roomGenre && tosStatus) {
+      console.log("handleOk");
+
       props.history.push({
         pathname: "/Room",
         state: { roomName: roomName, roomGenre: roomGenre },
