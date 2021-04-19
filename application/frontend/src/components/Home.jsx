@@ -37,6 +37,7 @@ const Home = (props) => {
       
     Axios.get("http://localhost:8000/api/adds/")
     .then((res) => {
+      console.log(res.data)
       setViewData(res.data)
     })
     .catch((er) => console.log(er));
@@ -85,13 +86,14 @@ const Home = (props) => {
         </h1>
       </div>
       <Row gutter={[40, 16]}>
-      {  viewData?.map((d,index) => <Col xs={24} md={8}>
+      {  viewData?.map((d,index) => <Col className="gutter-row" span={6}>
           <Card 
-              title="Room Details" 
-              extra={<a href="#"></a>} 
+              
+              
               hoverable
               bordered
-              style={{ width: "80%" , marginLeft: "50px"}}
+              style={{ width: "80%" , marginLeft: "30px"}}
+              cover={<img alt="example"src={d.roomImageUrl} />}
           >
           <Row>
             

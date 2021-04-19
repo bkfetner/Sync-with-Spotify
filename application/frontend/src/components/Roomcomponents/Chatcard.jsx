@@ -4,12 +4,11 @@ import Axios from "axios";
 import "../../css/Chat.css";
 
 function Chatcard(props) {
-  let userName = "Frank";
-  let message = "What is this song?";
+  console.log(props);
 
   return (
     <div className="chat-card">
-      <strong>{userName}</strong>: {message}
+      <strong>{props.userName}</strong>: {props.comment}
     </div>
   );
 }
