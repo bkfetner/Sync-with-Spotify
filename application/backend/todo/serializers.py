@@ -12,4 +12,4 @@ class RoomsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Rooms
-        fields = ('id','room_name', 'genre' )
+        fields = ('id','room_name', 'genre' ,'roomImageUrl')

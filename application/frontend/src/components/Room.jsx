@@ -13,116 +13,95 @@ import "../css/Room.css";
 
 const albumList = [
   {
-    title:"Pick Up Your Feelings",
-    url:"./assets/1.PNG"
+    title: "Pick Up Your Feelings",
+    url: "./assets/1.PNG",
   },
   {
-    title:"Hunger",
-    url:"./assets/2.PNG"
+    title: "Hunger",
+    url: "./assets/2.PNG",
   },
   {
-    title:"no love",
-    url:"./assets/3.PNG"
+    title: "no love",
+    url: "./assets/3.PNG",
   },
   {
-    title:"Killuminati",
-    url:"./assets/4.PNG"
+    title: "Killuminati",
+    url: "./assets/4.PNG",
   },
 
-  
-
-
-
-
-
   {
-    title:"no,no",
-    url:"./assets/5.PNG"
+    title: "no,no",
+    url: "./assets/5.PNG",
   },
   {
-    title:"Crime Pays",
-    url:"./assets/6.jpg"
+    title: "Crime Pays",
+    url: "./assets/6.jpg",
   },
   {
-    title:"Ninety",
-    url:"./assets/7.jpg"
+    title: "Ninety",
+    url: "./assets/7.jpg",
   },
 
-
-
-
-
   {
-    title:"Souldfood",
-    url:"./assets/8.jpg"
+    title: "Souldfood",
+    url: "./assets/8.jpg",
   },
   {
-    title:"Violent Crimes",
-    url:"./assets/9.jpg"
+    title: "Violent Crimes",
+    url: "./assets/9.jpg",
   },
   {
-    title:"Been Waiting!",
-    url:"./assets/10.jpg"
+    title: "Been Waiting!",
+    url: "./assets/10.jpg",
   },
 
-
-
-
-
   {
-    title:"Leray",
-    url:"./assets/11.jpg"
+    title: "Leray",
+    url: "./assets/11.jpg",
   },
   {
-    title:"HONEST",
-    url:"./assets/12.jpg"
+    title: "HONEST",
+    url: "./assets/12.jpg",
   },
   {
-    title:"WOLF",
-    url:"./assets/13.jpg"
+    title: "WOLF",
+    url: "./assets/13.jpg",
   },
 
-
-
-
-
   {
-    title:"Trying",
-    url:"./assets/14.jpg"
+    title: "Trying",
+    url: "./assets/14.jpg",
   },
   {
-    title:"A Calabasas Freestyle",
-    url:"./assets/15.jpg"
+    title: "A Calabasas Freestyle",
+    url: "./assets/15.jpg",
   },
   {
-    title:"Father Stretch My Hands",
-    url:"./assets/16.jpg"
+    title: "Father Stretch My Hands",
+    url: "./assets/16.jpg",
   },
 
-
-
-
   {
-    title:"Frank's Track",
-    url:"./assets/17.jpg"
+    title: "Frank's Track",
+    url: "./assets/17.jpg",
   },
   {
-    title:"No More Parties In LA",
-    url:"./assets/18.jpg"
+    title: "No More Parties In LA",
+    url: "./assets/18.jpg",
   },
   {
-    title:"Champion",
-    url:"./assets/19.png"
+    title: "Champion",
+    url: "./assets/19.png",
   },
   {
-    title:"Once Upon A Time(Freestyle)",
-    url:"./assets/20.PNG"
-  }
-]
-let song1 = albumList[Math.floor(Math.random()*19)];
-let song2 = albumList[Math.floor(Math.random()*19)];
-let song3 = albumList[Math.floor(Math.random()*19)];
-let song4 = albumList[Math.floor(Math.random()*19)];
+    title: "Once Upon A Time(Freestyle)",
+    url: "./assets/20.PNG",
+  },
+];
+let song1 = albumList[Math.floor(Math.random() * 19)];
+let song2 = albumList[Math.floor(Math.random() * 19)];
+let song3 = albumList[Math.floor(Math.random() * 19)];
+let song4 = albumList[Math.floor(Math.random() * 19)];
 
 const Room = (props) => {
   const [songs, setSongs] = useState({
@@ -205,7 +184,7 @@ const Room = (props) => {
             <MusicPlayer currentSong={songs} />
           </div>
           <div class="chatflex">
-            <Chat />
+            <Chat roomName={props.location.state.roomName} />
             {/* The {props.location.state.roomName} Chat Room
             <div class="chatdiv">
               <div style={{ marginTop: "15px", marginLeft: "15px" }}></div>
