@@ -7,6 +7,14 @@
   height: 100%;
 }
 
+.chat-top-text {
+  font-weight: bold;
+  font-size: 12pt;
+  margin-top: 10px;
+  margin-left: 15px;
+  color: var(--color3);
+}
+
 .chat-box-and-form {
   display: flex;
   flex-direction: column;
@@ -18,7 +26,7 @@
   height: 100%;
   max-height: calc(100% - 91px);
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   overflow: auto;
   overflow-x: hidden;
   padding-left: 15px;
@@ -31,6 +39,9 @@
 }
 
 .chat-card {
+  line-height: 110%;
+  margin-bottom: 8px;
+  margin-top: 4px;
 }
 
 .chat-form-flex {
