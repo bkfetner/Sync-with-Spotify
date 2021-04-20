@@ -3,6 +3,8 @@ import { Form, Input, Button, Checkbox } from "antd";
 import Axios from "axios";
 import MusicPlayer from "./Roomcomponents/MusicPlayer.jsx";
 import Chat from "./Roomcomponents/Chat.jsx";
+import Queue from "./Roomcomponents/Queue.jsx";
+import SongSearch from "./Roomcomponents/SongSearch.jsx";
 import "../css/Room.css";
 import { Redirect } from "react-router-dom";
 
@@ -99,22 +101,57 @@ const albumList = [
     url: "./assets/20.PNG",
   },
 ];
-let song1 = albumList[Math.floor(Math.random() * 19)];
-let song2 = albumList[Math.floor(Math.random() * 19)];
-let song3 = albumList[Math.floor(Math.random() * 19)];
-let song4 = albumList[Math.floor(Math.random() * 19)];
 
 const Room = (props) => {
+  const [songsForQueue, setSongsForQueue] = useState([
+    albumList[Math.floor(Math.random() * 19)],
+    albumList[Math.floor(Math.random() * 19)],
+    albumList[Math.floor(Math.random() * 19)],
+    albumList[Math.floor(Math.random() * 19)],
+    albumList[Math.floor(Math.random() * 19)],
+    albumList[Math.floor(Math.random() * 19)],
+    albumList[Math.floor(Math.random() * 19)],
+    albumList[Math.floor(Math.random() * 19)],
+    albumList[Math.floor(Math.random() * 19)],
+    albumList[Math.floor(Math.random() * 19)],
+    albumList[Math.floor(Math.random() * 19)],
+    albumList[Math.floor(Math.random() * 19)],
+    albumList[Math.floor(Math.random() * 19)],
+    albumList[Math.floor(Math.random() * 19)],
+    albumList[Math.floor(Math.random() * 19)],
+    albumList[Math.floor(Math.random() * 19)],
+  ]);
+
+  const [currentSong, setCurrentSong] = useState(
+    albumList[Math.floor(Math.random() * 19)]
+  );
+
   const [songs, setSongs] = useState({
     song_id: "1",
-    songName: song1.title,
+    songName: currentSong.title,
     artist: "unknown",
     songUrl:
       "https://www.freesound.org/data/previews/338/338825_1648170-lq.mp3",
-    songImageUrl: song1.url,
+    songImageUrl: currentSong.url,
   });
 
-  const [currentSong, setCurrentSong] = useState(0);
+  const [showQueue, setShowQueue] = useState(true);
+  const [displayTypeSwitchButton, setDisplayTypeSwitchButton] = useState(
+    "Search for a Song"
+  );
+
+  if (!props.location.state) {
+    return <Redirect to="/Home" />;
+  }
+
+  const switchQueueSearchsong = () => {
+    setShowQueue(!showQueue);
+    if (showQueue) {
+      setDisplayTypeSwitchButton("Return to Queue");
+    } else {
+      setDisplayTypeSwitchButton("Search for a Song");
+    }
+  };
 
   console.log(props);
 
@@ -131,58 +168,16 @@ const Room = (props) => {
         <em>Room Genre: {props.location.state.roomGenre}</em>
         <div class="grid1">
           <div class="queue1">
-            <div class="queue-header">
-              <div>Queue</div>
-              <div>Vote</div>
-            </div>
-            <div class="songdiv">
-              {/* <img src={albumCover} /> */}
-              Song 1: {song1.title}
-              <input
-                type="checkbox"
-                style={{
-                  float: "right",
-                  marginRight: "20px",
-                  marginTop: "15px",
-                }}
-              />
-            </div>
-            <div class="songdiv">
-              {/* <img src={albumCover} /> */}
-              Song 2: {song2.title}
-              <input
-                type="checkbox"
-                style={{
-                  float: "right",
-                  marginRight: "20px",
-                  marginTop: "15px",
-                }}
-              />
-            </div>
-            <div class="songdiv">
-              {/* <img src={albumCover} /> */}
-              Song 3: {song3.title}
-              <input
-                type="checkbox"
-                style={{
-                  float: "right",
-                  marginRight: "20px",
-                  marginTop: "15px",
-                }}
-              />
-            </div>
-            <div class="songdiv">
-              {/* <img src={albumCover} /> */}
-              Song 4: {song4.title}
-              <input
-                type="checkbox"
-                style={{
-                  float: "right",
-                  marginRight: "20px",
-                  marginTop: "15px",
-                }}
-              />
-            </div>
+            {showQueue && <Queue queueSongs={songsForQueue} />}
+            {!showQueue && <SongSearch avaliableSongs={albumList} />}
+            <Button
+              type="primary"
+              htmlType="submit"
+              onClick={() => switchQueueSearchsong()}
+              className="sync-button-color queue-songsearch-switch"
+            >
+              {displayTypeSwitchButton}
+            </Button>
           </div>
           <div
             class="musicplayer"

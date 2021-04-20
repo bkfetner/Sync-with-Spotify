@@ -33,11 +33,6 @@
   margin-top: 15px;
 }
 
-.anchor {
-  overflow-anchor: auto;
-  height: 1px;
-}
-
 .chat-card {
   line-height: 110%;
   margin-bottom: 8px;
