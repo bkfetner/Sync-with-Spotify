@@ -156,10 +156,6 @@ const Room = (props) => {
     "Search for a Song"
   );
 
-  /*   if (!props.location.state) {
-    return <Redirect to="/Home" />;
-  } */
-
   const switchQueueSearchsong = () => {
     setShowQueue(!showQueue);
     if (showQueue) {
@@ -170,10 +166,6 @@ const Room = (props) => {
   };
 
   console.log(props);
-
-  if (!props.location.state) {
-    return <Redirect to="/Home" />;
-  }
 
   return (
     <div>
