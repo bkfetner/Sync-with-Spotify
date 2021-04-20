@@ -103,7 +103,7 @@ const Home = (props) => {
       {  viewData?.map((d,index) => <Col className="gutter-row" span={6}>
           <Card 
               
-              
+              className="join_cards"
               hoverable
               bordered
               style={{ width: "80%" , marginLeft: "30px"}}
@@ -111,12 +111,12 @@ const Home = (props) => {
           >
           <Row>
             
-              <Col xs={24}>
-                Room Name:<Typography.Text  style={{float: "right"}} id="rooms" value={d.room_name} >{d.room_name}</Typography.Text>                                        
+              <Col xs={24} className="join_text">
+                Room Name:<Typography.Text  className="join_text" style={{float: "right"}} id="rooms" value={d.room_name} >{d.room_name}</Typography.Text>                                        
               </Col>
           
-              <Col xs={24}>
-                Genre:<Typography.Text style={{float: "right"}}  >{d.genre}</Typography.Text>                                        
+              <Col xs={24} className="join_text">
+                Genre:<Typography.Text className="join_text" style={{float: "right"}}  >{d.genre}</Typography.Text>                                        
               </Col>
               <Col xs={24}>
                  <Button type="link" onClick={()=>joinRoom()} style={{float: "right"}}>Click to join</Button>                                      
