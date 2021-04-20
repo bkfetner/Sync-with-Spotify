@@ -1,0 +1,51 @@
+* {
+  box-sizing: border-box;
+}
+
+.queue-main {
+  width: 300px;
+  height: calc(100% - 80px);
+}
+
+.queue-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 15px;
+  margin-left: 15px;
+  margin-right: 24px;
+  color: var(--color3);
+}
+
+.queue-render {
+  height: 100%;
+  max-height: calc(100% - 30px);
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  overflow-x: hidden;
+  margin-top: 10px;
+}
+
+.songdiv {
+  display: flex;
+  flex-direction: row;
+  margin-top: 10px;
+  margin-left: 15px;
+}
+
+.songdiv-img {
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+}
+
+.songdiv-song-title {
+  width: 230px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.song-checkbox {
+  margin-left: 10px;
+}
