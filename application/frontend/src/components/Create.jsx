@@ -1,4 +1,4 @@
-import React, { Component, useState, setState } from "react";
+import React, { Component, useState, setState, Link } from "react";
 import "antd/dist/antd.css";
 import { Form, Input, Button, Checkbox, Modal, message, Select } from "antd";
 import Axios from "axios";
@@ -153,7 +153,7 @@ const Create = (props) => {
   const [modalMessage, setModalMessage] = useState();
   const [successModalMessage, setSuccessModalMessage] = useState();
 
-  const onClickFunks = () => {
+  /* const onClickFunks = () => {
     setModalMessage("");
     setSuccessModalMessage("");
     if (!validateRN(roomName)) {
@@ -172,7 +172,7 @@ const Create = (props) => {
       insertData();
       showModal();
     }
-  };
+  }; */
 
   const confirmTos = () => {
     setTosStatus(!tosStatus);
@@ -243,7 +243,8 @@ const Create = (props) => {
           <Button
             type="primary"
             htmlType="submit"
-            onClick={() => onClickFunks()}
+            href={"/Room/" + roomGenre + "/" + roomName}
+            onClick={() => insertData()}
             className="sync-button-color"
           >
             Submit

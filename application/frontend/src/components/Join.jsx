@@ -2,7 +2,7 @@ import React, { Component, Fragment, useEffect, useState } from "react";
 import { Form, Input, Button, Checkbox, Row, Col,Card, Typography, AutoComplete, Divider } from "antd";
 import Axios from "axios";
 import {SearchOutlined} from '@ant-design/icons'
-
+import "../css/Join.css";
 
 
 const Join = () => {
@@ -102,16 +102,17 @@ const Join = () => {
                             <Card
                                 hoverable
                                 bordered
-                                style={{ width: "80%" ,marginLeft: "620px"}}
+                                style={{ width: "80%" ,marginLeft: "30px"}}
                                 cover={<img alt="example"src={d.roomImageUrl} />}
+                                className="join_cards"
                                 >
                                 <Row>
                                 
-                                 <Col xs={24}>
-                                  Room Name:<Typography.Text style={{float: "right"}}level={5}>{d.room_name}</Typography.Text>                                        
+                                 <Col xs={24}className="join_text">
+                                  Room Name:<Typography.Text className="join_text" style={{float: "right"}}level={5}>{d.room_name}</Typography.Text>                                        
                                     </Col>
-                                    <Col xs={24}>
-                                    Genre:    <Typography.Text style={{float: "right"}} >{d.genre}</Typography.Text>                                        
+                                    <Col xs={24} className="join_text">
+                                    Genre:    <Typography.Text className="join_text" style={{float: "right"}} >{d.genre}</Typography.Text>                                        
                                     </Col>
                                     
                                 </Row>
@@ -146,14 +147,15 @@ const Join = () => {
                                 bordered
                                 style={{ width: "80%",marginLeft: "30px" }}
                                 cover={<img alt="example"src={d.roomImageUrl} />}
+                                className="join_cards"
                                  >
                                 <Row>
                                 
-                                 <Col xs={24}>
-                                  Room Name:<Typography.Text style={{float: "right"}}level={5}>{d.room_name}</Typography.Text>                                        
+                                 <Col xs={24} className="join_text">
+                                  Room Name:<Typography.Text className="join_text" style={{float: "right"}}level={5}>{d.room_name}</Typography.Text>                                        
                                     </Col>
-                                    <Col xs={24}>
-                                    Genre:    <Typography.Text style={{float: "right"}} >{d.genre}</Typography.Text>                                        
+                                    <Col xs={24} className="join_text">
+                                    Genre:    <Typography.Text className="join_text"style={{float: "right"}} >{d.genre}</Typography.Text>                                        
                                     </Col>
                                     
                                 </Row>
