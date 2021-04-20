@@ -17,7 +17,11 @@ const Queue = (props) => {
               <img className="songdiv-img" src={song.url} />
               {song.title}
             </div>
-            <input class="song-checkbox" type="checkbox" />
+
+            <div className="song-vote-checkbox">
+              <div className="song-vote">{song.vote}</div>
+              <Checkbox className="song-checkbox" type="checkbox" />
+            </div>
           </div>
         );
       });
@@ -28,7 +32,7 @@ const Queue = (props) => {
     <div className="queue-main">
       <div class="queue-header">
         <strong>Queue</strong>
-        <strong>Vote</strong>
+        <strong>Votes</strong>
       </div>
       <div className="queue-render">{renderQueue()}</div>
     </div>

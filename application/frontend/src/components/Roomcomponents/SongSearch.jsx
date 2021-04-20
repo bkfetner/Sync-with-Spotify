@@ -15,6 +15,7 @@ import {
 } from "antd";
 import Axios from "axios";
 import "../../css/SongSearch.css";
+import { PlusOutlined } from "@ant-design/icons";
 
 const SongSearch = (props) => {
   const [searchValue, setSearchValue] = useState("");
@@ -63,7 +64,7 @@ const SongSearch = (props) => {
       <div>
         {options && (
           <AutoComplete
-            style={{ width: "calc(100% - 15px)" }}
+            style={{ width: "calc(100% - 15px)", marginBottom: "10px" }}
             onSearch={(value) => {
               setSearchValue(value);
               console.log(value);
@@ -89,43 +90,60 @@ const SongSearch = (props) => {
           ></AutoComplete>
         )}
       </div>
-      <Divider />
-      {searchedData && searchedData.length > 0 && (
-        <div>
-          <Row>
-            <div class="main">
-              <div className="searchsong-text">
-                {'Searched Songs by Name "' + searchValue + '"'}
+
+      <div className="searchsong-results">
+        <Divider />
+        {searchedData && searchedData.length > 0 && (
+          <div>
+            <Row>
+              <div class="main">
+                <div className="searchsong-text">
+                  {'Searched Songs by Name "' + searchValue + '"'}
+                </div>
+              </div>
+
+              {searchedData &&
+                searchedData.map((d, index) => (
+                  <div className="songsearch-result-card">
+                    <div className="songsearch-result-card-image-title">
+                      <img
+                        alt="example"
+                        src={d.url}
+                        style={{ width: "50px" }}
+                      />
+                      <div> {d.title}</div>
+                    </div>
+                    <div className="songsearch-add-icon-div">
+                      <PlusOutlined className="searchsong-add-icon" />
+                    </div>
+                  </div>
+                ))}
+            </Row>
+            <Divider />
+          </div>
+        )}
+
+        <div class="main">
+          <div className="searchsong-text">
+            {searchedData && searchedData.length > 0
+              ? "Recommended Songs"
+              : "Recommended Songs"}
+          </div>
+        </div>
+
+        {viewData &&
+          viewData.map((d, index) => (
+            <div className="songsearch-result-card">
+              <div className="songsearch-result-card-image-title">
+                <img alt="example" src={d.url} style={{ width: "50px" }} />
+                <div> {d.title}</div>
+              </div>
+              <div className="songsearch-add-icon-div">
+                <PlusOutlined className="searchsong-add-icon" />
               </div>
             </div>
-
-            {searchedData &&
-              searchedData.map((d, index) => (
-                <div className="songsearch-result-card">
-                  <img alt="example" src={d.url} style={{ width: "50px" }} />
-                  <div> {d.title}</div>
-                </div>
-              ))}
-          </Row>
-          <Divider />
-        </div>
-      )}
-
-      <div class="main">
-        <div className="searchsong-text">
-          {searchedData && searchedData.length > 0
-            ? "Recommended Songs"
-            : "Recommended Songs"}
-        </div>
+          ))}
       </div>
-
-      {viewData &&
-        viewData.map((d, index) => (
-          <div className="songsearch-result-card">
-            <img alt="example" src={d.url} style={{ width: "50px" }} />
-            <div> {d.title}</div>
-          </div>
-        ))}
     </div>
   );
 };
