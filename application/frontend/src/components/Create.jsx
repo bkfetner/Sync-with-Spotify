@@ -4,6 +4,8 @@ import { Form, Input, Button, Checkbox, Modal, message, Select } from "antd";
 import Axios from "axios";
 import "../css/Create.css";
 import Room from "./Room";
+/* import { serverPath } from '../path.js' */
+
 import {
   withRouter,
   useHistory,
@@ -113,13 +115,18 @@ const Create = (props) => {
   const [modelTosStatus, setModelTosStatus] = useState();
 
   const insertData = () => {
-    console.log("roomName: " + roomName + ", roomGenre: " + roomGenre);
+    console.log(
+      "roomName: " + modelRoomName + ", roomGenre: " + modelRoomGenre
+    );
     var data = {
-      room_name: roomName,
-      genre: roomGenre,
+      room_name: modelRoomName,
+      genre: modelRoomGenre,
       roomImageUrl: room_url.url,
     };
+    console.log("insertData");
+    console.log(data);
     Axios.post("http://localhost:8000/api/adds/", data)
+      /* Axios.post(serverPath.local + 'api/adds/', data) */
       .then((res) => {
         console.log("hi");
         setRoomName("");
@@ -148,6 +155,7 @@ const Create = (props) => {
   };
 
   const handleOk = () => {
+    insertData();
     setIsModalVisible(false);
     console.log(modelRoomName);
     console.log(validateRN(modelRoomName));
@@ -183,7 +191,6 @@ const Create = (props) => {
       setSuccessModalMessage(
         "You have successfully created a room! Press ok to continue."
       );
-      insertData();
       showModal();
     }
   };
