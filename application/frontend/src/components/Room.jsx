@@ -102,14 +102,16 @@ const albumList = [
   },
 ];
 
-const addVotesToSong = (song) => {
-  let numOfVotes = [Math.floor(Math.random() * 10)];
+const prepSongsForQueue = (song) => {
+  let queueSongId = Math.floor(Math.random() * 1000000);
+  let numOfVotes = Math.floor(Math.random() * 10);
   let title = song.title;
   let url = song.url;
   return {
     title: title,
     url: url,
     vote: numOfVotes,
+    queueSongId: queueSongId,
   };
 };
 
@@ -118,24 +120,24 @@ const Room = (props) => {
   const roomGenre = props.match.params.roomGenre;
 
   const [songsForQueue, setSongsForQueue] = useState([
-    addVotesToSong(albumList[Math.floor(Math.random() * 19)]),
-    addVotesToSong(albumList[Math.floor(Math.random() * 19)]),
-    addVotesToSong(albumList[Math.floor(Math.random() * 19)]),
-    addVotesToSong(albumList[Math.floor(Math.random() * 19)]),
-    addVotesToSong(albumList[Math.floor(Math.random() * 19)]),
-    addVotesToSong(albumList[Math.floor(Math.random() * 19)]),
-    addVotesToSong(albumList[Math.floor(Math.random() * 19)]),
-    addVotesToSong(albumList[Math.floor(Math.random() * 19)]),
-    addVotesToSong(albumList[Math.floor(Math.random() * 19)]),
-    addVotesToSong(albumList[Math.floor(Math.random() * 19)]),
-    addVotesToSong(albumList[Math.floor(Math.random() * 19)]),
-    addVotesToSong(albumList[Math.floor(Math.random() * 19)]),
-    addVotesToSong(albumList[Math.floor(Math.random() * 19)]),
-    addVotesToSong(albumList[Math.floor(Math.random() * 19)]),
-    addVotesToSong(albumList[Math.floor(Math.random() * 19)]),
-    addVotesToSong(albumList[Math.floor(Math.random() * 19)]),
-    addVotesToSong(albumList[Math.floor(Math.random() * 19)]),
-    addVotesToSong(albumList[Math.floor(Math.random() * 19)]),
+    prepSongsForQueue(albumList[Math.floor(Math.random() * 19)]),
+    prepSongsForQueue(albumList[Math.floor(Math.random() * 19)]),
+    prepSongsForQueue(albumList[Math.floor(Math.random() * 19)]),
+    prepSongsForQueue(albumList[Math.floor(Math.random() * 19)]),
+    prepSongsForQueue(albumList[Math.floor(Math.random() * 19)]),
+    prepSongsForQueue(albumList[Math.floor(Math.random() * 19)]),
+    prepSongsForQueue(albumList[Math.floor(Math.random() * 19)]),
+    prepSongsForQueue(albumList[Math.floor(Math.random() * 19)]),
+    prepSongsForQueue(albumList[Math.floor(Math.random() * 19)]),
+    prepSongsForQueue(albumList[Math.floor(Math.random() * 19)]),
+    prepSongsForQueue(albumList[Math.floor(Math.random() * 19)]),
+    prepSongsForQueue(albumList[Math.floor(Math.random() * 19)]),
+    prepSongsForQueue(albumList[Math.floor(Math.random() * 19)]),
+    prepSongsForQueue(albumList[Math.floor(Math.random() * 19)]),
+    prepSongsForQueue(albumList[Math.floor(Math.random() * 19)]),
+    prepSongsForQueue(albumList[Math.floor(Math.random() * 19)]),
+    prepSongsForQueue(albumList[Math.floor(Math.random() * 19)]),
+    prepSongsForQueue(albumList[Math.floor(Math.random() * 19)]),
   ]);
 
   const [currentSong, setCurrentSong] = useState(

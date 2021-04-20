@@ -4,7 +4,13 @@ import { Form, Input, Button, Checkbox, Modal, message, Select } from "antd";
 import Axios from "axios";
 import "../css/Create.css";
 import Room from "./Room";
-import { withRouter, useHistory, useLocation } from "react-router-dom";
+import {
+  withRouter,
+  useHistory,
+  useLocation,
+  Router,
+  Redirect,
+} from "react-router-dom";
 
 const albumList = [
   {
@@ -102,6 +108,9 @@ const Create = (props) => {
   const [roomName, setRoomName] = useState();
   const [roomGenre, setGenre] = useState();
   const [tosStatus, setTosStatus] = useState(false);
+  const [modelRoomName, setModelRoomName] = useState();
+  const [modelRoomGenre, setModelRoomGenre] = useState();
+  const [modelTosStatus, setModelTosStatus] = useState();
 
   const insertData = () => {
     console.log("roomName: " + roomName + ", roomGenre: " + roomGenre);
@@ -140,20 +149,25 @@ const Create = (props) => {
 
   const handleOk = () => {
     setIsModalVisible(false);
-    if (validateRN(roomName) && roomGenre && tosStatus) {
+    console.log(modelRoomName);
+    console.log(validateRN(modelRoomName));
+    console.log(modelRoomGenre);
+    console.log(modelTosStatus);
+    if (validateRN(modelRoomName) && modelRoomGenre && modelTosStatus) {
       console.log("handleOk");
 
-      props.history.push({
-        pathname: "/Room",
-        state: { roomName: roomName, roomGenre: roomGenre },
-      });
+      props.history.push("/Room/" + modelRoomGenre + "/" + modelRoomName);
     }
   };
 
   const [modalMessage, setModalMessage] = useState();
   const [successModalMessage, setSuccessModalMessage] = useState();
 
-  /* const onClickFunks = () => {
+  const onClickFunks = () => {
+    setModelRoomName(roomName);
+    setModelRoomGenre(roomGenre);
+    setModelTosStatus(tosStatus);
+
     setModalMessage("");
     setSuccessModalMessage("");
     if (!validateRN(roomName)) {
@@ -172,7 +186,7 @@ const Create = (props) => {
       insertData();
       showModal();
     }
-  }; */
+  };
 
   const confirmTos = () => {
     setTosStatus(!tosStatus);
@@ -204,6 +218,12 @@ const Create = (props) => {
         <Form.Item
           label="Roomname"
           name="roomname"
+          rules={[
+            {
+              required: true,
+              message: "Please input a room name.",
+            },
+          ]}
           //rules={[{ required: true, message: "Please input your roomname!" }]}
         >
           <Input
@@ -217,6 +237,12 @@ const Create = (props) => {
         <Form.Item
           label="Genre"
           name="genre"
+          rules={[
+            {
+              required: true,
+              message: "Please select a genre.",
+            },
+          ]}
           //rules={[{ required: true, message: 'Province is required' }]}
         >
           <Select
@@ -233,8 +259,16 @@ const Create = (props) => {
         </Form.Item>
 
         <Form.Item {...otherItemLayout}>
-          <Checkbox onChange={confirmTos} className="text-color">
-            {" "}
+          <Checkbox
+            onChange={confirmTos}
+            rules={[
+              {
+                required: true,
+                message: "Must accept the terms of service.",
+              },
+            ]}
+            className="text-color"
+          >
             Click here to accept our Terms of Service.
           </Checkbox>
         </Form.Item>
@@ -243,8 +277,8 @@ const Create = (props) => {
           <Button
             type="primary"
             htmlType="submit"
-            href={"/Room/" + roomGenre + "/" + roomName}
-            onClick={() => insertData()}
+            /* href={"/Room/" + roomGenre + "/" + roomName} */
+            onClick={() => onClickFunks()}
             className="sync-button-color"
           >
             Submit
