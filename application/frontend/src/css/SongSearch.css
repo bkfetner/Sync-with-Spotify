@@ -1,0 +1,36 @@
+* {
+  box-sizing: border-box;
+}
+
+.songsearch-main {
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  overflow-x: hidden;
+  height: calc(100% - 65px);
+  margin-left: 15px;
+}
+
+.searchsong-title-text {
+  font-size: 14pt !important;
+}
+
+.searchsong-text {
+  font-weight: bold;
+  font-size: 12pt;
+  color: var(--color3);
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.songsearch-result-card {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.songsearch-result-card div {
+  margin-left: 10px;
+}
