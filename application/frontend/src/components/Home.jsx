@@ -1,6 +1,6 @@
 import React, { Component, useEffect, useState } from "react";
 import { Form, Input, Button, Checkbox, Row, Col, Typography, Card } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Axios from "axios";
 import "../css/Home.css";
 import Create from "./Create";
@@ -9,8 +9,10 @@ const Home = (props) => {
   {
     /* For creating rooms */
   }
+  console.log(props)
   const [roomName, setRoomName] = useState();
   const [roomGenre, setGenre] = useState();
+  const history = useHistory()
 
   const insertData = () => {
     var data = {
@@ -42,7 +44,19 @@ const Home = (props) => {
     })
     .catch((er) => console.log(er));
 },[])
-  
+{
+  /* For joining rooms */
+}
+  const joinRoom = () => {
+    
+    var rooms = document.getElementById('rooms').value
+    console.log('hi')
+    console.log(rooms)
+    props.history.push({
+      pathname: "/Room",
+      state: { roomName: roomName, roomGenre: roomGenre }
+    });
+  }
 
   console.log(props.displayCreate);
 
@@ -89,7 +103,7 @@ const Home = (props) => {
       {  viewData?.map((d,index) => <Col className="gutter-row" span={6}>
           <Card 
               
-              
+              className="join_cards"
               hoverable
               bordered
               style={{ width: "80%" , marginLeft: "30px"}}
@@ -97,19 +111,22 @@ const Home = (props) => {
           >
           <Row>
             
-              <Col xs={24}>
-                Room Name:<Typography.Text style={{float: "right"}} >{d.room_name}</Typography.Text>                                        
+              <Col xs={24} className="join_text">
+                Room Name:<Typography.Text  className="join_text" style={{float: "right"}} id="rooms" value={d.room_name} >{d.room_name}</Typography.Text>                                        
               </Col>
           
+              <Col xs={24} className="join_text">
+                Genre:<Typography.Text className="join_text" style={{float: "right"}}  >{d.genre}</Typography.Text>                                        
+              </Col>
               <Col xs={24}>
-                Genre:<Typography.Text style={{float: "right"}} >{d.genre}</Typography.Text>                                        
+                 <Button type="link" onClick={()=>joinRoom()} style={{float: "right"}}>Click to join</Button>                                      
               </Col>
           </Row>
         </Card>
         
         </Col>)}
 
-      </Row>
+      </Row>  
       
         
 
