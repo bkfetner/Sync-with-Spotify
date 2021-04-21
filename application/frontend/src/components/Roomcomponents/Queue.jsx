@@ -31,6 +31,7 @@ const Queue = (props) => {
                   type="checkbox"
                   id={song.queueSongId}
                   onChange={handleCheck}
+                  checked={song.userVote}
                 />
               </div>
             </div>
