@@ -16,24 +16,26 @@ const Queue = (props) => {
   const renderQueue = () => {
     if (props.queueSongs) {
       return props.queueSongs.map((song) => {
-        return (
-          <div class="songdiv">
-            <div className="songdiv-song-title">
-              <img className="songdiv-img" src={song.url} />
-              {song.title}
-            </div>
+        if (!(song.title == "0" && song.url == "0" && song.music == "0")) {
+          return (
+            <div class="songdiv">
+              <div className="songdiv-song-title">
+                <img className="songdiv-img" src={song.url} />
+                {song.title}
+              </div>
 
-            <div className="song-vote-checkbox">
-              <div className="song-vote">{song.vote}</div>
-              <Checkbox
-                className="song-checkbox"
-                type="checkbox"
-                id={song.queueSongId}
-                onChange={handleCheck}
-              />
+              <div className="song-vote-checkbox">
+                <div className="song-vote">{song.vote}</div>
+                <Checkbox
+                  className="song-checkbox"
+                  type="checkbox"
+                  id={song.queueSongId}
+                  onChange={handleCheck}
+                />
+              </div>
             </div>
-          </div>
-        );
+          );
+        }
       });
     }
   };

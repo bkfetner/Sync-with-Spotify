@@ -1,6 +1,15 @@
 import React, { Component, useState, setState, Link } from "react";
 import "antd/dist/antd.css";
-import { Form, Input, Button, Checkbox, Modal, message, Select } from "antd";
+import {
+  Form,
+  Input,
+  Button,
+  Checkbox,
+  Modal,
+  message,
+  Select,
+  Radio,
+} from "antd";
 import Axios from "axios";
 import "../css/Create.css";
 import Room from "./Room";
@@ -109,14 +118,19 @@ const Create = (props) => {
 
   const [roomName, setRoomName] = useState();
   const [roomGenre, setGenre] = useState();
+  const [roomStatus, setRoomStatus] = useState(1);
   const [tosStatus, setTosStatus] = useState(false);
 
   const insertData = (rn, rg) => {
-    console.log("roomName: " + rn + ", roomGenre: " + rg);
+    const roomId = Math.floor(Math.random() * 2000000000);
+    console.log(
+      "roomName: " + rn + ", roomGenre: " + rg + ", roomId: " + roomId
+    );
     var data = {
       room_name: rn,
       genre: rg,
       roomImageUrl: room_url.url,
+      id: roomId,
     };
     console.log("insertData");
     console.log(data);
@@ -154,11 +168,14 @@ const Create = (props) => {
     console.log(modalRoomName);
     console.log(validateRN(modalRoomName));
     console.log(modalRoomGenre);
+    console.log(modalRoomStatus);
     console.log(modalTosStatus);
     if (validateRN(modalRoomName) && modalRoomGenre && modalTosStatus) {
       console.log("handleOk");
 
-      props.history.push("/Room/" + modalRoomGenre + "/" + modalRoomName);
+      props.history.push(
+        "/Room/" + modalRoomGenre + "/" + modalRoomName + "/" + 0
+      );
     }
   };
 
@@ -166,14 +183,23 @@ const Create = (props) => {
   const [successModalMessage, setSuccessModalMessage] = useState();
   const [modalRoomName, setModalRoomName] = useState();
   const [modalRoomGenre, setModalRoomGenre] = useState();
+  const [modalRoomStatus, setModalRoomStatus] = useState();
   const [modalTosStatus, setModalTosStatus] = useState();
 
   const onClickFunks = () => {
+    console.log("roomStatus");
+    console.log(roomStatus);
     const clickRoomName = roomName;
     const clickRoomGenre = roomGenre;
+    const clickRoomStatus = roomStatus;
     const clickTosStatus = tosStatus;
     setModalRoomName(clickRoomName);
     setModalRoomGenre(clickRoomGenre);
+    if (clickRoomStatus == 1) {
+      setModalRoomStatus("Public Room");
+    } else {
+      setModalRoomStatus("Private Room");
+    }
     setModalTosStatus(clickTosStatus);
 
     setModalMessage("");
@@ -267,6 +293,22 @@ const Create = (props) => {
         </Form.Item>
 
         <Form.Item {...otherItemLayout}>
+          <Radio.Group
+            onChange={(e) => {
+              setRoomStatus(e.target.value);
+            }}
+            value={roomStatus}
+          >
+            <Radio className="text-color" value={1}>
+              Public Room
+            </Radio>
+            <Radio className="text-color" value={2}>
+              Private Room
+            </Radio>
+          </Radio.Group>
+        </Form.Item>
+
+        <Form.Item {...otherItemLayout}>
           <Checkbox
             onChange={confirmTos}
             required="required"
@@ -301,6 +343,9 @@ const Create = (props) => {
         </p>
         <p>
           <strong>Genre:</strong> {modalRoomGenre}
+        </p>
+        <p>
+          <strong>Status:</strong> {modalRoomStatus}
         </p>
         <p>{successModalMessage}</p>
         <p style={{ color: "red" }}>{modalMessage}</p>
