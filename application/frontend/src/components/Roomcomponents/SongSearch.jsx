@@ -53,6 +53,12 @@ const SongSearch = (props) => {
     setSearchedData(result);
   };
 
+  const handleAddClick = (e) => {
+    console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
+    console.log(e);
+    props.addSongToQueue(e);
+  };
+
   return (
     <div className="songsearch-main">
       <div class="main">
@@ -138,9 +144,12 @@ const SongSearch = (props) => {
                 <img alt="example" src={d.url} style={{ width: "50px" }} />
                 <div> {d.title}</div>
               </div>
-              <div className="songsearch-add-icon-div">
+              <button
+                className="songsearch-add-icon-button"
+                onClick={() => handleAddClick(d.title)}
+              >
                 <PlusOutlined className="searchsong-add-icon" />
-              </div>
+              </button>
             </div>
           ))}
       </div>

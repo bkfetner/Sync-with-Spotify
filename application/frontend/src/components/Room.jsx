@@ -156,20 +156,6 @@ const Room = (props) => {
     prepSongsForQueue(albumList[Math.floor(Math.random() * 19)]),
     prepSongsForQueue(albumList[Math.floor(Math.random() * 19)]),
     prepSongsForQueue(albumList[Math.floor(Math.random() * 19)]),
-    prepSongsForQueue(albumList[Math.floor(Math.random() * 19)]),
-    prepSongsForQueue(albumList[Math.floor(Math.random() * 19)]),
-    prepSongsForQueue(albumList[Math.floor(Math.random() * 19)]),
-    prepSongsForQueue(albumList[Math.floor(Math.random() * 19)]),
-    prepSongsForQueue(albumList[Math.floor(Math.random() * 19)]),
-    prepSongsForQueue(albumList[Math.floor(Math.random() * 19)]),
-    prepSongsForQueue(albumList[Math.floor(Math.random() * 19)]),
-    prepSongsForQueue(albumList[Math.floor(Math.random() * 19)]),
-    prepSongsForQueue(albumList[Math.floor(Math.random() * 19)]),
-    prepSongsForQueue(albumList[Math.floor(Math.random() * 19)]),
-    prepSongsForQueue(albumList[Math.floor(Math.random() * 19)]),
-    prepSongsForQueue(albumList[Math.floor(Math.random() * 19)]),
-    prepSongsForQueue(albumList[Math.floor(Math.random() * 19)]),
-    prepSongsForQueue(albumList[Math.floor(Math.random() * 19)]),
   ]);
 
   const [currentSong, setCurrentSong] = useState(
@@ -220,6 +206,21 @@ const Room = (props) => {
     forceUpdate();
   };
 
+  const addSongToQueue = (title) => {
+    const newSong = albumList.filter((obj) => {
+      return obj.title === title;
+    });
+    console.log("newSong");
+    console.log(newSong);
+    const prepNewSong = prepSongsForQueue(newSong[0]);
+    prepNewSong.vote = 0;
+    const modifyingQueue = songsForQueue;
+    modifyingQueue.push(prepNewSong);
+    console.log("modifyingQueue");
+    console.log(modifyingQueue);
+    switchQueueSearchsong();
+  };
+
   return (
     <div>
       <div class="main room-main">
@@ -233,7 +234,12 @@ const Room = (props) => {
                 updateQueueVote={updateQueueVote}
               />
             )}
-            {!showQueue && <SongSearch avaliableSongs={albumList} />}
+            {!showQueue && (
+              <SongSearch
+                avaliableSongs={albumList}
+                addSongToQueue={addSongToQueue}
+              />
+            )}
             <Button
               type="primary"
               htmlType="submit"
