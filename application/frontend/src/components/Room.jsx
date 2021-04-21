@@ -14,6 +14,11 @@ import { Redirect } from "react-router-dom";
   */
 }
 
+const useForceUpdate = () => {
+  const [_, setState] = useState(false);
+  return () => setState((val) => !val);
+};
+
 const albumList = [
   {
     title: "Pick Up Your Feelings",
@@ -137,12 +142,14 @@ const prepSongsForQueue = (song) => {
     url: url,
     vote: numOfVotes,
     queueSongId: queueSongId,
+    userVote: false,
   };
 };
 
 const Room = (props) => {
   const roomName = props.match.params.roomName;
   const roomGenre = props.match.params.roomGenre;
+  const forceUpdate = useForceUpdate();
 
   const [songsForQueue, setSongsForQueue] = useState([
     prepSongsForQueue(albumList[Math.floor(Math.random() * 19)]),
@@ -191,7 +198,27 @@ const Room = (props) => {
     }
   };
 
-  console.log(props);
+  const updateQueueVote = (incomingQueueSongId) => {
+    const modifyingQueue = songsForQueue;
+    var findQueueSong = modifyingQueue.filter((obj) => {
+      return obj.queueSongId === incomingQueueSongId;
+    });
+    if (findQueueSong[0]) {
+      console.log(incomingQueueSongId);
+      console.log(findQueueSong[0].vote);
+      if (!findQueueSong[0].userVote) {
+        findQueueSong[0].vote = findQueueSong[0].vote + 1;
+        findQueueSong[0].userVote = true;
+      } else {
+        findQueueSong[0].vote = findQueueSong[0].vote - 1;
+        findQueueSong[0].userVote = false;
+      }
+      console.log(incomingQueueSongId);
+      console.log(findQueueSong[0].vote);
+    }
+    setSongsForQueue(modifyingQueue);
+    forceUpdate();
+  };
 
   return (
     <div>
@@ -200,7 +227,12 @@ const Room = (props) => {
         <em>Room Genre: {roomGenre}</em>
         <div class="grid1">
           <div class="queue1">
-            {showQueue && <Queue queueSongs={songsForQueue} />}
+            {showQueue && (
+              <Queue
+                queueSongs={songsForQueue}
+                updateQueueVote={updateQueueVote}
+              />
+            )}
             {!showQueue && <SongSearch avaliableSongs={albumList} />}
             <Button
               type="primary"
