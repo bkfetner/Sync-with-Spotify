@@ -110,17 +110,12 @@ const Create = (props) => {
   const [roomName, setRoomName] = useState();
   const [roomGenre, setGenre] = useState();
   const [tosStatus, setTosStatus] = useState(false);
-  const [modelRoomName, setModelRoomName] = useState();
-  const [modelRoomGenre, setModelRoomGenre] = useState();
-  const [modelTosStatus, setModelTosStatus] = useState();
 
-  const insertData = () => {
-    console.log(
-      "roomName: " + modelRoomName + ", roomGenre: " + modelRoomGenre
-    );
+  const insertData = (rn, rg) => {
+    console.log("roomName: " + rn + ", roomGenre: " + rg);
     var data = {
-      room_name: modelRoomName,
-      genre: modelRoomGenre,
+      room_name: rn,
+      genre: rg,
       roomImageUrl: room_url.url,
     };
     console.log("insertData");
@@ -155,36 +150,41 @@ const Create = (props) => {
   };
 
   const handleOk = () => {
-    insertData();
     setIsModalVisible(false);
-    console.log(modelRoomName);
-    console.log(validateRN(modelRoomName));
-    console.log(modelRoomGenre);
-    console.log(modelTosStatus);
-    if (validateRN(modelRoomName) && modelRoomGenre && modelTosStatus) {
+    console.log(modalRoomName);
+    console.log(validateRN(modalRoomName));
+    console.log(modalRoomGenre);
+    console.log(modalTosStatus);
+    if (validateRN(modalRoomName) && modalRoomGenre && modalTosStatus) {
       console.log("handleOk");
 
-      props.history.push("/Room/" + modelRoomGenre + "/" + modelRoomName);
+      props.history.push("/Room/" + modalRoomGenre + "/" + modalRoomName);
     }
   };
 
   const [modalMessage, setModalMessage] = useState();
   const [successModalMessage, setSuccessModalMessage] = useState();
+  const [modalRoomName, setModalRoomName] = useState();
+  const [modalRoomGenre, setModalRoomGenre] = useState();
+  const [modalTosStatus, setModalTosStatus] = useState();
 
   const onClickFunks = () => {
-    setModelRoomName(roomName);
-    setModelRoomGenre(roomGenre);
-    setModelTosStatus(tosStatus);
+    const clickRoomName = roomName;
+    const clickRoomGenre = roomGenre;
+    const clickTosStatus = tosStatus;
+    setModalRoomName(clickRoomName);
+    setModalRoomGenre(clickRoomGenre);
+    setModalTosStatus(clickTosStatus);
 
     setModalMessage("");
     setSuccessModalMessage("");
-    if (!validateRN(roomName)) {
+    if (!validateRN(clickRoomName)) {
       setModalMessage("Invalid roomname, must input at least one character.");
       showModal();
-    } else if (!roomGenre) {
+    } else if (!clickRoomGenre) {
       setModalMessage("Please select a genre from the dropdown menu.");
       showModal();
-    } else if (!tosStatus) {
+    } else if (!clickTosStatus) {
       setModalMessage("You must accept the terms for service.");
       showModal();
     } else {
@@ -192,6 +192,7 @@ const Create = (props) => {
         "You have successfully created a room! Press ok to continue."
       );
       showModal();
+      insertData(clickRoomName, clickRoomGenre);
     }
   };
 
@@ -268,12 +269,7 @@ const Create = (props) => {
         <Form.Item {...otherItemLayout}>
           <Checkbox
             onChange={confirmTos}
-            rules={[
-              {
-                required: true,
-                message: "Must accept the terms of service.",
-              },
-            ]}
+            required="required"
             className="text-color"
           >
             Click here to accept our Terms of Service.
@@ -301,10 +297,10 @@ const Create = (props) => {
         cancelButtonProps={{ style: { display: "none" } }}
       >
         <p>
-          <strong>Room Name:</strong> {roomName}
+          <strong>Room Name:</strong> {modalRoomName}
         </p>
         <p>
-          <strong>Genre:</strong> {roomGenre}
+          <strong>Genre:</strong> {modalRoomGenre}
         </p>
         <p>{successModalMessage}</p>
         <p style={{ color: "red" }}>{modalMessage}</p>
