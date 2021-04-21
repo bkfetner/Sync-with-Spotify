@@ -5,8 +5,13 @@ import "../../css/Queue.css";
 
 const Queue = (props) => {
   console.log("Queue start");
-  console.log(props.queueSongs);
+  console.log(props);
   console.log("Queue end");
+
+  const handleCheck = (e) => {
+    console.log(e.target.id);
+    props.updateQueueVote(e.target.id);
+  };
 
   const renderQueue = () => {
     if (props.queueSongs) {
@@ -20,7 +25,12 @@ const Queue = (props) => {
 
             <div className="song-vote-checkbox">
               <div className="song-vote">{song.vote}</div>
-              <Checkbox className="song-checkbox" type="checkbox" />
+              <Checkbox
+                className="song-checkbox"
+                type="checkbox"
+                id={song.queueSongId}
+                onChange={handleCheck}
+              />
             </div>
           </div>
         );
