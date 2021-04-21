@@ -119,9 +119,12 @@ const SongSearch = (props) => {
                       />
                       <div> {d.title}</div>
                     </div>
-                    <div className="songsearch-add-icon-div">
+                    <button
+                      className="songsearch-add-icon-button"
+                      onClick={() => handleAddClick(d.title)}
+                    >
                       <PlusOutlined className="searchsong-add-icon" />
-                    </div>
+                    </button>
                   </div>
                 ))}
             </Row>
