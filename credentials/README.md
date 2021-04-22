@@ -19,7 +19,7 @@
 8. Instructions on how to use the above information.
 
 ------------------------------------------------------------------------
-1. http://18.218.242.136:8000/
+1. http://3.17.66.0:3000/
 2. ubuntu
 3. it is the pem file, to run it, run: ssh - i sg.pem 
 4. DB end point: sync-db.cldl9j2fxicq.us-east-2.rds.amazonaws.com 
