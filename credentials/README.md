@@ -28,7 +28,7 @@
 8. 12345678
 9. djangosearchdb 
 10. copy and paste server url into a browser to view
-   run the ssh by running this command: ssh -i sg.pem ubuntu@18.218.242.136
+   run the ssh by running this command: ssh -i sg.pem ubuntu@3.17.66.0
    run this command to run the database: mysql -u admin -h sync-db.cldl9j2fxicq.us-east-2.rds.amazonaws.com -p
    then it will prompt to input password: 12345678
    if you would like to see the database tables through workbench, put the endpoint link as the host 
