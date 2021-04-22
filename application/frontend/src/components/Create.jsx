@@ -24,6 +24,7 @@ import {
   Redirect,
 } from "react-router-dom";
 import Footer from "./Footer";
+import ToS from "./ToS"
 
 const genreOptions = [
   { label: "Pop", value: "Pop" },
@@ -195,13 +196,13 @@ const Create = (props) => {
 
       props.history.push(
         "/Room/" +
-          modalRoomGenre +
-          "/" +
-          modalRoomName +
-          "/" +
-          modalUsers +
-          "/" +
-          0
+        modalRoomGenre +
+        "/" +
+        modalRoomName +
+        "/" +
+        modalUsers +
+        "/" +
+        0
       );
     }
   };
@@ -293,7 +294,7 @@ const Create = (props) => {
       <Form
         {...formItemLayout}
         className="text-color"
-        /*  style={{ marginTop: "150px", marginLeft: "400px" }} */
+      /*  style={{ marginTop: "150px", marginLeft: "400px" }} */
       >
         <Form.Item
           label="Roomname"
@@ -304,7 +305,7 @@ const Create = (props) => {
               message: "Please input a room name.",
             },
           ]}
-          //rules={[{ required: true, message: "Please input your roomname!" }]}
+        //rules={[{ required: true, message: "Please input your roomname!" }]}
         >
           <Input
             placeholder="e.g. Bill's Room of Splendor"
@@ -323,7 +324,7 @@ const Create = (props) => {
               message: "Please select a genre.",
             },
           ]}
-          //rules={[{ required: true, message: 'Province is required' }]}
+        //rules={[{ required: true, message: 'Province is required' }]}
         >
           <Select
             placeholder="Select genre"
@@ -407,22 +408,7 @@ const Create = (props) => {
         cancelButtonProps={{ style: { display: "none" } }}
         okText="OK"
       >
-        <p>
-          Information you provide to us about yourself, or that we collect and
-          infer based upon your entries and posts to <strong>Sync</strong> may
-          be used to improve your user experience, provide or suggest targeted
-          services and to allow third party advertises and messaging to be
-          tailored or targeted. We may use or provide to third parties
-          aggregated data entered by users or inferred from usage. We may
-          collect IP addresses and cookies for the primary purpose of assisting
-          with ease of use by you. However, except as legally required, we will
-          not sell or provide your email address, IP address, cookies, address
-          or phone number to third parties for advertising or other purposes. In
-          the future we may provide third parties with the ability to provide
-          customizable or targeted advertising or messages and in such cases we
-          may allow third party applications to access your user data in
-          determining the messaging or advertising applicable to you.
-        </p>
+        <ToS />
       </Modal>
     </div>
   );
