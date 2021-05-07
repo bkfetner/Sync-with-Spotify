@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link, Redirect, useHistory } from "react-router-dom";
 import { Navbar, Nav, Form, FormControl, Button } from "react-bootstrap";
 import { Menu, Dropdown, Image } from "antd";
 import { DownOutlined } from "@ant-design/icons";
@@ -50,7 +50,11 @@ const NavBar = (props) => {
 
     </Menu>
   );
-
+  if (!userInfo) {
+    return (
+      <Redirect to="/"/>
+    )
+  }
   return (
     <div>
       <Navbar bg="dark" variant="dark" className="bg-dark-sync">

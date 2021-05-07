@@ -11,20 +11,23 @@ import Contactus from "./components/Contactus";
 import Aboutus from "./components/Aboutus";
 import axios from "axios";
 import Footer from "./components/Footer";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import "./App.css";
 import BackgroundImage from "./assets/bgimages/test.png";
 import Ban_User from "./components/Ban_User";
 import DeleteRoom from "./components/DeleteRoom";
+import NotFoundPage from "./components/404"
 
 class App extends React.Component {
   render() {
     const PagesWithNavBar = () => {
+      {/* Logged in */}
       return (
         <div>
           <NavBar />
           <Switch>
             <Route path="/Home" exact component={Home} />
+            <Route path="/404" exact component={NotFoundPage} />
             <Route path="/Createpage" exact component={Createpage} />
             <Route path="/Join" exact component={Join} />
             <Route
@@ -36,12 +39,12 @@ class App extends React.Component {
             <Route path="/Aboutus" exact component={Aboutus}></Route>
             <Route path="/banuser" exact component={Ban_User}></Route>
             <Route path="/deleteroom" exact component={DeleteRoom}></Route>
-
+            <Redirect to="/404"/>
           </Switch>
         </div>
       );
     };
-
+    {/* Not Logged in */}
     return (
       <BrowserRouter>
         <Switch>
