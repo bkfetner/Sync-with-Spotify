@@ -18,7 +18,7 @@ class RoomsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Rooms
-        fields = ('id','room_name', 'genre' ,'roomImageUrl')
+        fields = ('id','room_name', 'genre' ,'roomImageUrl','roomType')
 
 # class UserCreateSerializer(UserCreateSerializer):
 #     class Meta(UserCreateSerializer.Meta):

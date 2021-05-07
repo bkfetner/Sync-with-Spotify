@@ -144,7 +144,7 @@ const Create = (props) => {
   //const [tosStatus, setTosStatus] = useState(false);
   const [noOfUsers, setNoOfUsers] = useState();
 
-  const insertData = (rn, rg) => {
+  const insertData = (rn, rg,type) => {
     const roomId = Math.floor(Math.random() * 2000000000);
     console.log(
       "roomName: " + rn + ", roomGenre: " + rg + ", roomId: " + roomId
@@ -154,6 +154,7 @@ const Create = (props) => {
       genre: rg,
       roomImageUrl: room_url.url,
       id: roomId,
+      roomType : type,
     };
     console.log("insertData");
     console.log(data);
@@ -268,7 +269,7 @@ const Create = (props) => {
         "You have successfully created a room! Press ok to continue."
       );
       showModal();
-      insertData(clickRoomName, clickRoomGenre);
+      insertData(clickRoomName, clickRoomGenre,clickRoomStatus);
     }
   };
 
