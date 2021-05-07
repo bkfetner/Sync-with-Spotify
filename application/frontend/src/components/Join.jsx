@@ -316,7 +316,6 @@ const Join = (props) => {
         </Row>
       </div>
       <div>
-        <Footer />
       </div>
     </Fragment>
   );

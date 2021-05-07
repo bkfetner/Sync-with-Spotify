@@ -1,4 +1,3 @@
-
 import React from 'react';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -8,7 +7,7 @@ import Dialog from '@material-ui/core/Dialog';
 import TextField from '@material-ui/core/TextField'
 import Navbar from "./navbar";
 import { Button } from 'react-bootstrap';
-import Footer from "./Footer";
+import FooterLoggedIn from "./FooterLoggedIn";
 
 const Contactus = () => {
     const [open, setOpen] = React.useState(false);
@@ -22,27 +21,17 @@ const Contactus = () => {
     };
 
     return (
-        <div style={{ position: 'relative', minHeight: '100vh' }}>
-            <div className="logo-flex">
-                <figcaption className="logo">
-                    <a href="/">
-                    <img
-                        src="../assets/logoImage2.png"
-                        style={{ width: "135px", marginRight: "10px" }}
-                    ></img>
-                    </a>
-                </figcaption>
-            </div>
+        <div style={{ position: 'relative', minHeight: '70vh' }}>
             <div class="main">
-                <p style={{ justifySelf: 'left' }} />Email:
-            <div style={{ paddingBottom: 20, paddingTop: 20 }}>
+                <div style={{ justifySelf: 'left', fontSize: '24px', paddingTop: '20px', paddingBottom: '5px', color: '#00adb5'}}>Email: </div>
+                <div style={{ paddingBottom: 20 }}>
                     <input type='text' placeholder='Email' required style={{ backgroundColor: '#393e46', width: 300 }} />
                 </div>
-            Write your comment:
-            <div style={{ paddingTop: 20, paddingBottom: 20 }}>
+                <p style={{ fontSize: '24px', color: '#00adb5' }}>Write your question or comment:</p>
+                <div style={{ paddingBottom: 20 }}>
                     <textarea type="text" rows="8" cols="50" name="contactFormBody" wrap="hard" style={{ backgroundColor: '#393e46' }}></textarea>
                 </div>
-                <Button style={{ backgroundColor: '#00adb5' }} onClick={handleClickOpen}>
+                <Button style={{ backgroundColor: '#00adb5', marginBottom: 10 }} onClick={handleClickOpen}>
                     Send Form
             </Button>
                 <Dialog open={open} onClose={handleClose}>
@@ -66,7 +55,6 @@ const Contactus = () => {
 
             </div>
             <div style={{ position: 'absolute', bottom: 0, width: '100%' }}>
-                <Footer/>
             </div>
         </div>
     );

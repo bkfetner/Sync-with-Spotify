@@ -24,7 +24,6 @@ const Createpage = (props) => {
       <div style={{ height: "calc(100vh - 424px)", minHeight: "500px" }}>
         <Create />
       </div>
-      <Footer />
     </div>
   );
 };

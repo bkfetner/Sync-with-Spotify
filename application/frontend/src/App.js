@@ -17,6 +17,8 @@ import BackgroundImage from "./assets/bgimages/test.png";
 import Ban_User from "./components/Ban_User";
 import DeleteRoom from "./components/DeleteRoom";
 import NotFoundPage from "./components/404"
+import ContactusLoggedIn from "./components/ContactusLoggedIn"
+import FooterLoggedIn from "./components/FooterLoggedIn"
 
 class App extends React.Component {
   render() {
@@ -35,12 +37,13 @@ class App extends React.Component {
               exact
               component={Room}
             />
-            <Route path="/Contact" exact component={Contactus}></Route>
+            <Route path="/Contactus" exact component={ContactusLoggedIn}></Route>
             <Route path="/Aboutus" exact component={Aboutus}></Route>
             <Route path="/banuser" exact component={Ban_User}></Route>
             <Route path="/deleteroom" exact component={DeleteRoom}></Route>
             <Redirect to="/404"/>
           </Switch>
+          <FooterLoggedIn />
         </div>
       );
     };
@@ -49,6 +52,8 @@ class App extends React.Component {
       <BrowserRouter>
         <Switch>
           <Route path="/" exact component={Landing} />
+          <Route path="/Contact" exact component={Contactus}></Route>
+          <Route path="/About" exact component={Aboutus}></Route>
           <Route component={PagesWithNavBar} />
         </Switch>
       </BrowserRouter>
