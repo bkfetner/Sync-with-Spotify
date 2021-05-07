@@ -61,7 +61,13 @@ const DeleteRoom = (props) => {
         console.log(data.id)
         Axios.delete("http://localhost:8000/api/adds/"+ data.id + "/")
         .then((res) => {
-         refreshpage()
+         //refreshpage()
+          Axios.get("http://localhost:8000/api/adds/")
+          .then((res) => {
+              console.log(res.data);
+              setViewData(res.data);
+          })
+        .catch((er) => console.log(er));
            
         })
         .catch((er) => console.log(er));
