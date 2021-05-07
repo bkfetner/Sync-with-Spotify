@@ -206,6 +206,8 @@ const Create = (props) => {
         "/" +
         modalUsers +
         "/" +
+        modalRoomStatus +
+        "/" +
         0
       );
     }
@@ -246,7 +248,7 @@ const Create = (props) => {
     setModalUsers(clickUsers);
     setModalRoomName(clickRoomName);
     setModalRoomGenre(clickRoomGenre);
-    if (clickRoomStatus == 1) {
+    if (clickRoomStatus == 0) {
       setModalRoomStatus("Public Room");
     } else {
       setModalRoomStatus("Private Room");
@@ -364,12 +366,12 @@ const Create = (props) => {
             value={roomStatus}
           >
             <Popover content={publicRoomPopup} placement='top'>
-              <Radio className="text-color" value={1}>
+              <Radio className="text-color" value={0}>
                 Public Room
                 </Radio>
             </Popover>
             <Popover content={privateRoomPopup} placement='top'>
-              <Radio className="text-color" value={2}>
+              <Radio className="text-color" value={1}>
                 Private Room
                 </Radio>
             </Popover>

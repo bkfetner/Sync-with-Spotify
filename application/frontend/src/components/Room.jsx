@@ -153,6 +153,8 @@ const Room = (props) => {
   const roomName = props.match.params.roomName;
   const roomGenre = props.match.params.roomGenre;
   const roomAge = props.match.params.roomAge;
+  const roomType = props.match.params.roomType;
+  
   /* const noOfUsers = props.match.params.noOfUsers; */
   const noOfUsers = Math.floor(Math.random() * 10 + 20);
   console.log("props in Room");
@@ -347,6 +349,8 @@ const Room = (props) => {
             <div className="room-info">
               <strong style={{ fontSize: "xxx-large" }}>{roomName}</strong>
               <em>Room Genre: {roomGenre}</em>
+              <em>{roomAge}</em>
+
               <div className="icon-row">
                 <div>
                   <UserOutlined

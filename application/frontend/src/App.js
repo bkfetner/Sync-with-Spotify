@@ -33,7 +33,7 @@ class App extends React.Component {
             <Route path="/Createpage" exact component={Createpage} />
             <Route path="/Join" exact component={Join} />
             <Route
-              path="/Room/:roomGenre/:roomName/:numOfUsers/:roomAge"
+              path="/Room/:roomGenre/:roomName/:numOfUsers/:roomAge/:roomType"
               exact
               component={Room}
             />

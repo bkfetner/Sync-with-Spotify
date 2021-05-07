@@ -21,7 +21,7 @@ class Rooms(models.Model):
     room_name = models.CharField(max_length=255)
     genre = models.CharField(max_length=255)
     roomImageUrl = models.CharField(max_length=255,null=True)
-    roomType = models.BooleanField(default=False)
+    roomType = models.BooleanField(default=True)
 
 
     def _str_(self):        
