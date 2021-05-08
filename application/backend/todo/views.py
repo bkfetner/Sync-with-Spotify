@@ -37,3 +37,12 @@ def submitpage(request):
 
     context = {'data': data}
     return (request, context)
+
+def index(request):
+    return render(request, 'chat/index1.html')
+
+
+def room(request, room_name):
+    return render(request, 'chat/room.html', {
+        'room_name': room_name
+    })
