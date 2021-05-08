@@ -6,6 +6,7 @@ import Createpage from "./components/Createpage";
 import Create from "./components/Create";
 import Join from "./components/Join";
 import Room from "./components/Room";
+import Chatroom from "./components/Chatroom";
 import NavBar from "./components/navbar";
 import Contactus from "./components/Contactus";
 import Aboutus from "./components/Aboutus";
@@ -32,6 +33,7 @@ class App extends React.Component {
             <Route path="/404" exact component={NotFoundPage} />
             <Route path="/Createpage" exact component={Createpage} />
             <Route path="/Join" exact component={Join} />
+            <Route path="/Chatroom" exact component={Chatroom} />
             <Route
               path="/Room/:roomGenre/:roomName/:numOfUsers/:roomAge/:roomType"
               exact

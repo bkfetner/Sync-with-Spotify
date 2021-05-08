@@ -74,6 +74,7 @@ const NavBar = (props) => {
         <Nav className="mr-auto">
           <Nav.Link href="/Createpage">Create</Nav.Link>
           <Nav.Link href="/Join">Join</Nav.Link>
+          <Nav.Link href="/Chatroom">Chat</Nav.Link>
           {/* <Nav.Link href="/Room">Room</Nav.Link>
           <Nav.Link href="/Contact">Contact us</Nav.Link>
           <Nav.Link href="/Aboutus">About us</Nav.Link> */}

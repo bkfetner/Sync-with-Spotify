@@ -20,12 +20,16 @@ from todo import views
 
 router = routers.DefaultRouter()
 router.register(r'adds', views.RoomView, 'todo')
+router.register(r'users', views.UserView, 'todo')
+router.register(r'queues', views.QueueView, 'todo')
+router.register(r'votes', views.VoteView, 'todo')
 #router.register(r'adds', views.RoomView, 'add')
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
+    path('chat/', include('todo.urls')),
     # path('auth/', include('djoser.urls')),
     # path('auth/', include('djoser.urls.jwt')),
 
