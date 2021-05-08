@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Popover } from "antd";
 import Axios from "axios";
 import MusicPlayer from "./Roomcomponents/MusicPlayer.jsx";
@@ -154,6 +154,19 @@ const Room = (props) => {
   const roomGenre = props.match.params.roomGenre;
   const roomAge = props.match.params.roomAge;
   const roomType = props.match.params.roomType;
+  const roomId = props.match.params.roomId
+
+  const [viewData, setViewData] = useState([]);
+
+  /*useEffect(() => {
+    Axios.get("http://localhost:8000/api/adds/" + roomId)
+      .then((res) => {
+        console.log('hellooo')
+        console.log(res.data);
+        setViewData(res.data);
+      })
+      .catch((er) => console.log(er));
+  }, []);*/
   
   /* const noOfUsers = props.match.params.noOfUsers; */
   const noOfUsers = Math.floor(Math.random() * 10 + 20);
