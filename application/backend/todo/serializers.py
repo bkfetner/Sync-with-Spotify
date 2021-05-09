@@ -1,5 +1,4 @@
-# from djoser.serializers import UserCreateSerializer
-# from django.contrib.auth import get_user_model
+
 
 from rest_framework import serializers
 from .models import Todo
@@ -9,7 +8,7 @@ from .models import Queue
 from .models import Vote
 
 
-# User = get_user_model()
+
 
 
 class TodoSerializer(serializers.ModelSerializer):
@@ -21,7 +20,7 @@ class RoomsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Rooms
-        fields = ('room_id','room_name', 'genre' ,'roomImageUrl','roomType')
+        fields = ('id','room_id','room_name', 'genre' ,'roomImageUrl','roomType')
 
 class UsersSerializer(serializers.ModelSerializer):
 
@@ -41,7 +40,3 @@ class VotesSerializer(serializers.ModelSerializer):
         model = Vote
         fields = ('user_id', 'vote_id', 'room_id')
 
-# class UserCreateSerializer(UserCreateSerializer):
-#     class Meta(UserCreateSerializer.Meta):
-#         model = User
-#         fields = ('id', 'email', 'first_name', 'last_name', 'password')

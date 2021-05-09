@@ -25,6 +25,7 @@ const DeleteRoom = (props) => {
         .then((res) => {
             console.log(res.data);
             setViewData(res.data);
+            console.log(viewData)
         })
         .catch((er) => console.log(er));
     }, []);
@@ -53,7 +54,7 @@ const DeleteRoom = (props) => {
         .catch((er) => console.log(er));
       }
       const deleteRoom = (roomid) => {
-   
+        
         var data = {
           
           id: roomid,
