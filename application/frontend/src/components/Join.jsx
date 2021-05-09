@@ -91,19 +91,11 @@ const Join = (props) => {
     /* For joining rooms */
   }
 
-  const joinRoom = (name, gen) => {
-    const resultRoomGenre = gen;
-    const resultRoomName = name;
-    props.history.push(
-      "/Room/" +
-        resultRoomGenre +
-        "/" +
-        resultRoomName +
-        "/" +
-        undefined +
-        "/" +
-        (Math.floor(Math.random() * 6) + 1)
-    );
+  const joinRoom = (getFromid) => {
+    console.log(getFromid)
+    const resultRoomId = getFromid;
+    console.log(resultRoomId)
+    props.history.push("/Room/"+ resultRoomId + "/")
   };
   const searchRoom = () => {
     if (searchValue === "") return;
@@ -229,7 +221,7 @@ const Join = (props) => {
                               Link to join :
                               <Button
                                 type="link"
-                                onClick={() => joinRoom(d.room_name, d.genre)}
+                                onClick={() => joinRoom(d.id)}
                                 style={{ float: "right" }}
                               >
                                 Click here
@@ -301,7 +293,7 @@ const Join = (props) => {
                           Link to join:
                           <Button
                             type="link"
-                            onClick={() => joinRoom(d.room_name, d.genre)}
+                            onClick={() => joinRoom(d.id)}
                             style={{ float: "right" }}
                           >
                             Click here
