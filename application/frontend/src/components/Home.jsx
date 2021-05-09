@@ -51,7 +51,7 @@ const Home = (props) => {
         console.log(res.data);
         setViewData(res.data);
       })
-      .catch((er) => console.log(er));
+      .catch((er) => {console.log("get failed"); console.log(er);});
   }, []);
   {
     /* For joining rooms */

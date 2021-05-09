@@ -153,7 +153,7 @@ const Create = (props) => {
       room_name: rn,
       genre: rg,
       roomImageUrl: room_url.url,
-      id: roomId,
+      room_id: roomId,
       roomType : type,
     };
     console.log("insertData");
