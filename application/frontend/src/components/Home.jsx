@@ -44,6 +44,7 @@ const Home = (props) => {
   }
 
   const [viewData, setViewData] = useState([]);
+  const [roomtype,setRoomType] = useState();
 
   useEffect(() => {
     Axios.get("http://localhost:8000/api/adds/")
@@ -57,20 +58,25 @@ const Home = (props) => {
     /* For joining rooms */
   }
   
-  const joinRoom = (name,gen) => {
+  const joinRoom = (getFromid) => {
    
-    const resultRoomGenre = gen;
-    const resultRoomName = name;
-    props.history.push(
-      "/Room/" +
-        resultRoomGenre +
-        "/" +
-        resultRoomName +
-        "/" +
-        undefined +  
-        "/" +
-        (Math.floor(Math.random() * 6) + 1)
-    );
+    //const resultRoomGenre = gen;
+    //const resultRoomName = name;
+    //const resultRoomType = type;
+    console.log(getFromid)
+    const resultRoomId = getFromid;
+    console.log(resultRoomId)
+    props.history.push("/Room/"+ resultRoomId + "/")
+    setRoomType(resultRoomId)
+    
+   /* if (resultRoomType == 0) {
+        setRoomType("Public Room")
+        console.log(roomtype)
+    } else {
+        setRoomType("Private Room")
+    }*/
+ 
+    
   };
 
   console.log(props.displayCreate);
@@ -161,7 +167,7 @@ const Home = (props) => {
                       
                       <Button
                         type="link"
-                        onClick={() => joinRoom(d.room_name,d.genre)}
+                        onClick={() => joinRoom(d.id)}
                         style={{ float: "right"}}
                         
                       >

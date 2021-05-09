@@ -35,7 +35,7 @@ class App extends React.Component {
             <Route path="/Join" exact component={Join} />
             <Route path="/Chatroom" exact component={Chatroom} />
             <Route
-              path="/Room/:roomGenre/:roomName/:numOfUsers/:roomAge/:roomType"
+              path="/Room/:roomId"
               exact
               component={Room}
             />

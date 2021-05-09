@@ -155,18 +155,26 @@ const Room = (props) => {
   const roomAge = props.match.params.roomAge;
   const roomType = props.match.params.roomType;
   const roomId = props.match.params.roomId
-
+  console.log(roomId)
   const [viewData, setViewData] = useState([]);
-
-  /*useEffect(() => {
-    Axios.get("http://localhost:8000/api/adds/" + roomId)
+  const [type,setRoomType] = useState();
+ 
+  useEffect(() => {
+    Axios.get("http://localhost:8000/api/adds/" + roomId + "/")
       .then((res) => {
         console.log('hellooo')
         console.log(res.data);
         setViewData(res.data);
+        if (viewData.roomType == 0) {
+          setRoomType("Public Room")
+          console.log(type)
+        } else {
+          setRoomType("Private Room")
+          console.log(type)
+        }
       })
       .catch((er) => console.log(er));
-  }, []);*/
+  }, []);
   
   /* const noOfUsers = props.match.params.noOfUsers; */
   const noOfUsers = Math.floor(Math.random() * 10 + 20);
@@ -360,9 +368,9 @@ const Room = (props) => {
           </div>
           <div class="musicplayer">
             <div className="room-info">
-              <strong style={{ fontSize: "xxx-large" }}>{roomName}</strong>
-              <em>Room Genre: {roomGenre}</em>
-              <em>{roomAge}</em>
+              <strong style={{ fontSize: "xxx-large" }}>{viewData.room_name}</strong>
+              <em>Room Genre: {viewData.genre}</em>
+              <em>{type}</em>
 
               <div className="icon-row">
                 <div>
@@ -392,7 +400,8 @@ const Room = (props) => {
             />
           </div>
           <div class="chatflex">
-            <Chat roomName={roomName} />
+            {//<Chat roomName={roomName} />
+}
           </div>
         </div>
       </div>
