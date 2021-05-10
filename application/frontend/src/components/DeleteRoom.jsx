@@ -19,6 +19,8 @@ const DeleteRoom = (props) => {
 
     const [viewData, setViewData] = useState([]);
     const history = useHistory()
+    const [roomType, setRoomType] = useState();
+
 
     useEffect(() => {
         Axios.get("http://localhost:8000/api/adds/")
@@ -26,23 +28,18 @@ const DeleteRoom = (props) => {
             console.log(res.data);
             setViewData(res.data);
             console.log(viewData)
+            viewData.roomType == 0 ? setRoomType("Public Room") : setRoomType("Private Room")
         })
         .catch((er) => console.log(er));
     }, []);
 
-    const joinRoom = (name,gen) => {
+    const joinRoom = (roomid) => {
    
-        const resultRoomGenre = gen;
-        const resultRoomName = name;
+        const resultRoomId = roomid;
         props.history.push(
           "/Room/" +
-            resultRoomGenre +
-            "/" +
-            resultRoomName +
-            "/" +
-            undefined +  
-            "/" +
-            (Math.floor(Math.random() * 6) + 1)
+            resultRoomId +
+            "/" 
         );
       };
       const refreshpage = () => {
@@ -98,13 +95,13 @@ const DeleteRoom = (props) => {
                 >
                   <Row>
                   <Col xs={24} className="join_text">
-                     Id
+                     Room Type:
                       <Typography.Text
                         className="join_text"
                         style={{ float: "right" }}
                       
                       >
-                        {d.id}
+                        {roomType}
                       </Typography.Text>
                     </Col>
                     <Col xs={24} className="join_text">
@@ -141,7 +138,7 @@ const DeleteRoom = (props) => {
                       
                       <Button
                         type="link"
-                        onClick={() => joinRoom(d.room_name,d.genre)}
+                        onClick={() => joinRoom(d.id)}
                         style={{ float: "right"}}
                         
                       >
