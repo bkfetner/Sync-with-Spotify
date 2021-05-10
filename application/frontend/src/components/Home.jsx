@@ -44,7 +44,7 @@ const Home = (props) => {
   }
 
   const [viewData, setViewData] = useState([]);
-  const [roomtype,setRoomType] = useState();
+ // const [roomtype,setRoomType] = useState();
 
   useEffect(() => {
     Axios.get("http://localhost:8000/api/adds/")
@@ -67,7 +67,7 @@ const Home = (props) => {
     const resultRoomId = getFromid;
     console.log(resultRoomId)
     props.history.push("/Room/"+ resultRoomId + "/")
-    setRoomType(resultRoomId)
+    //setRoomType(resultRoomId)
     
    /* if (resultRoomType == 0) {
         setRoomType("Public Room")
