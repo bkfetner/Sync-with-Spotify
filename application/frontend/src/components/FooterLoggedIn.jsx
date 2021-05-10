@@ -54,8 +54,19 @@ const Footer = () => {
                             </li>
                         </ul>
                     </div>
-                    <div>
-
+                    <div className="col" >
+                        <h4 style={{ color: 'var(--color3)' }}>SOCIALS</h4>
+                        <ul className="list-unstyled">
+                            <li>
+                                <a href="https://www.instagram.com/" target="_blank">Instagram</a>
+                            </li>
+                            <li>
+                                <a href="https://www.facebook.com/" target="_blank">Facebook</a>
+                            </li>
+                            <li>
+                                <a href="https://twitter.com/" target="_blank">Twitter</a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
                 <hr />

@@ -20,6 +20,7 @@ import DeleteRoom from "./components/DeleteRoom";
 import NotFoundPage from "./components/404"
 import ContactusLoggedIn from "./components/ContactusLoggedIn"
 import FooterLoggedIn from "./components/FooterLoggedIn"
+import AboutusLoggedIn from "./components/AboutusLoggedIn"
 
 class App extends React.Component {
   render() {
@@ -40,7 +41,7 @@ class App extends React.Component {
               component={Room}
             />
             <Route path="/Contactus" exact component={ContactusLoggedIn}></Route>
-            <Route path="/Aboutus" exact component={Aboutus}></Route>
+            <Route path="/Aboutus" exact component={AboutusLoggedIn}></Route>
             <Route path="/banuser" exact component={Ban_User}></Route>
             <Route path="/deleteroom" exact component={DeleteRoom}></Route>
             <Redirect to="/404"/>
