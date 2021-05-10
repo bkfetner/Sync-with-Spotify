@@ -16,10 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
+from rest_framework.urlpatterns import format_suffix_patterns
 from todo import views
 
 router = routers.DefaultRouter()
 router.register(r'adds', views.RoomView, 'todo')
+router.register(r'room_type', views.RoomType, 'todo')
 router.register(r'users', views.UserView, 'todo')
 router.register(r'queues', views.QueueView, 'todo')
 router.register(r'votes', views.VoteView, 'todo')

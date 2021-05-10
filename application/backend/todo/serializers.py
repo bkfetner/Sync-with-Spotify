@@ -20,23 +20,23 @@ class RoomsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Rooms
-        fields = ('id','room_id','room_name', 'genre' ,'roomImageUrl','roomType')
+        fields = ('room_id','room_name', 'genre' ,'roomImageUrl','roomType', 'population')
 
 class UsersSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Users
-        fields = ('display_name', 'profile_pic', 'user_id')
+        fields = ('user_id', 'display_name', 'profile_pic')
 
 class QueuesSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Queue
-        fields = ('queue_id', 'song_list_id', 'queue_history')
+        fields = ('queue_item_id', 'room_id', 'song_id')
 
 class VotesSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Vote
-        fields = ('id', 'vote_id')
+        fields = ('vote_id', 'room_id', 'user_id', 'song_id')
 

@@ -1,5 +1,12 @@
 from django.shortcuts import render
 from rest_framework import viewsets
+from rest_framework import filters
+from django_filters.rest_framework import DjangoFilterBackend
+from django.views.generic import TemplateView, ListView
+from rest_framework import generics
+from rest_framework import status
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 from .serializers import TodoSerializer
 from .serializers import RoomsSerializer
 from .serializers import UsersSerializer
@@ -20,18 +27,29 @@ class TodoView(viewsets.ModelViewSet):
     queryset = Todo.objects.all()
 
 class RoomView(viewsets.ModelViewSet):
-    serializer_class = RoomsSerializer
+#    queryset = Rooms.objects.filter(roomType='False')
+    search_fields = ['room_name']
+    filter_backends = (filters.SearchFilter,)
     queryset = Rooms.objects.all()
+    serializer_class = RoomsSerializer
+
+class RoomType(viewsets.ModelViewSet):
+    queryset = Rooms.objects.filter(roomType='False')
+    serializer_class = RoomsSerializer
 
 class UserView(viewsets.ModelViewSet):
     serializer_class = UsersSerializer
     queryset = Users.objects.all()
 
 class QueueView(viewsets.ModelViewSet):
+    search_fields = ['room_id', 'song_id']
+    filter_backends = (filters.SearchFilter,)
     serializer_class = QueuesSerializer
     queryset = Queue.objects.all()
 
 class VoteView(viewsets.ModelViewSet):
+    search_fields = ['room_id', 'user_id', 'song_id']
+    filter_backends = (filters.SearchFilter,)
     serializer_class = VotesSerializer
     queryset = Vote.objects.all()
 
