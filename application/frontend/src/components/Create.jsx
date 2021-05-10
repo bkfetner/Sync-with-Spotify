@@ -141,11 +141,11 @@ const Create = (props) => {
   const [roomName, setRoomName] = useState();
   const [roomGenre, setGenre] = useState();
   const [roomStatus, setRoomStatus] = useState(1);
+  const [roomId, setRoomId] = useState(Math.floor(Math.random() * 2000000000));
   //const [tosStatus, setTosStatus] = useState(false);
   const [noOfUsers, setNoOfUsers] = useState();
 
   const insertData = (rn, rg,type) => {
-    const roomId = Math.floor(Math.random() * 2000000000);
     console.log(
       "roomName: " + rn + ", roomGenre: " + rg + ", roomId: " + roomId
     );
@@ -200,15 +200,7 @@ const Create = (props) => {
 
       props.history.push(
         "/Room/" +
-        modalRoomGenre +
-        "/" +
-        modalRoomName +
-        "/" +
-        modalUsers +
-        "/" +
-        modalRoomStatus +
-        "/" +
-        0
+        roomId
       );
     }
   };

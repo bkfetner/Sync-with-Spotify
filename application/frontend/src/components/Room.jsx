@@ -8,6 +8,7 @@ import SongSearch from "./Roomcomponents/SongSearch.jsx";
 import "../css/Room.css";
 import { Redirect } from "react-router-dom";
 import { CopyFilled, UserOutlined } from "@ant-design/icons";
+import { SpotifyAuth, Scopes, SpotifyAuthListener } from "react-spotify-auth";
 
 {
   /*import albumCover from "./assets/image0.png";
@@ -150,27 +151,19 @@ const prepSongsForQueue = (song) => {
 };
 
 const Room = (props) => {
-  const roomName = props.match.params.roomName;
-  const roomGenre = props.match.params.roomGenre;
-  const roomAge = props.match.params.roomAge;
-  const roomType = props.match.params.roomType;
-  const roomId = props.match.params.roomId
+  const roomId = props.match.params.roomId;
+  const [roomType, setRoomType] = useState();
   console.log(roomId)
   const [viewData, setViewData] = useState([]);
-  const [type,setRoomType] = useState();
  
   useEffect(() => {
     Axios.get("http://localhost:8000/api/adds/" + roomId + "/")
       .then((res) => {
-        console.log('hellooo')
-        console.log(res.data);
         setViewData(res.data);
         if (viewData.roomType == 0) {
           setRoomType("Public Room")
-          console.log(type)
         } else {
           setRoomType("Private Room")
-          console.log(type)
         }
       })
       .catch((er) => console.log(er));
@@ -178,10 +171,6 @@ const Room = (props) => {
   
   /* const noOfUsers = props.match.params.noOfUsers; */
   const noOfUsers = Math.floor(Math.random() * 10 + 20);
-  console.log("props in Room");
-  console.log(props);
-  console.log(props.location.pathname);
-  console.log(window.location.href);
   const roomUrl = window.location.href;
   const forceUpdate = useForceUpdate();
 
@@ -246,8 +235,23 @@ const Room = (props) => {
     const modifyingQueue = songsForQueue;
     modifyingQueue.push(prepNewSong);
      */
-    console.log("addSongToQueue");
+    console.log("data");
     console.log(song);
+  
+    var data = {
+      queue_id: roomId,
+      song_list_id: song.songId,
+    };
+    console.log("addSongToQueue");
+    console.log(data);
+    Axios.post("http://localhost:8000/api/queues/", data)
+      /* Axios.post(serverPath.local + 'api/adds/', data) */
+      .then((res) => {
+        console.log("res for queues post");
+        console.log(res);
+      })
+      .catch((er) => console.log(er));
+
     switchQueueSearchsong();
   };
 
@@ -274,7 +278,7 @@ const Room = (props) => {
   };
 
   const [roomIsSet, setRoomIsSet] = useState(false);
-  const startingSongsForRoom = () => {
+/*   const startingSongsForRoom = () => {
     if (!roomIsSet) {
       setRoomIsSet(true);
       for (var i = 0; i < roomAge; i++) {
@@ -289,9 +293,9 @@ const Room = (props) => {
         console.log(newSong.title);
       }
     }
-  };
+  }; */
 
-  startingSongsForRoom();
+/*   startingSongsForRoom(); */
 
   const sharePopOver = (
     <div className="share-popover">
@@ -341,6 +345,7 @@ const Room = (props) => {
 
   return (
     <div>
+      <SpotifyAuthListener />
       <div class="main room-main">
         <div class="grid1">
           <div class="queue1">
@@ -354,7 +359,7 @@ const Room = (props) => {
               <SongSearch
                 avaliableSongs={albumList}
                 addSongToQueue={addSongToQueue}
-                roomGenre={roomGenre}
+                roomGenre={viewData.genre}
               />
             )}
             <Button
@@ -370,7 +375,7 @@ const Room = (props) => {
             <div className="room-info">
               <strong style={{ fontSize: "xxx-large" }}>{viewData.room_name}</strong>
               <em>Room Genre: {viewData.genre}</em>
-              <em>{type}</em>
+              <em>{roomType}</em>
 
               <div className="icon-row">
                 <div>

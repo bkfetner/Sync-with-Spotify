@@ -21,6 +21,7 @@ import SpotifyWebApi from "spotify-web-api-node";
 import Cookies from "js-cookie";
 import TrackSearchResult from "./TrackSearchResult.js";
 import SearchResultCard from "./SearchReultCard";
+import { SpotifyAuth, Scopes, SpotifyAuthListener } from "react-spotify-auth";
 
 const spotifyApi = new SpotifyWebApi({
   clientId: "ad4f63abc34f445d9f82549d5dcfeb67",
@@ -88,7 +89,7 @@ const SongSearch = (props) => {
   /* Functions for spotify search START */
   const user = retrieveCurrentUser();
 
-  const accessToken = user.spotifyToken;
+  const [accessToken, setAccessToken] = useState(Cookies.get("spotifyAuthToken"));
   console.log("accessToken");
   console.log(accessToken);
   const [search, setSearch] = useState("");
@@ -200,6 +201,11 @@ const SongSearch = (props) => {
 
   return (
     <div className="songsearch-main">
+      <SpotifyAuthListener
+      onAccessToken={(token) => {
+          setAccessToken(Cookies.get("spotifyAuthToken"));
+        }}
+      />
       <div class="main">
         <div className="searchsong-text searchsong-title-text">
           Search for a Song
