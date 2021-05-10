@@ -32,11 +32,11 @@ class QueuesSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Queue
-        fields = ('room_id','queue_id', 'song_list_id', 'queue_history')
+        fields = ('queue_id', 'song_list_id', 'queue_history')
 
 class VotesSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Vote
-        fields = ('user_id', 'vote_id', 'room_id')
+        fields = ('id', 'vote_id')
 

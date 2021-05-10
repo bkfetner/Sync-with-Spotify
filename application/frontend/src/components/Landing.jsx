@@ -213,8 +213,11 @@ const Landing = (props) => {
                   scopes={[
                     Scopes.userReadPrivate,
                     Scopes.userReadEmail,
-                    "user-top-read",
-                    "user-read-recently-played",
+                    Scopes.streaming,
+                    Scopes.userReadPlaybackState,
+                    Scopes.userModifyPlaybackState,
+                    Scopes.userTopRead,
+                    Scopes.userReadRecentlyPlayed,
                   ]}
                   title={"Login with Spotify!"}
                   showDialog={true}

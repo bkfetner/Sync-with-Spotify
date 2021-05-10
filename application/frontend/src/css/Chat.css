@@ -76,3 +76,9 @@
   margin-top: 0px !important;
   width: 100% !important;
 }
+
+.realtime-chat-messages {
+  display: flex !important;
+  flex-direction: column-reverse !important;
+  overflow: auto;
+}

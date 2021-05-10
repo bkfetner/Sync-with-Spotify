@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 
+import "../css/Chat.css";
+
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -48,7 +50,7 @@ class Chatroom extends Component {
     room: 'Roomname',
   }
 
-  client = new W3CWebSocket('ws://localhost:8000/ws/chat/' + this.state.room + '/');
+  client = new W3CWebSocket('ws://localhost:8000/ws/chat/' + this.state.room + '/'); /* put id here */
 
   onButtonClicked = (e) => {
     this.client.send(JSON.stringify({
@@ -88,9 +90,9 @@ class Chatroom extends Component {
         {this.state.isLoggedIn ?
           <div style={{ marginTop: 50, }}>
             Room Name: {this.state.room}
-            <Paper style={{ height: 500, maxHeight: 500, overflow: 'auto', boxShadow: 'none', }}>
-              {this.state.messages.map(message => <>
-                <Card className={classes.root}>
+            <Paper style={{ height: 500, maxHeight: 500, overflow: 'auto', boxShadow: 'none', flexDirection: 'column-reverse'}} className="realtime-chat-messages">
+              {this.state.messages.reverse().map(message => <>
+                <Card className={classes.root} style={{ minHeight: "100px" }}>
                   <CardHeader
                     avatar={
                       <Avatar className={classes.avatar}>

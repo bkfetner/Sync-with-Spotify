@@ -32,16 +32,16 @@ class Room_list(models.Model):
     room_list_title = models.CharField(max_length=255)
 
 class Vote(models.Model):                      
-    user_id = models.ForeignKey(Users, on_delete=models.CASCADE) # number of user_id gives us the count
+    #user_id = models.ForeignKey(Users, on_delete=models.CASCADE) # number of user_id gives us the count
     vote_id = models.CharField(max_length=255)
-    room_id = models.ForeignKey(Rooms, on_delete=models.CASCADE)
+    #room_id = models.ForeignKey(Rooms, on_delete=models.CASCADE)
 
 class Participants(models.Model):
-    room_id = models.ForeignKey(Rooms, on_delete=models.CASCADE)
+    #room_id = models.ForeignKey(Rooms, on_delete=models.CASCADE)
     user_id = models.CharField(max_length=255)
 
 class Queue(models.Model):
-    room_id = models.ForeignKey(Rooms, on_delete=models.CASCADE)
+    #room_id = models.ForeignKey(Rooms, on_delete=models.CASCADE)
     queue_id = models.CharField(max_length=255)
     song_list_id = models.IntegerField()
     queue_history = models.CharField(max_length=255)

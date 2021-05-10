@@ -5,10 +5,12 @@ import MusicPlayer from "./Roomcomponents/MusicPlayer.jsx";
 import Chat from "./Roomcomponents/Chat.jsx";
 import Queue from "./Roomcomponents/Queue.jsx";
 import SongSearch from "./Roomcomponents/SongSearch.jsx";
+import Chatroom from "./Chatroom.jsx";
 import "../css/Room.css";
 import { Redirect } from "react-router-dom";
 import { CopyFilled, UserOutlined } from "@ant-design/icons";
 import { SpotifyAuth, Scopes, SpotifyAuthListener } from "react-spotify-auth";
+import Cookies from "js-cookie";
 
 {
   /*import albumCover from "./assets/image0.png";
@@ -153,22 +155,37 @@ const prepSongsForQueue = (song) => {
 const Room = (props) => {
   const roomId = props.match.params.roomId;
   const [roomType, setRoomType] = useState();
-  console.log(roomId)
+  console.log(roomId);
   const [viewData, setViewData] = useState([]);
- 
+  const [songList, setSongList] = useState();
+  const [accessToken, setAccessToken] = useState(Cookies.get("spotifyAuthToken"));
+
   useEffect(() => {
     Axios.get("http://localhost:8000/api/adds/" + roomId + "/")
       .then((res) => {
+        console.log("get room data res");
+        console.log(res);
         setViewData(res.data);
         if (viewData.roomType == 0) {
-          setRoomType("Public Room")
+          setRoomType("Public Room");
         } else {
-          setRoomType("Private Room")
+          setRoomType("Private Room");
         }
       })
       .catch((er) => console.log(er));
   }, []);
-  
+
+  useEffect(() => {
+    console.log("CHECK TOKEN");
+    setAccessToken(Cookies.get("spotifyAuthToken"));
+    if (typeof(accessToken) === "undefined") {
+      console.log("NO TOKEN!");
+      /* localStorage.removeItem("currentUser");
+      Cookies.remove("spotifyAuthToken");
+      history.push("/"); */
+    }
+  })
+
   /* const noOfUsers = props.match.params.noOfUsers; */
   const noOfUsers = Math.floor(Math.random() * 10 + 20);
   const roomUrl = window.location.href;
@@ -237,22 +254,77 @@ const Room = (props) => {
      */
     console.log("data");
     console.log(song);
-  
+
+    if (typeof songList === "undefined") {
+      setSongList([song]);
+    } else {
+      var songInList = false;
+      songList.forEach((oldSong) => {
+        if (oldSong.songId === song.songId) {
+          songInList = true;
+        }
+      });
+      if (!songInList) {
+        const modifyingSongList = songList;
+        modifyingSongList.push(song);
+      }
+    }
+
     var data = {
-      queue_id: roomId,
+      /* queue_id: roomId,
       song_list_id: song.songId,
+      room_id_id: roomId,
+      queue_history: "none" */
+      queue_id: "testttt",
+      song_list_id: 324234,
+      queue_history: "none"
     };
-    console.log("addSongToQueue");
-    console.log(data);
     Axios.post("http://localhost:8000/api/queues/", data)
-      /* Axios.post(serverPath.local + 'api/adds/', data) */
       .then((res) => {
         console.log("res for queues post");
         console.log(res);
       })
       .catch((er) => console.log(er));
 
+
+    /* temp vote post */
+    data = {
+      vote_id: 324,
+    };
+    Axios.post("http://localhost:8000/api/votes/", data)
+      .then((res) => {
+        console.log("res for queues post");
+        console.log(res);
+      })
+      .catch((er) => console.log(er));
+
+      Axios.get("http://localhost:8000/api/queues/")
+      .then((res) => {
+        console.log("res for queues get");
+        console.log(res);
+      })
+      .catch((er) => console.log(er));
+
+      data = {
+        user_id: "test",
+        display_name: "another test",
+        profile_pic: "again test",
+      };
+      console.log("insertData");
+      console.log(data);
+      Axios.post("http://localhost:8000/api/users/", data)
+        /* Axios.post(serverPath.local + 'api/adds/', data) */
+        .then((res) => {
+          console.log("hi");
+        })
+        .catch((er) => console.log(er));
+
+
+
     switchQueueSearchsong();
+
+    console.log("songList");
+    console.log(songList);
   };
 
   const removeSongFromQueue = (queueSong) => {
@@ -278,7 +350,7 @@ const Room = (props) => {
   };
 
   const [roomIsSet, setRoomIsSet] = useState(false);
-/*   const startingSongsForRoom = () => {
+  /*   const startingSongsForRoom = () => {
     if (!roomIsSet) {
       setRoomIsSet(true);
       for (var i = 0; i < roomAge; i++) {
@@ -295,7 +367,7 @@ const Room = (props) => {
     }
   }; */
 
-/*   startingSongsForRoom(); */
+  /*   startingSongsForRoom(); */
 
   const sharePopOver = (
     <div className="share-popover">
@@ -345,7 +417,6 @@ const Room = (props) => {
 
   return (
     <div>
-      <SpotifyAuthListener />
       <div class="main room-main">
         <div class="grid1">
           <div class="queue1">
@@ -373,7 +444,9 @@ const Room = (props) => {
           </div>
           <div class="musicplayer">
             <div className="room-info">
-              <strong style={{ fontSize: "xxx-large" }}>{viewData.room_name}</strong>
+              <strong style={{ fontSize: "xxx-large" }}>
+                {viewData.room_name}
+              </strong>
               <em>Room Genre: {viewData.genre}</em>
               <em>{roomType}</em>
 
@@ -405,8 +478,9 @@ const Room = (props) => {
             />
           </div>
           <div class="chatflex">
-            {//<Chat roomName={roomName} />
-}
+            {
+              <Chatroom />
+            }
           </div>
         </div>
       </div>
