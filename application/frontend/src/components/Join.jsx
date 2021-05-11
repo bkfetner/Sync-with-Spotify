@@ -48,7 +48,7 @@ const Join = (props) => {
     </Menu>
   );
   useEffect(() => {
-    Axios.get("http://localhost:8000/api/adds/")
+    Axios.get("http://localhost:8000/api/room_type/")
       .then((res) => {
         setViewData(res.data);
       })
@@ -63,7 +63,7 @@ const Join = (props) => {
 
   const searchAll = () => {};
   const searchByName = () => {
-    Axios.get("http://localhost:8000/api/adds/")
+    Axios.get("http://localhost:8000/api/room_type/")
       .then((res) => {
         let tempOptions = [];
         res.data.forEach((d) => {
@@ -75,7 +75,7 @@ const Join = (props) => {
       .catch((er) => console.log(er));
   };
   const searchByGenre = () => {
-    Axios.get("http://localhost:8000/api/adds/")
+    Axios.get("http://localhost:8000/api/room_type/")
       .then((res) => {
         let tempOptions = [];
         res.data.forEach((d) => {
@@ -221,7 +221,7 @@ const Join = (props) => {
                               Link to join :
                               <Button
                                 type="link"
-                                onClick={() => joinRoom(d.id)}
+                                onClick={() => joinRoom(d.room_id)}
                                 style={{ float: "right" }}
                               >
                                 Click here
@@ -293,7 +293,7 @@ const Join = (props) => {
                           Link to join:
                           <Button
                             type="link"
-                            onClick={() => joinRoom(d.id)}
+                            onClick={() => joinRoom(d.room_id)}
                             style={{ float: "right" }}
                           >
                             Click here

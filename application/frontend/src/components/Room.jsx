@@ -448,7 +448,7 @@ const Room = (props) => {
                 {viewData.room_name}
               </strong>
               <em>Room Genre: {viewData.genre}</em>
-              <em>{roomType}</em>
+              {/*<em>{viewData.roomType}</em>*/}
 
               <div className="icon-row">
                 <div>

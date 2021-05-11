@@ -28,7 +28,7 @@ const DeleteRoom = (props) => {
             console.log(res.data);
             setViewData(res.data);
             console.log(viewData)
-            viewData.roomType == 0 ? setRoomType("Public Room") : setRoomType("Private Room")
+            //viewData.roomType == 0 ? setRoomType("Public Room") : setRoomType("Private Room")
         })
         .catch((er) => console.log(er));
     }, []);
@@ -149,7 +149,7 @@ const DeleteRoom = (props) => {
                     <Col xs={24} className="join_text">
                        <Button
                             type="link"
-                            onClick={() => deleteRoom(d.id)}
+                            onClick={() => deleteRoom(d.room_id)}
                             style={{ float: "right"}}
                             
                         >

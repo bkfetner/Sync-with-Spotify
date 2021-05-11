@@ -47,7 +47,7 @@ const Home = (props) => {
  // const [roomtype,setRoomType] = useState();
 
   useEffect(() => {
-    Axios.get("http://localhost:8000/api/adds/")
+    Axios.get("http://localhost:8000/api/room_type/")
       .then((res) => {
         console.log(res.data);
         setViewData(res.data);
@@ -167,7 +167,7 @@ const Home = (props) => {
                       
                       <Button
                         type="link"
-                        onClick={() => joinRoom(d.id)}
+                        onClick={() => joinRoom(d.room_id)}
                         style={{ float: "right"}}
                         
                       >
