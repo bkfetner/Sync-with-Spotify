@@ -31,7 +31,7 @@ const Join = (props) => {
       setSearchBarText({
         textField: "Search rooms by 'name' or 'genre'",
         dropDown: "All",
-        
+
       });
     }  else if (`${key}` == 2) {
       searchByName();

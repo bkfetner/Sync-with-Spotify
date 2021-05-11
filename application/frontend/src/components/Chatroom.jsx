@@ -42,22 +42,33 @@ const useStyles = theme => ({
 
 class Chatroom extends Component {
 
+  constructor(props) {
+    super(props);
+  }
+
   state = {
     isLoggedIn: true,
     messages: [],
     value: '',
-    name: 'Username',
-    room: 'Roomname',
+    name: this.props.displayName,
+    room: this.props.roomName,
   }
 
-  client = new W3CWebSocket('ws://localhost:8000/ws/chat/' + this.state.room + '/'); /* put id here */
+
+
+  client = new W3CWebSocket('ws://localhost:8000/ws/chat/' + this.props.roomId + '/'); /* put id here */
 
   onButtonClicked = (e) => {
-    this.client.send(JSON.stringify({
+    var sendStr = JSON.stringify({
       type: "message",
       message: this.state.value,
-      name: this.state.name
-    }));
+      name: this.props.displayName,
+      profileUrl: this.props.profilePictureUrl
+    });
+    console.log("sendStr");
+    console.log(sendStr);
+
+    this.client.send(sendStr);
     this.state.value = ''
     e.preventDefault();
   }
@@ -67,7 +78,14 @@ class Chatroom extends Component {
       console.log('WebSocket Client Connected');
     };
     this.client.onmessage = (message) => {
+      console.log("message");
+      console.log(message);
       const dataFromServer = JSON.parse(message.data);
+      console.log("dataFromServer");
+      console.log(dataFromServer);
+      console.log("dataFromServer.name");
+      console.log(dataFromServer.name);
+
       console.log('got reply! ', dataFromServer.type);
       if (dataFromServer) {
         this.setState((state) =>
@@ -75,7 +93,8 @@ class Chatroom extends Component {
             messages: [...state.messages,
             {
               msg: dataFromServer.message,
-              name: "Username",
+              name: dataFromServer.name,
+              profileUrl: dataFromServer.profileUrl
             }]
           })
         );
@@ -84,6 +103,9 @@ class Chatroom extends Component {
   }
 
   render() {
+    console.log("this.props");
+    console.log(this.props);
+
     const { classes } = this.props;
     return (
       <Container component="main" maxWidth="xs">
@@ -92,11 +114,11 @@ class Chatroom extends Component {
             Room Name: {this.state.room}
             <Paper style={{ height: 500, maxHeight: 500, overflow: 'auto', boxShadow: 'none', flexDirection: 'column-reverse'}} className="realtime-chat-messages">
               {this.state.messages.reverse().map(message => <>
-                <Card className={classes.root} style={{ minHeight: "100px" }}>
+                <Card className={classes.root} style={{ minHeight: "80px"}}>
                   <CardHeader
                     avatar={
-                      <Avatar className={classes.avatar}>
-                        U
+                      <Avatar className={classes.avatar} src={message.profileUrl}>
+                        {message.name.charAt(0)}
                   </Avatar>
                     }
                     title={message.name}

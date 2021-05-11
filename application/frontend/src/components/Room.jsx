@@ -160,6 +160,21 @@ const Room = (props) => {
   const [songList, setSongList] = useState();
   const [accessToken, setAccessToken] = useState(Cookies.get("spotifyAuthToken"));
 
+  const retrieveCurrentUser = () => {
+    const stringRetrieveUserInfo = localStorage.getItem("currentUser");
+    const retrieveUserInfo = JSON.parse(stringRetrieveUserInfo);
+    return retrieveUserInfo;
+  };
+
+  const [userInfo, setUserInfo] = useState(retrieveCurrentUser());
+
+  console.log("userInfo");
+  console.log(userInfo);
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
+
   useEffect(() => {
     Axios.get("http://localhost:8000/api/adds/" + roomId + "/")
       .then((res) => {
@@ -271,13 +286,9 @@ const Room = (props) => {
     }
 
     var data = {
-      /* queue_id: roomId,
-      song_list_id: song.songId,
-      room_id_id: roomId,
-      queue_history: "none" */
-      queue_id: "testttt",
-      song_list_id: 324234,
-      queue_history: "none"
+      queue_item_id: Math.floor(Math.random() * 2000000000),
+      room_id: roomId,
+      song_id: song.songId,
     };
     Axios.post("http://localhost:8000/api/queues/", data)
       .then((res) => {
@@ -479,7 +490,7 @@ const Room = (props) => {
           </div>
           <div class="chatflex">
             {
-              <Chatroom />
+              <Chatroom roomName={viewData.room_name} roomId={viewData.room_id} displayName={userInfo.displayName} profilePictureUrl={userInfo.profilePictureUrl}/>
             }
           </div>
         </div>
