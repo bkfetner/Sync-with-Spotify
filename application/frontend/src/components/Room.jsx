@@ -164,7 +164,7 @@ const Room = (props) => {
     Axios.get("http://localhost:8000/api/adds/" + roomId + "/")
       .then((res) => {
         console.log("get room data res");
-        console.log(res);
+        console.log(res.data);
         setViewData(res.data);
         if (viewData.roomType == 0) {
           setRoomType("Public Room");
@@ -448,7 +448,7 @@ const Room = (props) => {
                 {viewData.room_name}
               </strong>
               <em>Room Genre: {viewData.genre}</em>
-              {/*<em>{viewData.roomType}</em>*/}
+              <em>{roomType}</em>
 
               <div className="icon-row">
                 <div>

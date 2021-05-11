@@ -140,7 +140,7 @@ const Create = (props) => {
 
   const [roomName, setRoomName] = useState();
   const [roomGenre, setGenre] = useState();
-  const [roomStatus, setRoomStatus] = useState(1);
+  const [roomStatus, setRoomStatus] = useState(0);
   const [roomId, setRoomId] = useState(Math.floor(Math.random() * 2000000000));
   //const [tosStatus, setTosStatus] = useState(false);
   const [noOfUsers, setNoOfUsers] = useState();
@@ -358,7 +358,7 @@ const Create = (props) => {
             value={roomStatus}
           >
             <Popover content={publicRoomPopup} placement='top'>
-              <Radio className="text-color" value={0}>
+              <Radio className="text-color" value={0} >
                 Public Room
                 </Radio>
             </Popover>
