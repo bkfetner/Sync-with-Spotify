@@ -153,24 +153,24 @@ const Join = (props) => {
               style={{ width: "20%" }}
               onSearch={(value) => {
                 setSearchValue(value);
-                console.log(value);
-                {/*let result = viewData.filter(
+                //console.log(value);
+                let result = viewData.filter(
                   (d) =>
                     d.room_name.toLowerCase().includes(value.toLowerCase()) ||
                     d.genre.toLowerCase().includes(value.toLowerCase())
                 );
-                setSearchedData(result);*/}
+                setSearchedData(result);
               }}
               onSelect={(value) => {
                 setSearchValue(value);
-                console.log(value);
-                {/*let result = viewData.filter(
+                //console.log(value);
+                let result = viewData.filter(
                   (d) =>
                     d.room_name.toLowerCase().includes(value.toLowerCase()) ||
                     d.genre.toLowerCase().includes(value.toLowerCase())
                 );
 
-                setSearchedData(result);*/}
+                setSearchedData(result);
               }}
               notFoundContent="Sorry, the room with this name or genre was not found..." 
               options={options}
