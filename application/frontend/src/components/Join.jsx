@@ -22,17 +22,24 @@ const Join = (props) => {
   const [searchedData, setSearchedData] = useState([]);
   const [searchBarText, setSearchBarText] = useState({
     textField: 'Search rooms by "name" or "genre"',
-    dropDown: "Search",
+    dropDown: "All",
   });
   const viewRooms = () => {};
   const onClickfunction = ({ key }) => {
-    if (`${key}` == 2) {
+    if (`${key}` == 1) {
+      searchAll();
+      setSearchBarText({
+        textField: "Search rooms by 'name' or 'genre'",
+        dropDown: "All",
+        
+      });
+    }  else if (`${key}` == 2) {
       searchByName();
       setSearchBarText({
         textField: "e.g. Tom's room",
         dropDown: "RoomName",
       });
-    } else if (`${key}` == 3) {
+    }else if (`${key}` == 3) {
       searchByGenre();
       setSearchBarText({
         textField: "e.g. Electronic",
@@ -43,6 +50,7 @@ const Join = (props) => {
 
   const menu = (
     <Menu onClick={onClickfunction}>
+      <Menu.Item key="1">All</Menu.Item>
       <Menu.Item key="2">RoomName</Menu.Item>
       <Menu.Item key="3">Genre</Menu.Item>
     </Menu>
@@ -61,7 +69,18 @@ const Join = (props) => {
     }
   }, [searchValue]);
 
-  const searchAll = () => {};
+  const searchAll = () => {
+    Axios.get("http://localhost:8000/api/room_type/")
+      .then((res) => {
+        /*let tempOptions = [];
+        res.data.forEach((d) => {
+          tempOptions.push({ value: d.room_name });
+        });
+        setOptions(tempOptions);*/
+        setViewData(res.data);
+      })
+      .catch((er) => console.log(er));
+  };
   const searchByName = () => {
     Axios.get("http://localhost:8000/api/room_type/")
       .then((res) => {
