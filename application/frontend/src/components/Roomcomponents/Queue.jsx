@@ -13,9 +13,7 @@ const Queue = (props) => {
     if (
       props.queueSongs.length == 0 ||
       (props.queueSongs.length == 1 &&
-        props.queueSongs[0].title == "0" &&
-        props.queueSongs[0].url == "0" &&
-        props.queueSongs[0].music == "0")
+        props.queueSongs[0].songTrackUrl == "")
     ) {
       return (
         <div class="queue-says">
@@ -25,20 +23,20 @@ const Queue = (props) => {
     }
     if (props.queueSongs) {
       return props.queueSongs.map((song) => {
-        if (!(song.title == "0" && song.url == "0" && song.music == "0")) {
+        if (!(song.songTrackUrl === "")) {
           return (
             <div class="songdiv">
               <Popover
-                content={song.title}
+                content={song.songName}
                 trigger="hover"
                 className="songdiv-song-title"
               >
-                <img className="songdiv-img" src={song.url} />
-                {song.title}
+                <img className="songdiv-img" src={song.smallSongImageUrl} />
+                {song.songName}
               </Popover>
 
               <div className="song-vote-checkbox">
-                <div className="song-vote">{song.vote}</div>
+                <div className="song-vote">{song.voteCount}</div>
                 <Checkbox
                   className="song-checkbox"
                   type="checkbox"

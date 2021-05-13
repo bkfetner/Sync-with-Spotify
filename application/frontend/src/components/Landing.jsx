@@ -20,9 +20,8 @@ import { Component } from "react";
 const Landing = (props) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isErrorVisible, setIsErrorVisible] = useState(false);
+  const [userInfo, setUserInfo] = useState();
   const history = useHistory();
-
-  const userInfo = UserInfo;
 
   console.log(props);
 
@@ -47,6 +46,8 @@ const Landing = (props) => {
   }, [Cookies.get("spotifyAuthToken")]);
 
   const handleTokenRetrieval = (token) => {
+    var user = UserInfo;
+
     Axios.get("https://api.spotify.com/v1/me", {
       headers: {
         Accept: "application/json",
@@ -55,15 +56,31 @@ const Landing = (props) => {
       },
     })
       .then((res) => {
-        userInfo.userId = res.data.id;
-        userInfo.displayName = res.data.display_name;
+        user.userId = res.data.id;
+        user.displayName = res.data.display_name;
         if (res.data.images.length !== 0) {
-          userInfo.profilePictureUrl = res.data.images[0].url;
+          user.profilePictureUrl = res.data.images[0].url;
         }
-        userInfo.administratorStatus = false;
-        userInfo.spotifyToken = token;
-        userInfo.product = res.data.product;
-        updateCurrentUser(userInfo);
+        user.administratorStatus = false;
+        user.spotifyToken = token;
+        user.product = res.data.product;
+        setUserInfo(user);
+        updateCurrentUser(user);
+
+        var data = {
+          user_id: user.userId,
+          display_name: user.displayName,
+          profile_pic:  user.profilePictureUrl,
+        };
+        console.log("insertData");
+        console.log(data);
+        Axios.post("http://localhost:8000/api/users/", data)
+          /* Axios.post(serverPath.local + 'api/adds/', data) */
+          .then((res) => {
+            console.log("hi");
+          })
+          .catch((er) => console.log(er));
+
         history.push("/Home");
       })
       .catch((er) => {

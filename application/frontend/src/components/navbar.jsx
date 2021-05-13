@@ -3,6 +3,7 @@ import { Link, Redirect, useHistory } from "react-router-dom";
 import { Navbar, Nav, Form, FormControl, Button } from "react-bootstrap";
 import { Menu, Dropdown, Image } from "antd";
 import { DownOutlined } from "@ant-design/icons";
+import Axios from "axios";
 import Cookies from "js-cookie";
 import "../css/navbar.css";
 
@@ -34,6 +35,17 @@ const NavBar = (props) => {
   const retrieveCurrentUser = () => {
     const stringRetrieveUserInfo = localStorage.getItem("currentUser");
     const retrieveUserInfo = JSON.parse(stringRetrieveUserInfo);
+
+    /* Axios.get("http://localhost:8000/api/users/")
+          .then((res) => {
+            console.log("get user res");
+            console.log(res);
+            res.data.map((user) => {
+
+            })
+          })
+          .catch((er) => console.log(er)); */
+
     return retrieveUserInfo;
   };
 

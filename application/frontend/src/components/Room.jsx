@@ -155,10 +155,21 @@ const prepSongsForQueue = (song) => {
 const Room = (props) => {
   const roomId = props.match.params.roomId;
   const [roomType, setRoomType] = useState();
-  console.log(roomId);
   const [viewData, setViewData] = useState([]);
-  const [songList, setSongList] = useState();
-  const [accessToken, setAccessToken] = useState(Cookies.get("spotifyAuthToken"));
+  const [songList, setSongList] = useState([
+    {
+      largeSongImageUrl: "",
+      smallSongImageUrl: "",
+      songArtist: "",
+      songDuration: 0,
+      songId: "",
+      songName: "",
+      songTrackUrl: "",
+    },
+  ]);
+  const [accessToken, setAccessToken] = useState(
+    Cookies.get("spotifyAuthToken")
+  );
 
   const retrieveCurrentUser = () => {
     const stringRetrieveUserInfo = localStorage.getItem("currentUser");
@@ -168,18 +179,13 @@ const Room = (props) => {
 
   const [userInfo, setUserInfo] = useState(retrieveCurrentUser());
 
-  console.log("userInfo");
-  console.log(userInfo);
-
   useEffect(() => {
-    window.scrollTo(0, 0)
-  }, [])
+    window.scrollTo(0, 0);
+  }, []);
 
   useEffect(() => {
     Axios.get("http://localhost:8000/api/adds/" + roomId + "/")
       .then((res) => {
-        console.log("get room data res");
-        console.log(res.data);
         setViewData(res.data);
         if (viewData.roomType == 0) {
           setRoomType("Public Room");
@@ -191,15 +197,20 @@ const Room = (props) => {
   }, []);
 
   useEffect(() => {
-    console.log("CHECK TOKEN");
     setAccessToken(Cookies.get("spotifyAuthToken"));
-    if (typeof(accessToken) === "undefined") {
-      console.log("NO TOKEN!");
+    if (typeof accessToken === "undefined") {
       /* localStorage.removeItem("currentUser");
       Cookies.remove("spotifyAuthToken");
       history.push("/"); */
     }
-  })
+  });
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      updateQueueView();
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   /* const noOfUsers = props.match.params.noOfUsers; */
   const noOfUsers = Math.floor(Math.random() * 10 + 20);
@@ -208,9 +219,15 @@ const Room = (props) => {
 
   const [songsForQueue, setSongsForQueue] = useState([
     {
-      title: "0",
-      url: "0",
-      music: "0",
+      largeSongImageUrl: "",
+      smallSongImageUrl: "",
+      songArtist: "",
+      songDuration: "",
+      songId: "",
+      songName: "",
+      songTrackUrl: "",
+      songQueueItemId: 0,
+      voteCount: 0,
     },
   ]);
 
@@ -227,9 +244,8 @@ const Room = (props) => {
   });
 
   const [showQueue, setShowQueue] = useState(true);
-  const [displayTypeSwitchButton, setDisplayTypeSwitchButton] = useState(
-    "Search for a Song"
-  );
+  const [displayTypeSwitchButton, setDisplayTypeSwitchButton] =
+    useState("Search for a Song");
 
   const switchQueueSearchsong = () => {
     setShowQueue(!showQueue);
@@ -259,17 +275,8 @@ const Room = (props) => {
   };
 
   const addSongToQueue = (song) => {
-    /* const newSong = albumList.filter((obj) => {
-      return obj.title === title;
-    });
-    const prepNewSong = prepSongsForQueue(newSong[0]);
-    prepNewSong.vote = 0;
-    const modifyingQueue = songsForQueue;
-    modifyingQueue.push(prepNewSong);
-     */
-    console.log("data");
+    console.log("addSongToQueue: song");
     console.log(song);
-
     if (typeof songList === "undefined") {
       setSongList([song]);
     } else {
@@ -297,45 +304,112 @@ const Room = (props) => {
       })
       .catch((er) => console.log(er));
 
-
-    /* temp vote post */
-    data = {
-      vote_id: 324,
-    };
-    Axios.post("http://localhost:8000/api/votes/", data)
-      .then((res) => {
-        console.log("res for queues post");
-        console.log(res);
-      })
-      .catch((er) => console.log(er));
-
-      Axios.get("http://localhost:8000/api/queues/")
-      .then((res) => {
-        console.log("res for queues get");
-        console.log(res);
-      })
-      .catch((er) => console.log(er));
-
-      data = {
-        user_id: "test",
-        display_name: "another test",
-        profile_pic: "again test",
-      };
-      console.log("insertData");
-      console.log(data);
-      Axios.post("http://localhost:8000/api/users/", data)
-        /* Axios.post(serverPath.local + 'api/adds/', data) */
-        .then((res) => {
-          console.log("hi");
-        })
-        .catch((er) => console.log(er));
-
-
-
+    updateQueueView();
     switchQueueSearchsong();
+  };
 
-    console.log("songList");
-    console.log(songList);
+  const updateQueueView = () => {
+    var resFromQueue;
+    const newSongsForQueue = [];
+    var newSongsForSongList = [];
+
+    Axios.get("http://localhost:8000/api/queues/")
+      .then((res) => {
+        resFromQueue = res.data;
+        for (var j = 0; j < resFromQueue.length; j++) {
+          if (roomId === resFromQueue[j].room_id) {
+            var found = false;
+            var songForQueue;
+            for (var i = 0; i < songList.length; i++) {
+              if (resFromQueue[j].song_id === songList[i].songId) {
+                found = true;
+                songForQueue = {
+                  largeSongImageUrl: songList[i].largeSongImageUrl,
+                  smallSongImageUrl: songList[i].smallSongImageUrl,
+                  songArtist: songList[i].songArtist,
+                  songDuration: songList[i].songDuration,
+                  songId: songList[i].songId,
+                  songName: songList[i].songName,
+                  songTrackUrl: songList[i].songTrackUrl,
+                  songQueueItemId: resFromQueue[j].queue_item_id,
+                  voteCount: 0,
+                };
+                newSongsForQueue.push(songForQueue);
+                break;
+              }
+            }
+            if (!found) {
+              var songInfoFromSpotify;
+              Axios.get(
+                "https://api.spotify.com/v1/tracks/" + resFromQueue[j].song_id,
+                {
+                  headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    Authorization: "Bearer " + userInfo.spotifyToken,
+                  },
+                }
+              )
+                .then((res) => {
+                  songInfoFromSpotify = res.data;
+                  var doOnce = 0;
+                  if (doOnce == 0) {
+                    doOnce++;
+                    const smallestAlbumImage =
+                      songInfoFromSpotify.album.images.reduce(
+                        (smallest, image) => {
+                          if (image.height < smallest.height) return image;
+                          return smallest;
+                        },
+                        songInfoFromSpotify.album.images[0]
+                      );
+                    const largestAlbumImage =
+                      songInfoFromSpotify.album.images.reduce(
+                        (largest, image) => {
+                          if (image.height > largest.height) return image;
+                          return largest;
+                        },
+                        songInfoFromSpotify.album.images[0]
+                      );
+
+                    var songForSongList = {
+                      songId: songInfoFromSpotify.id,
+                      songName: songInfoFromSpotify.name,
+                      songArtist: songInfoFromSpotify.artists[0].name,
+                      songTrackUrl: songInfoFromSpotify.uri,
+                      smallSongImageUrl: smallestAlbumImage.url,
+                      largeSongImageUrl: largestAlbumImage.url,
+                      songDuration: songInfoFromSpotify.duration_ms,
+                    };
+
+                    songList.push(songForSongList);
+
+                    songForQueue = {
+                      largeSongImageUrl: songForSongList.largeSongImageUrl,
+                      smallSongImageUrl: songForSongList.smallSongImageUrl,
+                      songArtist: songForSongList.songArtist,
+                      songDuration: songForSongList.songDuration,
+                      songId: songForSongList.songId,
+                      songName: songForSongList.songName,
+                      songTrackUrl: songForSongList.songTrackUrl,
+                      songQueueItemId: resFromQueue[j].queue_item_id,
+                      voteCount: 0,
+                    };
+                    newSongsForQueue.push(songForQueue);
+                  }
+                })
+                .catch((er) => {
+                  console.log(er);
+                });
+            }
+          }
+        }
+      })
+      .catch((er) => {
+        console.log(er);
+      });
+
+    setTimeout(() => setSongsForQueue(newSongsForQueue), 1000);
   };
 
   const removeSongFromQueue = (queueSong) => {
@@ -343,14 +417,6 @@ const Room = (props) => {
     var index = -1;
     for (var i = 0; i < queueArray.length; i++) {
       if (queueArray[i].queueSongId == queueSong.queueSongId) {
-        console.log(
-          "queueArray[" +
-            i +
-            "].queueSongId: " +
-            queueArray[i].queueSongId +
-            ", queueSong.queueSongId: " +
-            queueSong.queueSongId
-        );
         index = i;
       }
     }
@@ -422,8 +488,6 @@ const Room = (props) => {
       songImageUrl: nextSong.url,
     });
     removeSongFromQueue(nextSong);
-    console.log("songsForQueue");
-    console.log(songsForQueue);
   };
 
   return (
@@ -483,14 +547,19 @@ const Room = (props) => {
                 </Popover>
               </div>
             </div>
-            <MusicPlayer
+            {/* <MusicPlayer
               currentSong={songs}
               handleEndOfSong={handleEndOfSong}
-            />
+            /> */}
           </div>
           <div class="chatflex">
             {
-              <Chatroom roomName={viewData.room_name} roomId={viewData.room_id} displayName={userInfo.displayName} profilePictureUrl={userInfo.profilePictureUrl}/>
+              <Chatroom
+                roomName={viewData.room_name}
+                roomId={viewData.room_id}
+                displayName={userInfo.displayName}
+                profilePictureUrl={userInfo.profilePictureUrl}
+              />
             }
           </div>
         </div>
