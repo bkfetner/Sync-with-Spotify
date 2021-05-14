@@ -3,6 +3,8 @@ var UserInfo = {
   displayName: "",
   profilePictureUrl: "",
   administratorStatus: "",
+  banStatus: "",
+  banComment: "",
   spotifyToken: "",
   product: ""
 }

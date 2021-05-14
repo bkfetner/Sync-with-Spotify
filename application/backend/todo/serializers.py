@@ -26,7 +26,7 @@ class UsersSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Users
-        fields = ('user_id', 'display_name', 'profile_pic')
+        fields = ('user_id', 'display_name', 'profile_pic', 'admin_status', 'ban_status', 'ban_comments')
 
 class QueuesSerializer(serializers.ModelSerializer):
 

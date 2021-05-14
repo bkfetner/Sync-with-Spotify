@@ -36,20 +36,29 @@ const NavBar = (props) => {
     const stringRetrieveUserInfo = localStorage.getItem("currentUser");
     const retrieveUserInfo = JSON.parse(stringRetrieveUserInfo);
 
-    /* Axios.get("http://localhost:8000/api/users/")
-          .then((res) => {
-            console.log("get user res");
-            console.log(res);
-            res.data.map((user) => {
-
-            })
-          })
-          .catch((er) => console.log(er)); */
-
     return retrieveUserInfo;
   };
 
+    
+
   const [userInfo, setUserInfo] = useState(retrieveCurrentUser);
+
+  var updateUser = userInfo;
+  Axios.get("http://localhost:8000/api/users/")
+          .then((res) => {
+            console.log("get user res");
+            console.log(res);
+            res.data.map((getUser) => {
+              if(getUser.user_id === updateUser.userId) {
+                updateUser.administratorStatus = getUser.admin_status;
+                updateUser.banStatus = getUser.ban_status;
+                updateUser.banComment = getUser.ban_comments;
+              }
+            })
+            setUserInfo(updateUser);
+            updateCurrentUser(updateUser);
+          })
+          .catch((er) => console.log(er));
 
   console.log("userInfo");
   console.log(userInfo);
@@ -100,12 +109,12 @@ const NavBar = (props) => {
                 onClick={(e) => e.preventDefault()}
               >
                 <div className="user-picture-name">
-                  <Image
+                  {(userInfo.profilePictureUrl !== "none") && <Image
                     width={50}
                     src={userInfo.profilePictureUrl}
                     style={{ borderRadius: "25px"}}
                     preview={false}
-                  />
+                  />}
                   <div style={{marginLeft: "10px"}}>
                   {userInfo.displayName}({userInfo.product})
                   </div>

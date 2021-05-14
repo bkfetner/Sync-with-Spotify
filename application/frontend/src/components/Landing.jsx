@@ -23,8 +23,6 @@ const Landing = (props) => {
   const [userInfo, setUserInfo] = useState();
   const history = useHistory();
 
-  console.log(props);
-
   const updateCurrentUser = (updateUserInfo) => {
     const stringUpdateUserInfo = JSON.stringify(updateUserInfo);
     localStorage.setItem("currentUser", stringUpdateUserInfo);
@@ -60,8 +58,9 @@ const Landing = (props) => {
         user.displayName = res.data.display_name;
         if (res.data.images.length !== 0) {
           user.profilePictureUrl = res.data.images[0].url;
+        } else {
+          user.profilePictureUrl = "none";
         }
-        user.administratorStatus = false;
         user.spotifyToken = token;
         user.product = res.data.product;
         setUserInfo(user);
@@ -70,15 +69,11 @@ const Landing = (props) => {
         var data = {
           user_id: user.userId,
           display_name: user.displayName,
-          profile_pic:  user.profilePictureUrl,
+          profile_pic: user.profilePictureUrl,
         };
-        console.log("insertData");
-        console.log(data);
         Axios.post("http://localhost:8000/api/users/", data)
           /* Axios.post(serverPath.local + 'api/adds/', data) */
-          .then((res) => {
-            console.log("hi");
-          })
+          .then((res) => {})
           .catch((er) => console.log(er));
 
         history.push("/Home");
