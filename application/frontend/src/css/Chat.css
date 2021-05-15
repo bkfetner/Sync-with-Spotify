@@ -10,8 +10,6 @@
 .chat-top-text {
   font-weight: bold;
   font-size: 12pt;
-  margin-top: 10px;
-  margin-left: 15px;
   color: var(--color3);
 }
 
@@ -77,8 +75,36 @@
   width: 100% !important;
 }
 
+.realtime-containter {
+  height: calc(100%);
+}
+
 .realtime-chat-messages {
   display: flex !important;
   flex-direction: column-reverse !important;
   overflow: auto;
+  background-color: black !important;
+  box-shadow: 'none';
+  height: 100%;
+}
+
+.realtime-card-flex {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 10px;
+}
+
+.realtime-avatar {
+  background-color: var(--color3) !important;
+  margin: 10px;
+}
+
+.realtime-card-title {
+  color: var(--color3);
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.realtime-card-subheader {
+  color: var(--color4);
 }
