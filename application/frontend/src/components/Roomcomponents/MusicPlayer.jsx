@@ -7,9 +7,9 @@ const useForceUpdate = () => {
   return () => setState((val) => !val);
 };
 
+
+
 function MusicPlayer(props) {
-
-
 
   /* const forceUpdate = useForceUpdate();
   console.log(props);
@@ -47,12 +47,15 @@ function MusicPlayer(props) {
 
   return (
     <div className="music-player">
-      <div>
-        <div>
-          
-        </div>
-      </div>
-      <Button onClick={props.handleEndOfSong}>Get Next Song</Button>
+      Track image: {props.viewData.roomImageUrl}<br />
+      Track id: {props.viewData.current_track_id}<br />
+      Track url: {props.viewData.current_song_track_url}<br />
+      Track start time: {props.viewData.current_song_start_time}<br />
+      Track end time: {props.viewData.current_song_end_time}<br />
+      Song Name: {props.viewData.current_song_name}<br />
+      Song Artist: {props.viewData.current_song_artist}<br />
+      <Button onClick={props.handleEndOfSong}>Send next song to db</Button>
+      <Button onClick={props.updateViewData}>Get current song from db</Button>
 
 
       {/* <img

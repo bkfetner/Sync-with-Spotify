@@ -158,19 +158,7 @@ const prepSongsForQueue = (song) => {
 
 const Room = (props) => {
   const roomId = props.match.params.roomId;
-  const [roomType, setRoomType] = useState();
   const [viewData, setViewData] = useState([]);
-  const [songList, setSongList] = useState([
-    {
-      largeSongImageUrl: "",
-      smallSongImageUrl: "",
-      songArtist: "",
-      songDuration: 0,
-      songId: "",
-      songName: "",
-      songTrackUrl: "",
-    },
-  ]);
   const [accessToken, setAccessToken] = useState(
     Cookies.get("spotifyAuthToken")
   );
@@ -188,16 +176,7 @@ const Room = (props) => {
   }, []);
 
   useEffect(() => {
-    Axios.get("http://localhost:8000/api/adds/" + roomId + "/")
-      .then((res) => {
-        setViewData(res.data);
-        if (viewData.roomType == 0) {
-          setRoomType("Public Room");
-        } else {
-          setRoomType("Private Room");
-        }
-      })
-      .catch((er) => console.log(er));
+    updateViewData();
   }, []);
 
   useEffect(() => {
@@ -214,6 +193,13 @@ const Room = (props) => {
     updateQueueView();
     const interval = setInterval(() => {
       updateQueueView();
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      updateVoteCounts();
     }, 5000);
     return () => clearInterval(interval);
   }, []);
@@ -242,6 +228,8 @@ const Room = (props) => {
     Array.from(songsForQueue.values())
   );
 
+  const [voteMapForQueue, setVoteMapForQueue] = useState(new Map());
+
   const [currentSong, setCurrentSong] = useState();
 
   /* const [songs, setSongs] = useState({
@@ -267,8 +255,8 @@ const Room = (props) => {
 
   const updateQueueVote = (incomingQueueSongId) => {
     if (
-      songsForQueue.has(incomingQueueSongId) &&
-      songsForQueue.get(incomingQueueSongId).userVote === false
+      voteMapForQueue.has(incomingQueueSongId) &&
+      voteMapForQueue.get(incomingQueueSongId).userVote === false
     ) {
       var data = {
         vote_id: incomingQueueSongId + userInfo.userId,
@@ -280,43 +268,39 @@ const Room = (props) => {
         .then((res) => {})
         .catch((er) => console.log(er));
 
-      songsForQueue.get(incomingQueueSongId).userVote = true;
-      songsForQueue.get(incomingQueueSongId).voteCount += 1;
+      voteMapForQueue.get(incomingQueueSongId).userVote = true;
+      voteMapForQueue.get(incomingQueueSongId).voteCount += 1;
     } else if (
-      songsForQueue.has(incomingQueueSongId) &&
-      songsForQueue.get(incomingQueueSongId).userVote === true
+      voteMapForQueue.has(incomingQueueSongId) &&
+      voteMapForQueue.get(incomingQueueSongId).userVote === true
     ) {
       var deleteCode = incomingQueueSongId + userInfo.userId;
       Axios.delete("http://localhost:8000/api/votes/" + deleteCode + "/")
         .then((res) => {})
         .catch((er) => console.log(er));
 
-      songsForQueue.get(incomingQueueSongId).userVote = false;
-      songsForQueue.get(incomingQueueSongId).voteCount -= 1;
+      voteMapForQueue.get(incomingQueueSongId).userVote = false;
+      voteMapForQueue.get(incomingQueueSongId).voteCount -= 1;
+    } else if (!voteMapForQueue.has(incomingQueueSongId)) {
+      var data = {
+        vote_id: incomingQueueSongId + userInfo.userId,
+        room_id: roomId,
+        user_id: userInfo.userId,
+        song_id: incomingQueueSongId,
+      };
+      Axios.post("http://localhost:8000/api/votes/", data)
+        .then((res) => {})
+        .catch((er) => console.log(er));
+
+      voteMapForQueue.set(incomingQueueSongId, {
+        queueItemId: incomingQueueSongId,
+        voteCount: 1,
+        userVote: true,
+      });
     }
 
-    setSongsForQueue(songsForQueue);
-    var arrayToSort = Array.from(songsForQueue.values());
-    arrayToSort.sort(function (a, b) {
-      return a.timeAddedToQueue - b.timeAddedToQueue;
-    });
-    setArrayForQueue(arrayToSort);
-
-    /* const modifyingQueue = songsForQueue;
-    var findQueueSong = modifyingQueue.filter((obj) => {
-      return obj.queueSongId === incomingQueueSongId;
-    });
-    if (findQueueSong[0]) {
-      if (!findQueueSong[0].userVote) {
-        findQueueSong[0].vote = findQueueSong[0].vote + 1;
-        findQueueSong[0].userVote = true;
-      } else {
-        findQueueSong[0].vote = findQueueSong[0].vote - 1;
-        findQueueSong[0].userVote = false;
-      }
-    }
-    setSongsForQueue(modifyingQueue);
-    forceUpdate(); */
+    setVoteMapForQueue(voteMapForQueue);
+    forceUpdate();
   };
 
   const addSongToQueue = (song) => {
@@ -391,43 +375,6 @@ const Room = (props) => {
           }
         }
 
-        Axios.get("http://localhost:8000/api/votes/")
-          .then((res) => {
-            var voteMap = new Map();
-            res.data.map((voteRes) => {
-              if (voteRes.room_id === roomId) {
-                if (voteMap.has(voteRes.song_id)) {
-                  voteMap.get(voteRes.song_id).voteCount += 1;
-                } else {
-                  voteMap.set(voteRes.song_id, {
-                    roomId: voteRes.room_id,
-                    queueItemId: voteRes.song_id,
-                    userId: voteRes.user_id,
-                    voteId: voteRes.vote_id,
-                    voteCount: 1,
-                  });
-                }
-              }
-            });
-            var queueArray = Array.from(songsForQueue.values());
-            queueArray.map((queueItem) => {
-              if (voteMap.has(queueItem.queueItemId)) {
-                queueItem.voteCount = voteMap.get(
-                  queueItem.queueItemId
-                ).voteCount;
-              } else {
-                if (
-                  !(queueItem.userVote === true && queueItem.voteCount === 1)
-                ) {
-                  queueItem.voteCount = 0;
-                }
-              }
-            });
-          })
-          .catch((er) => {
-            console.log(er);
-          });
-
         setSongsForQueue(songsForQueue);
         var arrayToSort = Array.from(songsForQueue.values());
         arrayToSort.sort(function (a, b) {
@@ -438,6 +385,44 @@ const Room = (props) => {
       .catch((er) => {
         console.log(er);
       });
+  };
+
+  const updateVoteCounts = () => {
+    var tempVoteMap = new Map();
+
+    Axios.get("http://localhost:8000/api/votes/")
+      .then((res) => {
+        res.data.map((vote) => {
+          if (vote.room_id === roomId) {
+            if (tempVoteMap.has(vote.song_id)) {
+              tempVoteMap.get(vote.song_id).voteCount += 1;
+            } else {
+              tempVoteMap.set(vote.song_id, {
+                queueItemId: vote.song_id,
+                voteCount: 1,
+                userVote: false,
+              });
+            }
+          }
+        });
+
+        var tempVoteArray = Array.from(tempVoteMap.values());
+        tempVoteArray.map((votes) => {
+          if (voteMapForQueue.has(votes.queueItemId)) {
+            voteMapForQueue.get(votes.queueItemId).voteCount = votes.voteCount;
+          } else {
+            voteMapForQueue.set(votes.queueItemId, {
+              queueItemId: votes.queueItemId,
+              voteCount: 1,
+              userVote: false,
+            });
+          }
+        });
+      })
+      .catch((er) => {
+        console.log(er);
+      });
+    setVoteMapForQueue(voteMapForQueue);
   };
 
   const removeSongFromQueue = (queueSong) => {
@@ -497,34 +482,54 @@ const Room = (props) => {
 
     if (queueArray.length > 1) {
       for (var i = 0; i < queueArray.length; i++) {
-        if (
-          queueArray[i].queueItemId !== -1 &&
-          queueArray[i].voteCount > topCount
-        ) {
-          topCount = queueArray[i].voteCount;
+        if (voteMapForQueue.has(queueArray[i].queueItemId)) {
+          if (
+            voteMapForQueue.get(queueArray[i].queueItemId).voteCount > topCount
+          ) {
+            topCount = voteMapForQueue.get(queueArray[i].queueItemId).voteCount;
+            topCountQueueItem = queueArray[i];
+          }
+        } else if (0 > topCount) {
+          topCount = 0;
           topCountQueueItem = queueArray[i];
         }
       }
 
       var data = {
         roomImageUrl: topCountQueueItem.largeSongImageUrl,
-        current_song_end_time: new Date().getTime() + topCountQueueItem.songDuration,
+        current_song_end_time:
+          new Date().getTime() + topCountQueueItem.songDuration,
+          current_song_start_time: new Date().getTime(),
         current_song_track_url: topCountQueueItem.songTrackUrl,
         current_track_id: topCountQueueItem.songId,
+        current_song_name: topCountQueueItem.songName,
+        current_song_artist: topCountQueueItem.songArtist,
       };
       Axios.patch("http://localhost:8000/api/adds/" + roomId + "/", data)
         .then((res) => {
-          console.log("res.data");
-          console.log(res.data);
+          Axios.delete(
+            "http://localhost:8000/api/queues/" +
+              topCountQueueItem.queueItemId +
+              "/"
+          )
+            .then((res) => {})
+            .catch((er) => console.log(er));
         })
         .catch((er) => {
-          console.log("put failed");
           console.log(er);
         });
 
       console.log("topCountQueueItem");
       console.log(topCountQueueItem);
     }
+  };
+
+  const updateViewData = () => {
+    Axios.get("http://localhost:8000/api/adds/" + roomId + "/")
+      .then((res) => {
+        setViewData(res.data);
+      })
+      .catch((er) => console.log(er));
   };
 
   return (
@@ -535,6 +540,7 @@ const Room = (props) => {
             {showQueue && (
               <Queue
                 queueSongs={arrayForQueue}
+                voteMapForQueue={voteMapForQueue}
                 updateQueueVote={updateQueueVote}
               />
             )}
@@ -560,7 +566,7 @@ const Room = (props) => {
                 {viewData.room_name}
               </strong>
               <em>Room Genre: {viewData.genre}</em>
-              <em>{roomType}</em>
+              <em>{viewData.roomType ? "Private Room" : "Public Room"}</em>
 
               <div className="icon-row">
                 <div>
@@ -585,8 +591,9 @@ const Room = (props) => {
               </div>
             </div>
             <MusicPlayer
-              currentSong={currentSong}
+              viewData={viewData}
               handleEndOfSong={handleEndOfSong}
+              updateViewData={updateViewData}
             />
           </div>
           <div class="chatflex">
