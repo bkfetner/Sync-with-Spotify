@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import "../../css/MusicPlayer.css";
+import { Button } from "antd";
 
 const useForceUpdate = () => {
   const [_, setState] = useState(false);
@@ -7,7 +8,10 @@ const useForceUpdate = () => {
 };
 
 function MusicPlayer(props) {
-  const forceUpdate = useForceUpdate();
+
+
+
+  /* const forceUpdate = useForceUpdate();
   console.log(props);
   const audioEl = useRef(null);
   const [isPlaying, setIsPlaying] = useState(true);
@@ -39,25 +43,33 @@ function MusicPlayer(props) {
     props.handleEndOfSong();
     console.log("props.currentSong.songUrl");
     console.log(props.currentSong.songUrl);
-  };
+  }; */
 
   return (
     <div className="music-player">
-      <img
+      <div>
+        <div>
+          
+        </div>
+      </div>
+      <Button onClick={props.handleEndOfSong}>Get Next Song</Button>
+
+
+      {/* <img
         src={props.currentSong.songImageUrl}
         style={{ width: "300px", height: "300px" }}
       />
       <p style={{fontSize: "18px", paddingTop: "5px"}}>
       <strong>{props.currentSong.songName}</strong>
-      </p>
+      </p> */}
       {/* <p>{props.currentSong.artist}</p> */}
-      <audio
+      {/* <audio
         src={props.currentSong.songUrl}
         ref={audioEl}
-        controls
-        /* autoPlay */
-        onEnded={handleEnd}
-      ></audio>
+        controls */}
+        {/*  autoPlay */}
+        {/* onEnded={handleEnd}
+      ></audio> */}
     </div>
   );
 }

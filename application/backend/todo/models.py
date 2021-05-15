@@ -27,7 +27,9 @@ class Rooms(models.Model):
     roomImageUrl = models.CharField(max_length=255, null=True)
     roomType = models.BooleanField(default=True)
     population = models.CharField(max_length=20, null=True)
-
+    current_track_id = models.CharField(max_length=255, default=True)
+    current_song_track_url = models.CharField(max_length=255, default=True)
+    current_song_end_time = models.CharField(max_length=255, default=True)
 
     def _str_(self):        
         return self.room_name

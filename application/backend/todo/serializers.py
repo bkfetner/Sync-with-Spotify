@@ -20,7 +20,7 @@ class RoomsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Rooms
-        fields = ('room_id','room_name', 'genre' ,'roomImageUrl','roomType', 'population')
+        fields = ('room_id','room_name', 'genre' ,'roomImageUrl','roomType', 'population', 'current_track_id', 'current_song_track_url', 'current_song_end_time')
 
 class UsersSerializer(serializers.ModelSerializer):
 

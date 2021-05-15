@@ -242,17 +242,15 @@ const Room = (props) => {
     Array.from(songsForQueue.values())
   );
 
-  const [currentSong, setCurrentSong] = useState(
-    albumList[Math.floor(Math.random() * albumList.length)]
-  );
+  const [currentSong, setCurrentSong] = useState();
 
-  const [songs, setSongs] = useState({
+  /* const [songs, setSongs] = useState({
     song_id: "1",
     songName: currentSong.title,
     artist: "unknown",
     songUrl: currentSong.music,
     songImageUrl: currentSong.url,
-  });
+  }); */
 
   const [showQueue, setShowQueue] = useState(true);
   const [displayTypeSwitchButton, setDisplayTypeSwitchButton] =
@@ -484,7 +482,71 @@ const Room = (props) => {
   );
 
   const handleEndOfSong = () => {
-    var nextSong;
+    console.log("Welcome to handleSneOfSong");
+
+    var queueArray = Array.from(songsForQueue.values());
+    queueArray.sort(function (a, b) {
+      return a.timeAddedToQueue - b.timeAddedToQueue;
+    });
+
+    console.log("queueArray");
+    console.log(queueArray);
+
+    var topCount = -1;
+    var topCountQueueItem = queueArray[0];
+    for (var i = 0; i < queueArray.length; i++) {
+      if (queueArray[i].voteCount > topCount) {
+        topCount = queueArray[i].voteCount;
+        topCountQueueItem = queueArray[i];
+      }
+    }
+
+    var data = {
+      roomImageUrl: topCountQueueItem.largeSongImageUrl,
+      current_song_end_time: new Date().getTime(),
+      current_song_track_url: topCountQueueItem.songTrackUrl,
+      current_track_id: topCountQueueItem.songId,
+    };
+    Axios.patch("http://localhost:8000/api/adds/" + roomId + "/", data)
+      .then((res) => {
+        console.log("res.data");
+        console.log(res.data);
+      })
+      .catch((er) => {
+        console.log("put failed");
+        console.log(er);
+      });
+
+    console.log("topCountQueueItem");
+    console.log(topCountQueueItem);
+
+    /* Axios.get("http://localhost:8000/api/votes/")
+      .then((res) => {
+        console.log("res.data");
+        console.log(res.data);
+        var voteMap = new Map();
+        res.data.map((vote) => {
+          if(vote.room_id === roomId) {
+            if(voteMap.has(vote.song_id)) {
+              voteMap.get(vote.song_id).voteCount += 1;
+            } else {
+              voteMap.set(vote.song_id, {
+                queueItemId: vote.song_id,
+                voteCount: 1,
+              });
+            }
+          }
+        })
+        console.log("voteMap");
+        console.log(voteMap);
+
+        var voteArray = Array.from(songsForQueue.values());
+      })
+      .catch((er) => {
+        console.log(er);
+      });
+ */
+    /* var nextSong;
 
     if (songsForQueue.length > 0) {
       for (var i = 0; i < songsForQueue.length; i++) {
@@ -517,7 +579,7 @@ const Room = (props) => {
       songUrl: nextSong.music,
       songImageUrl: nextSong.url,
     });
-    removeSongFromQueue(nextSong);
+    removeSongFromQueue(nextSong); */
   };
 
   return (
@@ -577,10 +639,10 @@ const Room = (props) => {
                 </Popover>
               </div>
             </div>
-            {/* <MusicPlayer
-              currentSong={songs}
+            <MusicPlayer
+              currentSong={currentSong}
               handleEndOfSong={handleEndOfSong}
-            /> */}
+            />
           </div>
           <div class="chatflex">
             {
