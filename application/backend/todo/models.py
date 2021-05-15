@@ -38,9 +38,9 @@ class Room_list(models.Model):
 
 class Vote(models.Model):
     vote_id = models.CharField(primary_key=True, max_length=255, default=True)
-    room_id = models.CharField(max_length=20, default=True)
-    user_id = models.CharField(max_length=20, default=True)
-    song_id = models.CharField(max_length=20, default=True)
+    room_id = models.CharField(max_length=255, default=True)
+    user_id = models.CharField(max_length=255, default=True)
+    song_id = models.CharField(max_length=255, default=True)
     #room_id = models.ForeignKey(Rooms, on_delete=models.CASCADE)
 
 class Participants(models.Model):

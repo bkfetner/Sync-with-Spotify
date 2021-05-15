@@ -218,8 +218,8 @@ const Room = (props) => {
   const roomUrl = window.location.href;
   const forceUpdate = useForceUpdate();
 
-  var songsForQueue = new Map();
-  songsForQueue.set(-1, {
+  var initialSongsForQueue = new Map();
+  initialSongsForQueue.set(-1, {
     largeSongImageUrl: "-1",
     queueItemId: -1,
     smallSongImageUrl: "-1",
@@ -232,7 +232,10 @@ const Room = (props) => {
     userVote: false,
     timeAddedToQueue: -1,
   });
-  const [arrayForQueue, setArrayForQueue] = useState(Array.from(songsForQueue.values()));
+  const [songsForQueue, setSongsForQueue] = useState(initialSongsForQueue);
+  const [arrayForQueue, setArrayForQueue] = useState(
+    Array.from(songsForQueue.values())
+  );
 
   const [currentSong, setCurrentSong] = useState(
     albumList[Math.floor(Math.random() * albumList.length)]
@@ -260,6 +263,44 @@ const Room = (props) => {
   };
 
   const updateQueueVote = (incomingQueueSongId) => {
+    if (
+      songsForQueue.has(incomingQueueSongId) &&
+      songsForQueue.get(incomingQueueSongId).userVote === false
+    ) {
+      var data = {
+        vote_id: incomingQueueSongId + userInfo.userId,
+        room_id: roomId,
+        user_id: userInfo.userId,
+        song_id: incomingQueueSongId,
+      };
+      Axios.post("http://localhost:8000/api/votes/", data)
+        .then((res) => {
+        })
+        .catch((er) => console.log(er));
+
+      songsForQueue.get(incomingQueueSongId).userVote = true;
+      songsForQueue.get(incomingQueueSongId).voteCount += 1;
+    } else if (
+      songsForQueue.has(incomingQueueSongId) &&
+      songsForQueue.get(incomingQueueSongId).userVote === true
+    ) {
+      var deleteCode = incomingQueueSongId + userInfo.userId;
+      Axios.delete("http://localhost:8000/api/votes/" + deleteCode + "/")
+        .then((res) => {
+        })
+        .catch((er) => console.log(er));
+
+      songsForQueue.get(incomingQueueSongId).userVote = false;
+      songsForQueue.get(incomingQueueSongId).voteCount -= 1;
+    }
+
+    setSongsForQueue(songsForQueue);
+    var arrayToSort = Array.from(songsForQueue.values());
+    arrayToSort.sort(function (a, b) {
+      return a.timeAddedToQueue - b.timeAddedToQueue;
+    });
+    setArrayForQueue(arrayToSort);
+
     /* const modifyingQueue = songsForQueue;
     var findQueueSong = modifyingQueue.filter((obj) => {
       return obj.queueSongId === incomingQueueSongId;
@@ -288,7 +329,7 @@ const Room = (props) => {
       song_duration: song.songDuration,
       song_name: song.songName,
       song_track_url: song.songTrackUrl,
-      time_added_to_queue: new Date().getTime()
+      time_added_to_queue: new Date().getTime(),
     };
     Axios.post("http://localhost:8000/api/queues/", data)
       .then((res) => {
@@ -302,15 +343,11 @@ const Room = (props) => {
   };
 
   const updateQueueView = () => {
-    console.log("Welcome to updateQueueView");
-
     Axios.get("http://localhost:8000/api/queues/")
       .then((res) => {
-        console.log("res.data");
-        console.log(res.data);
-        res.data.map((queueItem) => { 
-          if(queueItem.room_id === roomId) {
-            if(!songsForQueue.has(queueItem.queue_item_id)) {
+        res.data.map((queueItem) => {
+          if (queueItem.room_id === roomId) {
+            if (!songsForQueue.has(queueItem.queue_item_id)) {
               songsForQueue.set(queueItem.queue_item_id, {
                 largeSongImageUrl: queueItem.large_song_image_url,
                 queueItemId: queueItem.queue_item_id,
@@ -322,46 +359,42 @@ const Room = (props) => {
                 songTrackUrl: queueItem.song_track_url,
                 voteCount: 0,
                 userVote: false,
-                timeAddedToQueue: queueItem.time_added_to_queue
+                timeAddedToQueue: queueItem.time_added_to_queue,
               });
             }
           }
-        })
+        });
 
         var queueItemsToDelete = [];
-        var queueArray = Array.from(songsForQueue.values())
+        var queueArray = Array.from(songsForQueue.values());
         queueArray.map((take) => {
           queueItemsToDelete.push(take.queueItemId);
-        })
-
-        console.log("queueItemsToDelete AFTER COPYING FROM songsForQueue");
-        console.log(queueItemsToDelete);
+        });
 
         res.data.map((queueItem) => {
-          if(queueItem.room_id === roomId) {
-            for(var i = 0; i < queueItemsToDelete.length; i++) {
-              if(queueItem.queue_item_id === queueItemsToDelete[i]) {
+          if (queueItem.room_id === roomId) {
+            for (var i = 0; i < queueItemsToDelete.length; i++) {
+              if (queueItem.queue_item_id === queueItemsToDelete[i]) {
                 queueItemsToDelete[i] = -1;
               }
             }
           }
-        })
+        });
 
-        console.log("queueItemsToDelete AFTER COPYING FROM converting ids");
-        console.log(queueItemsToDelete);
-
-        for(var i = 0; i < queueItemsToDelete.length; i++) {
-          if(queueItemsToDelete[i] !== -1 && songsForQueue.has(queueItemsToDelete[i])) {
+        for (var i = 0; i < queueItemsToDelete.length; i++) {
+          if (
+            queueItemsToDelete[i] !== -1 &&
+            songsForQueue.has(queueItemsToDelete[i])
+          ) {
             songsForQueue.delete(queueItemsToDelete[i]);
           }
         }
 
-        console.log("songsForQueue END OF GET QUEUES");
-        console.log(songsForQueue);
+        setSongsForQueue(songsForQueue);
         var arrayToSort = Array.from(songsForQueue.values());
         arrayToSort.sort(function (a, b) {
           return a.timeAddedToQueue - b.timeAddedToQueue;
-        })
+        });
         setArrayForQueue(arrayToSort);
       })
       .catch((er) => {

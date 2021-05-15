@@ -6,7 +6,6 @@ import "../../css/Queue.css";
 const Queue = (props) => {
 
   const handleCheck = (e) => {
-    console.log(e.target.id);
     props.updateQueueVote(e.target.id);
   };
 
@@ -42,7 +41,7 @@ const Queue = (props) => {
                 <Checkbox
                   className="song-checkbox"
                   type="checkbox"
-                  id={song.queueSongId}
+                  id={song.queueItemId}
                   onChange={handleCheck}
                   checked={song.userVote}
                 />
