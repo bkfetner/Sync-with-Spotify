@@ -25,7 +25,7 @@ const Queue = (props) => {
     }
     if (props.queueSongs) {
       return props.queueSongs.map((song) => {
-        if (!(song.songTrackUrl === "")) {
+        if (!(song.queueItemId === -1)) {
           return (
             <div class="songdiv">
               <Popover

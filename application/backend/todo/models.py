@@ -59,6 +59,7 @@ class Queue(models.Model):
     small_song_image_url = models.CharField(max_length=255, default=True)
     large_song_image_url = models.CharField(max_length=255, default=True)
     song_duration = models.CharField(max_length=255, default=True)
+    time_added_to_queue = models.CharField(max_length=255, default=True)
 
   
 
