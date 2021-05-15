@@ -8,7 +8,11 @@ import SongSearch from "./Roomcomponents/SongSearch.jsx";
 import Chatroom from "./Chatroom.jsx";
 import "../css/Room.css";
 import { Redirect } from "react-router-dom";
-import { CopyFilled, UserOutlined } from "@ant-design/icons";
+import {
+  CodeSandboxCircleFilled,
+  CopyFilled,
+  UserOutlined,
+} from "@ant-design/icons";
 import { SpotifyAuth, Scopes, SpotifyAuthListener } from "react-spotify-auth";
 import Cookies from "js-cookie";
 
@@ -199,9 +203,10 @@ const Room = (props) => {
   useEffect(() => {
     setAccessToken(Cookies.get("spotifyAuthToken"));
     if (typeof accessToken === "undefined") {
-      /* localStorage.removeItem("currentUser");
+      localStorage.removeItem("currentUser");
       Cookies.remove("spotifyAuthToken");
-      history.push("/"); */
+      return <Redirect to="/" />;
+      /* history.push("/"); */
     }
   });
 
@@ -209,7 +214,7 @@ const Room = (props) => {
     updateQueueView();
     const interval = setInterval(() => {
       updateQueueView();
-    }, 5000);
+    }, 1000);
     return () => clearInterval(interval);
   }, []);
 
@@ -274,8 +279,7 @@ const Room = (props) => {
         song_id: incomingQueueSongId,
       };
       Axios.post("http://localhost:8000/api/votes/", data)
-        .then((res) => {
-        })
+        .then((res) => {})
         .catch((er) => console.log(er));
 
       songsForQueue.get(incomingQueueSongId).userVote = true;
@@ -286,8 +290,7 @@ const Room = (props) => {
     ) {
       var deleteCode = incomingQueueSongId + userInfo.userId;
       Axios.delete("http://localhost:8000/api/votes/" + deleteCode + "/")
-        .then((res) => {
-        })
+        .then((res) => {})
         .catch((er) => console.log(er));
 
       songsForQueue.get(incomingQueueSongId).userVote = false;
@@ -389,6 +392,43 @@ const Room = (props) => {
             songsForQueue.delete(queueItemsToDelete[i]);
           }
         }
+
+        Axios.get("http://localhost:8000/api/votes/")
+          .then((res) => {
+            var voteMap = new Map();
+            res.data.map((voteRes) => {
+              if (voteRes.room_id === roomId) {
+                if (voteMap.has(voteRes.song_id)) {
+                  voteMap.get(voteRes.song_id).voteCount += 1;
+                } else {
+                  voteMap.set(voteRes.song_id, {
+                    roomId: voteRes.room_id,
+                    queueItemId: voteRes.song_id,
+                    userId: voteRes.user_id,
+                    voteId: voteRes.vote_id,
+                    voteCount: 1,
+                  });
+                }
+              }
+            });
+            var queueArray = Array.from(songsForQueue.values());
+            queueArray.map((queueItem) => {
+              if (voteMap.has(queueItem.queueItemId)) {
+                queueItem.voteCount = voteMap.get(
+                  queueItem.queueItemId
+                ).voteCount;
+              } else {
+                if (
+                  !(queueItem.userVote === true && queueItem.voteCount === 1)
+                ) {
+                  queueItem.voteCount = 0;
+                }
+              }
+            });
+          })
+          .catch((er) => {
+            console.log(er);
+          });
 
         setSongsForQueue(songsForQueue);
         var arrayToSort = Array.from(songsForQueue.values());
