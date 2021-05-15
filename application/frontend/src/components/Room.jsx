@@ -214,7 +214,7 @@ const Room = (props) => {
     updateQueueView();
     const interval = setInterval(() => {
       updateQueueView();
-    }, 1000);
+    }, 5000);
     return () => clearInterval(interval);
   }, []);
 
@@ -489,97 +489,42 @@ const Room = (props) => {
       return a.timeAddedToQueue - b.timeAddedToQueue;
     });
 
+    var topCount = -1;
+    var topCountQueueItem = queueArray[1];
+
     console.log("queueArray");
     console.log(queueArray);
 
-    var topCount = -1;
-    var topCountQueueItem = queueArray[0];
-    for (var i = 0; i < queueArray.length; i++) {
-      if (queueArray[i].voteCount > topCount) {
-        topCount = queueArray[i].voteCount;
-        topCountQueueItem = queueArray[i];
-      }
-    }
-
-    var data = {
-      roomImageUrl: topCountQueueItem.largeSongImageUrl,
-      current_song_end_time: new Date().getTime(),
-      current_song_track_url: topCountQueueItem.songTrackUrl,
-      current_track_id: topCountQueueItem.songId,
-    };
-    Axios.patch("http://localhost:8000/api/adds/" + roomId + "/", data)
-      .then((res) => {
-        console.log("res.data");
-        console.log(res.data);
-      })
-      .catch((er) => {
-        console.log("put failed");
-        console.log(er);
-      });
-
-    console.log("topCountQueueItem");
-    console.log(topCountQueueItem);
-
-    /* Axios.get("http://localhost:8000/api/votes/")
-      .then((res) => {
-        console.log("res.data");
-        console.log(res.data);
-        var voteMap = new Map();
-        res.data.map((vote) => {
-          if(vote.room_id === roomId) {
-            if(voteMap.has(vote.song_id)) {
-              voteMap.get(vote.song_id).voteCount += 1;
-            } else {
-              voteMap.set(vote.song_id, {
-                queueItemId: vote.song_id,
-                voteCount: 1,
-              });
-            }
-          }
-        })
-        console.log("voteMap");
-        console.log(voteMap);
-
-        var voteArray = Array.from(songsForQueue.values());
-      })
-      .catch((er) => {
-        console.log(er);
-      });
- */
-    /* var nextSong;
-
-    if (songsForQueue.length > 0) {
-      for (var i = 0; i < songsForQueue.length; i++) {
-        const currentSong = songsForQueue[i];
+    if (queueArray.length > 1) {
+      for (var i = 0; i < queueArray.length; i++) {
         if (
-          !(
-            currentSong.title == "0" &&
-            currentSong.url == "0" &&
-            currentSong.music == "0"
-          )
+          queueArray[i].queueItemId !== -1 &&
+          queueArray[i].voteCount > topCount
         ) {
-          if (!nextSong) {
-            nextSong = currentSong;
-          } else {
-            if (currentSong.vote > nextSong.vote) {
-              nextSong = currentSong;
-            }
-          }
+          topCount = queueArray[i].voteCount;
+          topCountQueueItem = queueArray[i];
         }
       }
-    }
 
-    if (!nextSong) {
-      nextSong = albumList[Math.floor(Math.random() * 19)];
+      var data = {
+        roomImageUrl: topCountQueueItem.largeSongImageUrl,
+        current_song_end_time: new Date().getTime() + topCountQueueItem.songDuration,
+        current_song_track_url: topCountQueueItem.songTrackUrl,
+        current_track_id: topCountQueueItem.songId,
+      };
+      Axios.patch("http://localhost:8000/api/adds/" + roomId + "/", data)
+        .then((res) => {
+          console.log("res.data");
+          console.log(res.data);
+        })
+        .catch((er) => {
+          console.log("put failed");
+          console.log(er);
+        });
+
+      console.log("topCountQueueItem");
+      console.log(topCountQueueItem);
     }
-    setSongs({
-      song_id: "1",
-      songName: nextSong.title,
-      artist: "unknown",
-      songUrl: nextSong.music,
-      songImageUrl: nextSong.url,
-    });
-    removeSongFromQueue(nextSong); */
   };
 
   return (
