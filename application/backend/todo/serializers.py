@@ -32,7 +32,7 @@ class QueuesSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Queue
-        fields = ('queue_item_id', 'room_id', 'song_id')
+        fields = ('queue_item_id', 'room_id', 'song_id', 'song_name', 'song_artist', 'song_track_url', 'small_song_image_url', 'large_song_image_url', 'song_duration')
 
 class VotesSerializer(serializers.ModelSerializer):
 

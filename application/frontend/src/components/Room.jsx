@@ -206,9 +206,10 @@ const Room = (props) => {
   });
 
   useEffect(() => {
+    updateQueueView();
     const interval = setInterval(() => {
       updateQueueView();
-    }, 1000);
+    }, 10000);
     return () => clearInterval(interval);
   }, []);
 
@@ -217,19 +218,19 @@ const Room = (props) => {
   const roomUrl = window.location.href;
   const forceUpdate = useForceUpdate();
 
-  const [songsForQueue, setSongsForQueue] = useState([
-    {
-      largeSongImageUrl: "",
-      smallSongImageUrl: "",
-      songArtist: "",
-      songDuration: "",
-      songId: "",
-      songName: "",
-      songTrackUrl: "",
-      songQueueItemId: 0,
-      voteCount: 0,
-    },
-  ]);
+  var initialQueueMap = new Map();
+  initialQueueMap.set(-1, {
+    largeSongImageUrl: "-1",
+    queueItemId: -1,
+    smallSongImageUrl: "-1",
+    songArtist: "-1",
+    songDuration: -1,
+    songId: "-1",
+    songName: "-1",
+    songTrackUrl: "-1",
+  });
+  const [songsForQueue, setSongsForQueue] = useState(initialQueueMap);
+  const [arrayForQueue, setArrayForQueue] = useState(Array.from(songsForQueue.values()));
 
   const [currentSong, setCurrentSong] = useState(
     albumList[Math.floor(Math.random() * albumList.length)]
@@ -257,7 +258,7 @@ const Room = (props) => {
   };
 
   const updateQueueVote = (incomingQueueSongId) => {
-    const modifyingQueue = songsForQueue;
+    /* const modifyingQueue = songsForQueue;
     var findQueueSong = modifyingQueue.filter((obj) => {
       return obj.queueSongId === incomingQueueSongId;
     });
@@ -271,7 +272,7 @@ const Room = (props) => {
       }
     }
     setSongsForQueue(modifyingQueue);
-    forceUpdate();
+    forceUpdate(); */
   };
 
   const addSongToQueue = (song) => {
@@ -296,6 +297,12 @@ const Room = (props) => {
       queue_item_id: Math.floor(Math.random() * 2000000000),
       room_id: roomId,
       song_id: song.songId,
+      large_song_image_url: song.largeSongImageUrl,
+      small_song_image_url: song.smallSongImageUrl,
+      song_artist: song.songArtist,
+      song_duration: song.songDuration,
+      song_name: song.songName,
+      song_track_url: song.songTrackUrl,
     };
     Axios.post("http://localhost:8000/api/queues/", data)
       .then((res) => {
@@ -309,7 +316,74 @@ const Room = (props) => {
   };
 
   const updateQueueView = () => {
-    var resFromQueue;
+    console.log("Welcome to updateQueueView");
+    var queueMap = songsForQueue;
+
+    Axios.get("http://localhost:8000/api/queues/")
+      .then((res) => {
+        console.log("res.data");
+        console.log(res.data);
+        var queueItemsFromRes = [];
+        res.data.map((resQueueItem) => {
+          if (resQueueItem.room_id === roomId) {
+            var dataForQueueItemsFromRes = {
+              queueItemId: resQueueItem.queue_item_id,
+            };
+            queueItemsFromRes.push(dataForQueueItemsFromRes);
+          }
+        });
+        console.log("queueItemsFromRes before sets");
+        console.log(queueItemsFromRes);
+
+        res.data.map((resQueueItem) => {
+          if (resQueueItem.room_id === roomId) {
+            if (!songsForQueue.has(resQueueItem.queue_item_id)) {
+              songsForQueue.set(resQueueItem.queue_item_id, {
+                largeSongImageUrl: resQueueItem.large_song_image_url,
+                queueItemId: resQueueItem.queue_item_id,
+                smallSongImageUrl: resQueueItem.small_song_image_url,
+                songArtist: resQueueItem.song_artist,
+                songDuration: resQueueItem.songDuration,
+                songId: resQueueItem.song_id,
+                songName: resQueueItem.song_name,
+                songTrackUrl: resQueueItem.song_track_url,
+              });
+              queueItemsFromRes.map((thisItem) => {
+                if (thisItem.queueItemId === resQueueItem.queue_item_id) {
+                  thisItem.queueItemId = -1;
+                }
+              });
+            }
+          }
+        });
+        console.log("queueItemsFromRes after sets");
+        console.log(queueItemsFromRes);
+        console.log("queueMap");
+        console.log(songsForQueue);
+
+        queueItemsFromRes.map((thisItem) => {
+          if (songsForQueue.has(thisItem.queueItemId)) {
+            songsForQueue.delete(thisItem.queueItemId);
+          }
+        });
+        console.log("queueMap after delete");
+        console.log(songsForQueue);
+
+        setSongsForQueue(songsForQueue);
+        console.log("songsForQueue after set");
+        console.log(songsForQueue);
+        var forSetArray = Array.from(songsForQueue.values());
+        console.log("forSetArray");
+        console.log(forSetArray);
+        if(forSetArray !== "undefined" && forSetArray.length != 0) {
+          setArrayForQueue(forSetArray);
+        }
+      })
+      .catch((er) => {
+        console.log(er);
+      });
+
+    /* var resFromQueue;
     const newSongsForQueue = [];
     var newSongsForSongList = [];
 
@@ -409,7 +483,7 @@ const Room = (props) => {
         console.log(er);
       });
 
-    setTimeout(() => setSongsForQueue(newSongsForQueue), 1000);
+    setTimeout(() => setSongsForQueue(newSongsForQueue), 1000); */
   };
 
   const removeSongFromQueue = (queueSong) => {
@@ -497,7 +571,7 @@ const Room = (props) => {
           <div class="queue1">
             {showQueue && (
               <Queue
-                queueSongs={songsForQueue}
+                queueSongs={arrayForQueue}
                 updateQueueVote={updateQueueVote}
               />
             )}

@@ -4,6 +4,7 @@ import Axios from "axios";
 import "../../css/Queue.css";
 
 const Queue = (props) => {
+
   const handleCheck = (e) => {
     console.log(e.target.id);
     props.updateQueueVote(e.target.id);
@@ -11,9 +12,10 @@ const Queue = (props) => {
 
   const renderQueue = () => {
     if (
-      props.queueSongs.length == 0 ||
-      (props.queueSongs.length == 1 &&
-        props.queueSongs[0].songTrackUrl == "")
+      typeof(props.queueSongs) === "undefined" ||
+      props.queueSongs.length === 0 ||
+      (props.queueSongs.length === 1 &&
+        props.queueSongs[0].queueItemId === -1)
     ) {
       return (
         <div class="queue-says">

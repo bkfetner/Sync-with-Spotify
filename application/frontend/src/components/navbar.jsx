@@ -46,8 +46,6 @@ const NavBar = (props) => {
   var updateUser = userInfo;
   Axios.get("http://localhost:8000/api/users/")
           .then((res) => {
-            console.log("get user res");
-            console.log(res);
             res.data.map((getUser) => {
               if(getUser.user_id === updateUser.userId) {
                 updateUser.administratorStatus = getUser.admin_status;
@@ -59,9 +57,6 @@ const NavBar = (props) => {
             updateCurrentUser(updateUser);
           })
           .catch((er) => console.log(er));
-
-  console.log("userInfo");
-  console.log(userInfo);
 
   const menu = (
     <Menu onClick={onClick}>

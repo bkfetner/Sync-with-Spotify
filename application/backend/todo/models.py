@@ -53,6 +53,12 @@ class Queue(models.Model):
     queue_id = models.CharField(max_length=255, default=True)
     room_id = models.CharField(max_length=255, default=True)
     song_id = models.CharField(max_length=255, default=True)
+    song_name = models.CharField(max_length=255, default=True)
+    song_artist = models.CharField(max_length=255, default=True)
+    song_track_url = models.CharField(max_length=255, default=True)
+    small_song_image_url = models.CharField(max_length=255, default=True)
+    large_song_image_url = models.CharField(max_length=255, default=True)
+    song_duration = models.CharField(max_length=255, default=True)
 
   
 
