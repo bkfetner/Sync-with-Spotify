@@ -25,7 +25,7 @@ const NavBar = (props) => {
   const deleteCurrentUser = () => {
     localStorage.removeItem("currentUser");
     Cookies.remove("spotifyAuthToken");
-  }
+  };
 
   const updateCurrentUser = (updateUserInfo) => {
     const stringUpdateUserInfo = JSON.stringify(updateUserInfo);
@@ -39,37 +39,49 @@ const NavBar = (props) => {
     return retrieveUserInfo;
   };
 
-    
-
   const [userInfo, setUserInfo] = useState(retrieveCurrentUser);
 
-  var updateUser = userInfo;
-  Axios.get("http://localhost:8000/api/users/")
-          .then((res) => {
-            res.data.map((getUser) => {
-              if(getUser.user_id === updateUser.userId) {
-                updateUser.administratorStatus = getUser.admin_status;
-                updateUser.banStatus = getUser.ban_status;
-                updateUser.banComment = getUser.ban_comments;
-              }
-            })
-            setUserInfo(updateUser);
-            updateCurrentUser(updateUser);
-          })
-          .catch((er) => console.log(er));
+  useEffect(() => {
+    var updateUser = userInfo;
+    Axios.get("http://localhost:8000/api/users/")
+      .then((res) => {
+        res.data.map((getUser) => {
+          if (getUser.user_id === updateUser.userId) {
+            updateUser.administratorStatus = getUser.admin_status;
+            updateUser.banStatus = getUser.ban_status;
+            updateUser.banComment = getUser.ban_comments;
+          }
+        });
+        setUserInfo(updateUser);
+        updateCurrentUser(updateUser);
+      })
+      .catch((er) => console.log(er));
+  });
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      checkAuth();
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const checkAuth = () => {
+    var stillAuth = Cookies.get("spotifyAuthToken");
+    if(typeof(stillAuth) === "undefined") {
+      deleteCurrentUser();
+      history.push("/");
+    }
+  }
 
   const menu = (
     <Menu onClick={onClick}>
       <Menu.Item key="1">Logout</Menu.Item>
       <Menu.Item key="2">Ban a User</Menu.Item>
       <Menu.Item key="3">Delete Rooms</Menu.Item>
-
     </Menu>
   );
   if (!userInfo) {
-    return (
-      <Redirect to="/"/>
-    )
+    return <Redirect to="/" />;
   }
   return (
     <div>
@@ -77,14 +89,14 @@ const NavBar = (props) => {
         {" "}
         {/*fixed="top" TOOK THIS OFF, WAS ADDING SCROLL TO PAGES WHEN NOT NEEDED*/}
         <Navbar.Brand href="/Home">
-        <div className="user-picture-name">
-          <Image
-            src="/assets/logoImage2.png"
-            href="/Home"
-            style={{ width: "65px", marginRight: "10px" }}
-            preview={false}
-          />
-          SYNC
+          <div className="user-picture-name">
+            <Image
+              src="/assets/logoImage2.png"
+              href="/Home"
+              style={{ width: "65px", marginRight: "10px" }}
+              preview={false}
+            />
+            SYNC
           </div>
         </Navbar.Brand>
         <Nav className="mr-auto">
@@ -104,14 +116,16 @@ const NavBar = (props) => {
                 onClick={(e) => e.preventDefault()}
               >
                 <div className="user-picture-name">
-                  {(userInfo.profilePictureUrl !== "none") && <Image
-                    width={50}
-                    src={userInfo.profilePictureUrl}
-                    style={{ borderRadius: "25px"}}
-                    preview={false}
-                  />}
-                  <div style={{marginLeft: "10px"}}>
-                  {userInfo.displayName}({userInfo.product})
+                  {userInfo.profilePictureUrl !== "none" && (
+                    <Image
+                      width={50}
+                      src={userInfo.profilePictureUrl}
+                      style={{ borderRadius: "25px" }}
+                      preview={false}
+                    />
+                  )}
+                  <div style={{ marginLeft: "10px" }}>
+                    {userInfo.displayName}({userInfo.product})
                   </div>
                   <DownOutlined />
                 </div>

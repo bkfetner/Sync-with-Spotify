@@ -179,15 +179,14 @@ const Room = (props) => {
     updateViewData();
   }, []);
 
-  useEffect(() => {
+  /* useEffect(() => {
     setAccessToken(Cookies.get("spotifyAuthToken"));
     if (typeof accessToken === "undefined") {
       localStorage.removeItem("currentUser");
       Cookies.remove("spotifyAuthToken");
       return <Redirect to="/" />;
-      /* history.push("/"); */
     }
-  });
+  }); */
 
   useEffect(() => {
     updateQueueView();
