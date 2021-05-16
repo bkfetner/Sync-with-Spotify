@@ -72,12 +72,12 @@ const NavBar = (props) => {
       history.push("/");
     }
   }
-
+  var admin = userInfo.administratorStatus;
   const menu = (
     <Menu onClick={onClick}>
       <Menu.Item key="1">Logout</Menu.Item>
-      <Menu.Item key="2">Ban a User</Menu.Item>
-      <Menu.Item key="3">Delete Rooms</Menu.Item>
+      {admin && <Menu.Item key="2">Ban a User</Menu.Item>}
+      {admin && <Menu.Item key="3">Delete Rooms</Menu.Item>}     
     </Menu>
   );
   if (!userInfo) {
@@ -103,6 +103,9 @@ const NavBar = (props) => {
           <Nav.Link href="/Createpage">Create</Nav.Link>
           <Nav.Link href="/Join">Join</Nav.Link>
           <Nav.Link href="/Chatroom">Chat</Nav.Link>
+          {userInfo.administratorStatus && <Nav.Link href="/banuser">Ban Users</Nav.Link>}
+          {userInfo.administratorStatus && <Nav.Link href="/deleteroom">Destroy Rooms</Nav.Link>}
+
           {/* <Nav.Link href="/Room">Room</Nav.Link>
           <Nav.Link href="/Contact">Contact us</Nav.Link>
           <Nav.Link href="/Aboutus">About us</Nav.Link> */}
