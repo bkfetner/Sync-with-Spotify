@@ -77,13 +77,7 @@ class Chatroom extends Component {
       console.log("WebSocket Client Connected");
     };
     this.client.onmessage = (message) => {
-      console.log("message");
-      console.log(message);
       const dataFromServer = JSON.parse(message.data);
-      console.log("dataFromServer");
-      console.log(dataFromServer);
-      console.log("dataFromServer.name");
-      console.log(dataFromServer.name);
 
       console.log("got reply! ", dataFromServer.type);
       if (dataFromServer) {

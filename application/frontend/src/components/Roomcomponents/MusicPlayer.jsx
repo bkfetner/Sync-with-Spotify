@@ -1,4 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
+import SpotifyPlayer from "react-spotify-web-playback";
+import { Image } from "antd";
+
 import "../../css/MusicPlayer.css";
 import { Button } from "antd";
 
@@ -10,6 +13,14 @@ const useForceUpdate = () => {
 
 
 function MusicPlayer(props) {
+
+  const [play, setPlay] = useState(true);
+
+  useEffect(() => setPlay(true), [props.viewData.current_song_track_url]);
+  if (!props.accessToken) return null;
+
+  console.log("musicplay props");
+  console.log(props);
 
   /* const forceUpdate = useForceUpdate();
   console.log(props);
@@ -56,6 +67,27 @@ function MusicPlayer(props) {
       Song Artist: {props.viewData.current_song_artist}<br />
       <Button onClick={props.handleEndOfSong}>Send next song to db</Button>
       <Button onClick={props.updateViewData}>Get current song from db</Button>
+
+
+      <Image
+            src={props.viewData.roomImageUrl}
+            style={{ width: "300px" }}
+            preview={false}
+          />
+      <SpotifyPlayer
+        styles={{sliderHeight: '0'}}
+        initialVolume={0.25}
+        token={props.accessToken}
+        showSaveIcon
+        callback={(state) => {
+          console.log("callback state");
+          console.log(state);
+          if (!state.isPlaying) setPlay(true);
+        }}
+        uris={props.viewData.current_song_track_url ? [props.viewData.current_song_track_url] : []}
+        autoPlay={true}
+        play={true}
+      />
 
 
       {/* <img

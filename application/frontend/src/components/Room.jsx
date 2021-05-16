@@ -467,7 +467,6 @@ const Room = (props) => {
   );
 
   const handleEndOfSong = () => {
-    console.log("Welcome to handleSneOfSong");
 
     var queueArray = Array.from(songsForQueue.values());
     queueArray.sort(function (a, b) {
@@ -477,11 +476,8 @@ const Room = (props) => {
     var topCount = -1;
     var topCountQueueItem = queueArray[1];
 
-    console.log("queueArray");
-    console.log(queueArray);
-
     if (queueArray.length > 1) {
-      for (var i = 0; i < queueArray.length; i++) {
+      for (var i = 1; i < queueArray.length; i++) {
         if (voteMapForQueue.has(queueArray[i].queueItemId)) {
           if (
             voteMapForQueue.get(queueArray[i].queueItemId).voteCount > topCount
@@ -497,9 +493,8 @@ const Room = (props) => {
 
       var data = {
         roomImageUrl: topCountQueueItem.largeSongImageUrl,
-        current_song_end_time:
-          new Date().getTime() + topCountQueueItem.songDuration,
-          current_song_start_time: new Date().getTime(),
+        current_song_end_time: new Date().getTime() + parseInt(topCountQueueItem.songDuration, 10),
+        current_song_start_time: new Date().getTime(),
         current_song_track_url: topCountQueueItem.songTrackUrl,
         current_track_id: topCountQueueItem.songId,
         current_song_name: topCountQueueItem.songName,
@@ -518,9 +513,6 @@ const Room = (props) => {
         .catch((er) => {
           console.log(er);
         });
-
-      console.log("topCountQueueItem");
-      console.log(topCountQueueItem);
     }
   };
 
@@ -594,6 +586,7 @@ const Room = (props) => {
               viewData={viewData}
               handleEndOfSong={handleEndOfSong}
               updateViewData={updateViewData}
+              accessToken={accessToken}
             />
           </div>
           <div class="chatflex">
