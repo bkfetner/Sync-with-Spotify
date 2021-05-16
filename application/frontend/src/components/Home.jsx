@@ -46,13 +46,32 @@ const Home = (props) => {
   const [viewData, setViewData] = useState([]);
  // const [roomtype,setRoomType] = useState();
 
+  const retrieveCurrentUser = () => {
+  const stringRetrieveUserInfo = localStorage.getItem("currentUser");
+  const retrieveUserInfo = JSON.parse(stringRetrieveUserInfo);
+
+  return retrieveUserInfo;
+};
+
+const [userInfo, setUserInfo] = useState(retrieveCurrentUser);
+
   useEffect(() => {
-    Axios.get("http://localhost:8000/api/room_type/")
+    if (userInfo.administratorStatus == 0) {
+      Axios.get("http://localhost:8000/api/room_type/")
       .then((res) => {
         console.log(res.data);
         setViewData(res.data);
       })
       .catch((er) => {console.log("get failed"); console.log(er);});
+    } else {
+      Axios.get("http://localhost:8000/api/adds/")
+      .then((res) => {
+        console.log(res.data);
+        setViewData(res.data);
+      })
+      .catch((er) => {console.log("get failed"); console.log(er);});
+    }
+  
   }, []);
   {
     /* For joining rooms */
