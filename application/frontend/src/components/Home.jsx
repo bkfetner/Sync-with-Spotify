@@ -53,9 +53,10 @@ const Home = (props) => {
   return retrieveUserInfo;
 };
 
-const [userInfo, setUserInfo] = useState(retrieveCurrentUser);
+//const [userInfo, setUserInfo] = useState(retrieveCurrentUser);
 
   useEffect(() => {
+    const userInfo = retrieveCurrentUser();
     if (userInfo.administratorStatus == 0) {
       Axios.get("http://localhost:8000/api/room_type/")
       .then((res) => {
