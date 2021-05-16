@@ -74,8 +74,9 @@ function MusicPlayer(props) {
             style={{ width: "300px" }}
             preview={false}
           />
+      <div className="spotify-music-player-controls">
       <SpotifyPlayer
-        styles={{sliderHeight: '0'}}
+        styles={{sliderHeight: '0', loaderSize: '110'}}
         initialVolume={0.25}
         token={props.accessToken}
         showSaveIcon
@@ -88,7 +89,7 @@ function MusicPlayer(props) {
         autoPlay={true}
         play={true}
       />
-
+      </div>
 
       {/* <img
         src={props.currentSong.songImageUrl}

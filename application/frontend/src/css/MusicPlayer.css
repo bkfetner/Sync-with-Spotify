@@ -10,3 +10,13 @@
 .music-player strong {
   margin-bottom: 20px;
 }
+
+/* .spotify-music-player-controls {
+  width: 300px !important;
+  display: flex;
+  flex-direction: column-reverse;
+  overflow: hidden;
+  height: 48px;
+  justify-items: flex-end;
+}
+ */

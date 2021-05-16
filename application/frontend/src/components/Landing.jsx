@@ -140,6 +140,13 @@ const Landing = (props) => {
     }
   };
 
+  useEffect(() => {
+    var token = Cookies.get("spotifyAuthToken");
+    if(!token) {
+      localStorage.removeItem("currentUser");
+    }
+  })
+
   var shallRedirect;
   const redirectUser = retrieveCurrentUser();
   if (redirectUser) {

@@ -203,6 +203,29 @@ const Room = (props) => {
     return () => clearInterval(interval);
   }, []);
 
+  useEffect(() => {
+    testMakeVote();
+    return () => testDeleteVote();
+  });
+
+  const testMakeVote = () => {
+    var data = {
+      vote_id: "test1",
+      room_id: "test2",
+      user_id: "test3",
+      song_id: "test4",
+    };
+    Axios.post("http://localhost:8000/api/votes/", data)
+      .then((res) => {})
+      .catch((er) => console.log(er));
+  }
+
+  const testDeleteVote = () => {
+    Axios.delete("http://localhost:8000/api/votes/test1/")
+        .then((res) => {})
+        .catch((er) => console.log(er));
+  }
+  
   /* const noOfUsers = props.match.params.noOfUsers; */
   const noOfUsers = Math.floor(Math.random() * 10 + 20);
   const roomUrl = window.location.href;
