@@ -55,13 +55,13 @@ const Footer = () => {
                         <h4 style={{ color: 'var(--color3)' }}>SOCIALS</h4>
                         <ul className="list-unstyled">
                             <li>
-                                <a href="https://www.instagram.com/" target="_blank">Instagram</a>
+                                <a href="https://www.instagram.com/sickgatorz" target="_blank">Instagram</a>
                             </li>
                             <li>
-                                <a href="https://www.facebook.com/" target="_blank">Facebook</a>
+                                <a href="https://www.facebook.com/sick.gatorz" target="_blank">Facebook</a>
                             </li>
                             <li>
-                                <a href="https://twitter.com/" target="_blank">Twitter</a>
+                                <a href="https://twitter.com/SGatorz" target="_blank">Twitter</a>
                             </li>
                         </ul>
                     </div>

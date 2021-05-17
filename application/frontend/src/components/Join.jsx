@@ -52,7 +52,7 @@ const Join = (props) => {
       searchByName();
       setSearchBarText({
         textField: "e.g. Tom's room",
-        dropDown: "RoomName",
+        dropDown: "Room name",
       });
     }else if (`${key}` == 3) {
       searchByGenre();
@@ -66,7 +66,7 @@ const Join = (props) => {
   const menu = (
     <Menu onClick={onClickfunction}>
       <Menu.Item key="1">All</Menu.Item>
-      <Menu.Item key="2">RoomName</Menu.Item>
+      <Menu.Item key="2">Room name</Menu.Item>
       <Menu.Item key="3">Genre</Menu.Item>
     </Menu>
   );

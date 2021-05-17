@@ -308,7 +308,7 @@ const Create = (props) => {
       /*  style={{ marginTop: "150px", marginLeft: "400px" }} */
       >
         <Form.Item
-          label="Roomname"
+          label="Room name"
           name="roomname"
           rules={[
             {
