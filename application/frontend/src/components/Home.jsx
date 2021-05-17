@@ -9,14 +9,13 @@ import {
   Typography,
   Card,
 } from "antd";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, Redirect } from "react-router-dom";
 import Axios from "axios";
 import "../css/Home.css";
 import Create from "./Create";
 import Footer from "./Footer";
 
 const Home = (props) => {
-  
   {
     /* For creating rooms */
   }
@@ -24,6 +23,20 @@ const Home = (props) => {
   const [roomName, setRoomName] = useState();
   const [roomGenre, setGenre] = useState();
   const history = useHistory();
+
+  const updateCurrentUser = (updateUserInfo) => {
+    const stringUpdateUserInfo = JSON.stringify(updateUserInfo);
+    localStorage.setItem("currentUser", stringUpdateUserInfo);
+  };
+
+  const retrieveCurrentUser = () => {
+    const stringRetrieveUserInfo = localStorage.getItem("currentUser");
+    const retrieveUserInfo = JSON.parse(stringRetrieveUserInfo);
+
+    return retrieveUserInfo;
+  };
+
+  const [userInfo, setUserInfo] = useState(retrieveCurrentUser);
 
   const insertData = () => {
     var data = {
@@ -44,59 +57,54 @@ const Home = (props) => {
   }
 
   const [viewData, setViewData] = useState([]);
- // const [roomtype,setRoomType] = useState();
 
-  const retrieveCurrentUser = () => {
-  const stringRetrieveUserInfo = localStorage.getItem("currentUser");
-  const retrieveUserInfo = JSON.parse(stringRetrieveUserInfo);
-
-  return retrieveUserInfo;
-};
-
-//const [userInfo, setUserInfo] = useState(retrieveCurrentUser);
+  //const [userInfo, setUserInfo] = useState(retrieveCurrentUser);
 
   useEffect(() => {
-    const userInfo = retrieveCurrentUser();
-    if (userInfo.administratorStatus == 0) {
-      Axios.get("http://localhost:8000/api/room_type/")
-      .then((res) => {
-        console.log(res.data);
-        setViewData(res.data);
-      })
-      .catch((er) => {console.log("get failed"); console.log(er);});
-    } else {
-      Axios.get("http://localhost:8000/api/adds/")
-      .then((res) => {
-        console.log(res.data);
-        setViewData(res.data);
-      })
-      .catch((er) => {console.log("get failed"); console.log(er);});
+    if (userInfo != null) {
+      if (userInfo.administratorStatus == 0) {
+        Axios.get("http://localhost:8000/api/room_type/")
+          .then((res) => {
+            console.log(res.data);
+            setViewData(res.data);
+          })
+          .catch((er) => {
+            console.log("get failed");
+            console.log(er);
+          });
+      } else {
+        Axios.get("http://localhost:8000/api/adds/")
+          .then((res) => {
+            console.log(res.data);
+            setViewData(res.data);
+          })
+          .catch((er) => {
+            console.log("get failed");
+            console.log(er);
+          });
+      }
     }
-  
   }, []);
   {
     /* For joining rooms */
   }
-  
+
   const joinRoom = (getFromid) => {
-   
     //const resultRoomGenre = gen;
     //const resultRoomName = name;
     //const resultRoomType = type;
-    console.log(getFromid)
+    console.log(getFromid);
     const resultRoomId = getFromid;
-    console.log(resultRoomId)
-    props.history.push("/Room/"+ resultRoomId + "/")
+    console.log(resultRoomId);
+    props.history.push("/Room/" + resultRoomId + "/");
     //setRoomType(resultRoomId)
-    
-   /* if (resultRoomType == 0) {
+
+    /* if (resultRoomType == 0) {
         setRoomType("Public Room")
         console.log(roomtype)
     } else {
         setRoomType("Private Room")
     }*/
- 
-    
   };
 
   console.log(props.displayCreate);
@@ -107,6 +115,9 @@ const Home = (props) => {
     setCreateStatus(!createStatus);
   };
 
+  if (userInfo == null || !userInfo) {
+    return <Redirect to="/" />;
+  }
   return (
     <div>
       <div className="main home-main">
@@ -158,7 +169,6 @@ const Home = (props) => {
                       <Typography.Text
                         className="join_text"
                         style={{ float: "right" }}
-                      
                       >
                         {d.room_name}
                       </Typography.Text>
@@ -179,17 +189,15 @@ const Home = (props) => {
                         className="join_text"
                         style={{ float: "right" }}
                       >
-                        {Math.floor(Math.random()*50)}
+                        {Math.floor(Math.random() * 50)}
                       </Typography.Text>
                     </Col>
                     <Col xs={24} className="join_text">
                       Link to join:
-                      
                       <Button
                         type="link"
                         onClick={() => joinRoom(d.room_id)}
-                        style={{ float: "right"}}
-                        
+                        style={{ float: "right" }}
                       >
                         Click here
                       </Button>

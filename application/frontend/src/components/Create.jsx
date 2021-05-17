@@ -155,6 +155,7 @@ const Create = (props) => {
       roomImageUrl: room_url.url,
       room_id: roomId,
       roomType : type,
+      room_song_number: 0,
     };
     console.log("insertData");
     console.log(data);

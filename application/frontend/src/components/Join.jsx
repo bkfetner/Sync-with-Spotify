@@ -1,4 +1,5 @@
 import React, { Fragment, useEffect, useState } from "react";
+import { Link, useHistory, Redirect } from "react-router-dom";
 import {
   Button,
   Row,
@@ -16,6 +17,20 @@ import "../css/Join.css";
 import Footer from "./Footer";
 
 const Join = (props) => {
+  const updateCurrentUser = (updateUserInfo) => {
+    const stringUpdateUserInfo = JSON.stringify(updateUserInfo);
+    localStorage.setItem("currentUser", stringUpdateUserInfo);
+  };
+
+  const retrieveCurrentUser = () => {
+    const stringRetrieveUserInfo = localStorage.getItem("currentUser");
+    const retrieveUserInfo = JSON.parse(stringRetrieveUserInfo);
+
+    return retrieveUserInfo;
+  };
+
+  const [userInfo, setUserInfo] = useState(retrieveCurrentUser);
+
   const [searchValue, setSearchValue] = useState("");
   const [options, setOptions] = useState([]);
   const [viewData, setViewData] = useState([]);
@@ -125,6 +140,9 @@ const Join = (props) => {
     setSearchedData(result);
   };
 
+  if (userInfo == null || !userInfo) {
+    return <Redirect to="/" />;
+  }
   return (
     <Fragment>
       <div>

@@ -12,12 +12,14 @@ from .serializers import RoomsSerializer
 from .serializers import UsersSerializer
 from .serializers import QueuesSerializer
 from .serializers import VotesSerializer
+from .serializers import NextsongSerializer
 
 from .models import Todo
 from .models import Rooms
 from .models import Users
 from .models import Queue
 from .models import Vote
+from .models import Nextsong
 
 
 # Create your views here.
@@ -52,6 +54,12 @@ class VoteView(viewsets.ModelViewSet):
     filter_backends = (filters.SearchFilter,)
     serializer_class = VotesSerializer
     queryset = Vote.objects.all()
+
+class NextsongView(viewsets.ModelViewSet):
+    search_fields = ['queue_item_id', 'room_id']
+    filter_backends = (filters.SearchFilter,)
+    serializer_class = NextsongSerializer
+    queryset = Nextsong.objects.all()
 
 
 def submitpage(request):

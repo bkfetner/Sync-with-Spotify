@@ -140,22 +140,6 @@ const albumList = [
   },
 ];
 
-const prepSongsForQueue = (song) => {
-  let queueSongId = Math.floor(Math.random() * 1000000);
-  let numOfVotes = Math.floor(Math.random() * 20);
-  let title = song.title;
-  let url = song.url;
-  let music = song.music;
-  return {
-    title: title,
-    url: url,
-    music: music,
-    vote: numOfVotes,
-    queueSongId: queueSongId,
-    userVote: false,
-  };
-};
-
 const Room = (props) => {
   const roomId = props.match.params.roomId;
   const [viewData, setViewData] = useState([]);
@@ -546,6 +530,64 @@ const Room = (props) => {
       .catch((er) => console.log(er));
   };
 
+  const submitNextSong = () => {
+    console.log("viewData");
+    console.log(viewData);
+
+    var queueArray = Array.from(songsForQueue.values());
+    queueArray.sort(function (a, b) {
+      return a.timeAddedToQueue - b.timeAddedToQueue;
+    });
+
+    var topCount = -1;
+    var topCountQueueItem = queueArray[1];    
+
+    if (queueArray.length > 1) {
+      for (var i = 1; i < queueArray.length; i++) {
+        if (voteMapForQueue.has(queueArray[i].queueItemId)) {
+          if (
+            voteMapForQueue.get(queueArray[i].queueItemId).voteCount > topCount
+          ) {
+            topCount = voteMapForQueue.get(queueArray[i].queueItemId).voteCount;
+            topCountQueueItem = queueArray[i];
+          }
+        } else if (0 > topCount) {
+          topCount = 0;
+          topCountQueueItem = queueArray[i];
+        }
+      }
+
+      console.log("topCountQueueItem");
+      console.log(topCountQueueItem);
+
+      var data = {
+        room_id: roomId,
+        queue_item_id: topCountQueueItem.queueItemId,
+        time_submitted: new Date().getTime(),
+        room_song_number: parseInt(viewData.room_song_number, 10) + 1,
+        song_track_id: topCountQueueItem.songId,
+        song_name: topCountQueueItem.songName,
+        song_artist: topCountQueueItem.songArtist,
+        song_track_url: topCountQueueItem.songTrackUrl,
+        small_song_image_url: topCountQueueItem.smallSongImageUrl,
+        large_song_image_url: topCountQueueItem.largeSongImageUrl,
+        song_duration: topCountQueueItem.songDuration,
+      };
+
+      Axios.post("http://localhost:8000/api/nextsong/", data)
+      .then((res) => {
+        console.log("nextsong post res");
+        console.log(res);
+      })
+      .catch((er) => {
+        console.log(er);
+      });
+    }
+  }
+
+  if (userInfo == null || !userInfo) {
+    return <Redirect to="/" />;
+  }
   return (
     <div>
       <div class="main room-main">
@@ -608,6 +650,7 @@ const Room = (props) => {
               viewData={viewData}
               handleEndOfSong={handleEndOfSong}
               updateViewData={updateViewData}
+              submitNextSong={submitNextSong}
               accessToken={accessToken}
             />
           </div>

@@ -72,7 +72,10 @@ const NavBar = (props) => {
       history.push("/");
     }
   }
-  var admin = userInfo.administratorStatus;
+  var admin = false;
+  if(typeof(userInfo) != "undefined" && userInfo != null) {
+    admin = userInfo.administratorStatus;
+  }
   const menu = (
     <Menu onClick={onClick}>
       <Menu.Item key="1">Logout</Menu.Item>
@@ -80,7 +83,14 @@ const NavBar = (props) => {
       {admin && <Menu.Item key="3">Delete Rooms</Menu.Item>}     
     </Menu>
   );
-  if (!userInfo) {
+  var banned = false;
+  if(typeof(userInfo) != "undefined" && userInfo != null) {
+    banned = userInfo.banStatus;
+    if(banned) {
+      deleteCurrentUser();
+    }
+  }
+  if (userInfo == null || !userInfo) {
     return <Redirect to="/" />;
   }
   return (

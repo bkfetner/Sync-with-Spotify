@@ -6,6 +6,7 @@ from .models import Rooms
 from .models import Users
 from .models import Queue
 from .models import Vote
+from .models import Nextsong
 
 
 
@@ -20,7 +21,7 @@ class RoomsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Rooms
-        fields = ('room_id','room_name', 'genre' ,'roomImageUrl','roomType', 'population', 'current_track_id', 'current_song_track_url', 'current_song_end_time', 'current_song_start_time', 'current_song_name', 'current_song_artist')
+        fields = ('room_id','room_name', 'genre' ,'roomImageUrl','roomType', 'room_song_number','population', 'current_track_id', 'current_song_track_url', 'current_song_end_time', 'current_song_start_time', 'current_song_name', 'current_song_artist')
 class UsersSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -38,4 +39,10 @@ class VotesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Vote
         fields = ('vote_id', 'room_id', 'user_id', 'song_id')
+
+class NextsongSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Nextsong
+        fields = ('queue_item_id', 'room_id', 'time_submitted', 'room_song_number', 'song_track_id', 'song_name', 'song_artist', 'song_track_url', 'small_song_image_url', 'large_song_image_url', 'song_duration')
 

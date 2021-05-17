@@ -19,9 +19,6 @@ function MusicPlayer(props) {
   useEffect(() => setPlay(true), [props.viewData.current_song_track_url]);
   if (!props.accessToken) return null;
 
-  console.log("musicplay props");
-  console.log(props);
-
   /* const forceUpdate = useForceUpdate();
   console.log(props);
   const audioEl = useRef(null);
@@ -67,6 +64,7 @@ function MusicPlayer(props) {
       Song Artist: {props.viewData.current_song_artist}<br />
       <Button onClick={props.handleEndOfSong}>Send next song to db</Button>
       <Button onClick={props.updateViewData}>Get current song from db</Button>
+      <Button onClick={props.submitNextSong}>Update next song</Button>
 
 
       <Image

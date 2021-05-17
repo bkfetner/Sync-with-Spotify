@@ -26,6 +26,7 @@ class Rooms(models.Model):
     genre = models.CharField(max_length=255)
     roomImageUrl = models.CharField(max_length=255, null=True)
     roomType = models.BooleanField(default=True)
+    room_song_number = models.CharField(max_length=255, default=True)
     population = models.CharField(max_length=20, null=True)
     current_track_id = models.CharField(max_length=255, default=True)
     current_song_track_url = models.CharField(max_length=255, default=True)
@@ -68,17 +69,17 @@ class Queue(models.Model):
 
 
 class Nextsong(models.Model):
-    # room_id = models.ForeignKey(Rooms, on_delete=models.CASCADE)
-    # queue_item_id = models.ForeignKey(Queue, on_delete=models.CASCADE)
+    room_id = models.CharField(max_length=255, default=True)
+    queue_item_id = models.CharField(primary_key=True, max_length=255)
     time_submitted = models.CharField(max_length=255, default=True)
     room_song_number = models.CharField(max_length=255, default=True)
     song_track_id = models.CharField(max_length=255, default=True)
-    # song_name = models.ForeignKey(Queue, on_delete=models.CASCADE)
-    # song_artist = models.ForeignKey(Queue, on_delete=models.CASCADE)
-    # song_duration = models.ForeignKey(Queue, on_delete=models.CASCADE)
-    # small_song_image_url = models.ForeignKey(Queue, on_delete=models.CASCADE)
-    # large_song_image_url = models.ForeignKey(Queue, on_delete=models.CASCADE)
-    # song_track_url = models.ForeignKey(Queue, on_delete=models.CASCADE)
+    song_name = models.CharField(max_length=255, default=True)
+    song_artist = models.CharField(max_length=255, default=True)
+    song_track_url = models.CharField(max_length=255, default=True)
+    small_song_image_url = models.CharField(max_length=255, default=True)
+    large_song_image_url = models.CharField(max_length=255, default=True)
+    song_duration = models.CharField(max_length=255, default=True)
 
     
   
