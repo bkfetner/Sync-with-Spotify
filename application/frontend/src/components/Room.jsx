@@ -202,14 +202,14 @@ const Room = (props) => {
     Axios.post("http://localhost:8000/api/votes/", data)
       .then((res) => {})
       .catch((er) => console.log(er));
-  }
+  };
 
   const testDeleteVote = () => {
     Axios.delete("http://localhost:8000/api/votes/test1/")
-        .then((res) => {})
-        .catch((er) => console.log(er));
-  }
-  
+      .then((res) => {})
+      .catch((er) => console.log(er));
+  };
+
   /* const noOfUsers = props.match.params.noOfUsers; */
   const noOfUsers = Math.floor(Math.random() * 10 + 20);
   const roomUrl = window.location.href;
@@ -236,6 +236,7 @@ const Room = (props) => {
 
   const [voteMapForQueue, setVoteMapForQueue] = useState(new Map());
 
+  const [nextSong, setNextSong] = useState();
   const [currentSong, setCurrentSong] = useState();
 
   /* const [songs, setSongs] = useState({
@@ -473,7 +474,6 @@ const Room = (props) => {
   );
 
   const handleEndOfSong = () => {
-
     var queueArray = Array.from(songsForQueue.values());
     queueArray.sort(function (a, b) {
       return a.timeAddedToQueue - b.timeAddedToQueue;
@@ -499,7 +499,8 @@ const Room = (props) => {
 
       var data = {
         roomImageUrl: topCountQueueItem.largeSongImageUrl,
-        current_song_end_time: new Date().getTime() + parseInt(topCountQueueItem.songDuration, 10),
+        current_song_end_time:
+          new Date().getTime() + parseInt(topCountQueueItem.songDuration, 10),
         current_song_start_time: new Date().getTime(),
         current_song_track_url: topCountQueueItem.songTrackUrl,
         current_track_id: topCountQueueItem.songId,
@@ -540,7 +541,7 @@ const Room = (props) => {
     });
 
     var topCount = -1;
-    var topCountQueueItem = queueArray[1];    
+    var topCountQueueItem = queueArray[1];
 
     if (queueArray.length > 1) {
       for (var i = 1; i < queueArray.length; i++) {
@@ -575,14 +576,75 @@ const Room = (props) => {
       };
 
       Axios.post("http://localhost:8000/api/nextsong/", data)
-      .then((res) => {
-        console.log("nextsong post res");
-        console.log(res);
-      })
-      .catch((er) => {
-        console.log(er);
-      });
+        .then((res) => {
+          console.log("nextsong post res");
+          console.log(res);
+        })
+        .catch((er) => {
+          console.log(er);
+        });
     }
+  };
+
+  const getNextSong = () => {
+    console.log("nextSong");
+    console.log(nextSong);
+    if (!nextSong || nextSong == null) {
+      Axios.get("http://localhost:8000/api/nextsong/")
+        .then((res) => {
+          console.log("nextsong get res");
+          console.log(res);
+
+          var highestRoomSongNumber = 0;
+          res.data.map((next) => {
+            if (next.room_id === roomId) {
+              if (next.room_song_number > highestRoomSongNumber) {
+                highestRoomSongNumber = next.room_song_number;
+              }
+            }
+          });
+
+          var firstPickTime = 9999999999999;
+          var firstPickSong;
+          res.data.map((next) => {
+            if (
+              next.room_id === roomId &&
+              next.room_song_number == highestRoomSongNumber
+            ) {
+              if (next.time_submitted < firstPickTime) {
+                firstPickTime = next.time_submitted;
+                firstPickSong = next;
+              }
+            }
+          });
+
+          setNextSong({
+            largeSongImageUrl: firstPickSong.large_song_image_url,
+            roomSongNumber: firstPickSong.room_song_number,
+            smallSongImageUrl: firstPickSong.small_song_image_url,
+            songArtist: firstPickSong.song_artist,
+            songDuration: firstPickSong.song_duration,
+            songName: firstPickSong.song_name,
+            songTrackId: firstPickSong.song_track_id,
+            songTrackUrl: firstPickSong.song_track_url,
+          });
+
+          Axios.delete(
+            "http://localhost:8000/api/queues/" +
+              firstPickSong.queue_item_id +
+              "/"
+          )
+            .then((res) => {})
+            .catch((er) => console.log(er));
+        })
+        .catch((er) => {
+          console.log(er);
+        });
+    }
+  };
+
+  const updateCurrentSong = () => {
+
   }
 
   if (userInfo == null || !userInfo) {
@@ -648,9 +710,11 @@ const Room = (props) => {
             </div>
             <MusicPlayer
               viewData={viewData}
+              nextSong={nextSong}
               handleEndOfSong={handleEndOfSong}
               updateViewData={updateViewData}
               submitNextSong={submitNextSong}
+              getNextSong={getNextSong}
               accessToken={accessToken}
             />
           </div>
