@@ -71,11 +71,29 @@ const Join = (props) => {
     </Menu>
   );
   useEffect(() => {
-    Axios.get("http://localhost:8000/api/room_type/")
-      .then((res) => {
-        setViewData(res.data);
-      })
-      .catch((er) => console.log(er));
+    if (userInfo != null) {
+      if (userInfo.administratorStatus == 0) {
+        Axios.get("http://localhost:8000/api/room_type/")
+          .then((res) => {
+            console.log(res.data);
+            setViewData(res.data);
+          })
+          .catch((er) => {
+            console.log("get failed");
+            console.log(er);
+          });
+      } else {
+        Axios.get("http://localhost:8000/api/adds/")
+          .then((res) => {
+            console.log(res.data);
+            setViewData(res.data);
+          })
+          .catch((er) => {
+            console.log("get failed");
+            console.log(er);
+          });
+      }
+    }
   }, []);
 
   useEffect(() => {
@@ -85,40 +103,98 @@ const Join = (props) => {
   }, [searchValue]);
 
   const searchAll = () => {
-    Axios.get("http://localhost:8000/api/room_type/")
-      .then((res) => {
-        /*let tempOptions = [];
-        res.data.forEach((d) => {
-          tempOptions.push({ value: d.room_name });
-        });
-        setOptions(tempOptions);*/
-        setViewData(res.data);
-      })
-      .catch((er) => console.log(er));
+    if (userInfo != null) {
+      if (userInfo.administratorStatus == 0) {
+        Axios.get("http://localhost:8000/api/room_type/")
+          .then((res) => {
+            console.log(res.data);
+            setViewData(res.data);
+          })
+          .catch((er) => {
+            console.log("get failed");
+            console.log(er);
+          });
+      } else {
+        Axios.get("http://localhost:8000/api/adds/")
+          .then((res) => {
+            console.log(res.data);
+            setViewData(res.data);
+          })
+          .catch((er) => {
+            console.log("get failed");
+            console.log(er);
+          });
+      }
+    }
+    
   };
   const searchByName = () => {
-    Axios.get("http://localhost:8000/api/room_type/")
-      .then((res) => {
-        let tempOptions = [];
-        res.data.forEach((d) => {
-          tempOptions.push({ value: d.room_name });
-        });
-        setOptions(tempOptions);
-        setViewData(res.data);
-      })
-      .catch((er) => console.log(er));
+    if (userInfo != null) {
+      if (userInfo.administratorStatus == 0) {
+        Axios.get("http://localhost:8000/api/room_type/")
+          .then((res) => {
+            let tempOptions = [];
+            res.data.forEach((d) => {
+              tempOptions.push({ value: d.room_name });
+            });
+            setOptions(tempOptions);
+            setViewData(res.data);
+          })
+          .catch((er) => {
+            console.log("get failed");
+            console.log(er);
+          });
+      } else {
+        Axios.get("http://localhost:8000/api/adds/")
+          .then((res) => {
+            let tempOptions = [];
+              res.data.forEach((d) => {
+                tempOptions.push({ value: d.room_name });
+              });
+              setOptions(tempOptions);
+              setViewData(res.data);
+          })
+          .catch((er) => {
+            console.log("get failed");
+            console.log(er);
+          });
+      }
+    }
+    
   };
   const searchByGenre = () => {
-    Axios.get("http://localhost:8000/api/room_type/")
-      .then((res) => {
-        let tempOptions = [];
-        res.data.forEach((d) => {
-          tempOptions.push({ value: d.genre });
-        });
-        setOptions(tempOptions);
-        setViewData(res.data);
-      })
-      .catch((er) => console.log(er));
+    if (userInfo != null) {
+      if (userInfo.administratorStatus == 0) {
+        Axios.get("http://localhost:8000/api/room_type/")
+          .then((res) => {
+            let tempOptions = [];
+            res.data.forEach((d) => {
+              tempOptions.push({ value: d.genre });
+            });
+            setOptions(tempOptions);
+            setViewData(res.data);
+          })
+          .catch((er) => {
+            console.log("get failed");
+            console.log(er);
+          });
+      } else {
+        Axios.get("http://localhost:8000/api/adds/")
+          .then((res) => {
+            let tempOptions = [];
+              res.data.forEach((d) => {
+                tempOptions.push({ value: d.genre });
+              });
+              setOptions(tempOptions);
+              setViewData(res.data);
+          })
+          .catch((er) => {
+            console.log("get failed");
+            console.log(er);
+          });
+      }
+    }
+   
   };
 
   {
