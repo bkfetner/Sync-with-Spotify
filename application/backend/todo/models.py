@@ -82,6 +82,10 @@ class Nextsong(models.Model):
     large_song_image_url = models.CharField(max_length=255, default=True)
     song_duration = models.CharField(max_length=255, default=True)
 
+class Contact(models.Model):
+    email = models.CharField(max_length=255, default=True)
+    message = models.CharField(max_length=255, default=True)  
+
     
   
 
