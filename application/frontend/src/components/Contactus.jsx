@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
@@ -9,12 +9,27 @@ import TextField from '@material-ui/core/TextField'
 import Navbar from "./navbar";
 import { Button } from 'react-bootstrap';
 import Footer from "./Footer";
+import Axios from 'axios';
 
 const Contactus = () => {
     const [open, setOpen] = React.useState(false);
+    const [emailId, setEmailId] = useState();
+    const [comment, setComment] = useState();
 
     const handleClickOpen = () => {
         setOpen(true);
+        var data = {
+            email : emailId,
+            message : comment,
+          }
+          Axios.post("http://localhost:8000/api/contact/" , data)
+            .then((res) => {
+              console.log('banned')
+            })
+            .catch((er) => {
+              {
+              }
+            });
     };
 
     const handleClose = () => {
@@ -36,11 +51,19 @@ const Contactus = () => {
             <div class="main">
                 <p style={{ justifySelf: 'left' }} />Email:
             <div style={{ paddingBottom: 20, paddingTop: 20 }}>
-                    <input type='text' placeholder='Email' required style={{ backgroundColor: '#393e46', width: 300 }} />
+                    <input type='text' placeholder='Email' required style={{ backgroundColor: '#393e46', width: 300 }} 
+                        onChange={(e) => {
+                            setEmailId(e.target.value);
+                          }}
+                    />
                 </div>
             Write your comment:
             <div style={{ paddingTop: 20, paddingBottom: 20 }}>
-                    <textarea type="text" rows="8" cols="50" name="contactFormBody" wrap="hard" style={{ backgroundColor: '#393e46' }}></textarea>
+                    <textarea type="text" rows="8" cols="50" name="contactFormBody" wrap="hard" style={{ backgroundColor: '#393e46' }}
+                        onChange={(e) => {
+                            setComment(e.target.value);
+                          }}
+                    ></textarea>
                 </div>
                 <Button style={{ backgroundColor: '#00adb5' }} onClick={handleClickOpen}>
                     Send Form
