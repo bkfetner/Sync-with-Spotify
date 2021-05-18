@@ -7,6 +7,7 @@ from .models import Users
 from .models import Queue
 from .models import Vote
 from .models import Nextsong
+from .models import Contact
 
 
 
@@ -45,4 +46,10 @@ class NextsongSerializer(serializers.ModelSerializer):
     class Meta:
         model = Nextsong
         fields = ('queue_item_id', 'room_id', 'time_submitted', 'room_song_number', 'song_track_id', 'song_name', 'song_artist', 'song_track_url', 'small_song_image_url', 'large_song_image_url', 'song_duration')
+
+class ContactSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Contact
+        fields = ('email', 'message')
 

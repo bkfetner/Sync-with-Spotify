@@ -13,6 +13,7 @@ from .serializers import UsersSerializer
 from .serializers import QueuesSerializer
 from .serializers import VotesSerializer
 from .serializers import NextsongSerializer
+from .serializers import ContactSerializer
 
 from .models import Todo
 from .models import Rooms
@@ -20,6 +21,7 @@ from .models import Users
 from .models import Queue
 from .models import Vote
 from .models import Nextsong
+from .models import Contact
 
 
 # Create your views here.
@@ -60,6 +62,12 @@ class NextsongView(viewsets.ModelViewSet):
     filter_backends = (filters.SearchFilter,)
     serializer_class = NextsongSerializer
     queryset = Nextsong.objects.all()
+
+class ContactView(viewsets.ModelViewSet):
+    search_fields = ['email']
+    filter_backends = (filters.SearchFilter,)
+    serializer_class = ContactSerializer
+    queryset = Contact.objects.all()
 
 
 def submitpage(request):

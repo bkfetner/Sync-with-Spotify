@@ -26,6 +26,7 @@ router.register(r'users', views.UserView, 'todo')
 router.register(r'queues', views.QueueView, 'todo')
 router.register(r'votes', views.VoteView, 'todo')
 router.register(r'nextsong', views.NextsongView, 'todo')
+router.register(r'contact', views.ContactView, 'todo')
 #router.register(r'adds', views.RoomView, 'add')
 
 

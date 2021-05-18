@@ -840,13 +840,13 @@ const Room = (props) => {
             />
           </div>
           <div class="chatflex">
-            {
-              <Chatroom
+            {viewData.room_id !== "" ? (<Chatroom
                 roomName={viewData.room_name}
                 roomId={viewData.room_id}
                 displayName={userInfo.displayName}
                 profilePictureUrl={userInfo.profilePictureUrl}
-              />
+              />) : (<div></div>)
+              
             }
           </div>
         </div>
