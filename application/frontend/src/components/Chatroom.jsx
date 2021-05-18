@@ -9,8 +9,6 @@ import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
-import Card from "@material-ui/core/Card";
-import CardHeader from "@material-ui/core/CardHeader";
 import Paper from "@material-ui/core/Paper";
 import Avatar from "@material-ui/core/Avatar";
 import { Button, Input } from "antd";
@@ -64,9 +62,6 @@ class Chatroom extends Component {
       name: this.props.displayName,
       profileUrl: this.props.profilePictureUrl,
     });
-    console.log("sendStr");
-    console.log(sendStr);
-
     this.client.send(sendStr);
     this.state.value = "";
     e.preventDefault();
@@ -74,12 +69,12 @@ class Chatroom extends Component {
 
   componentDidMount() {
     this.client.onopen = () => {
-      console.log("WebSocket Client Connected");
+      /* console.log("WebSocket Client Connected"); */
     };
     this.client.onmessage = (message) => {
       const dataFromServer = JSON.parse(message.data);
 
-      console.log("got reply! ", dataFromServer.type);
+      /* console.log("got reply! ", dataFromServer.type); */
       if (dataFromServer) {
         this.setState((state) => ({
           messages: [
@@ -101,7 +96,9 @@ class Chatroom extends Component {
       <Container style={{height: "calc(100% - 108px)", padding: "15px"}}>
         {this.state.isLoggedIn ? (
           <div className="realtime-containter">
-            <div className="chat-top-text">The {this.state.room} Chat Room</div>
+            <div className="chat-top-text">The {this.state.room.length > 10
+                ? this.state.room.substring(0, 10) + "..."
+                : this.state.room} Chat Room</div>
             <Paper className="realtime-chat-messages">
               {this.state.messages.reverse().map((message) => (
                 <>

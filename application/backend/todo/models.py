@@ -71,8 +71,8 @@ class Queue(models.Model):
 
 class Nextsong(models.Model):
     room_id = models.CharField(max_length=255, default=True)
-    queue_item_id = models.CharField(primary_key=True, max_length=255)
-    time_submitted = models.CharField(max_length=255, default=True)
+    queue_item_id = models.CharField(max_length=255, default=True)
+    time_submitted = models.CharField(primary_key=True, max_length=255)
     room_song_number = models.CharField(max_length=255, default=True)
     song_track_id = models.CharField(max_length=255, default=True)
     song_name = models.CharField(max_length=255, default=True)

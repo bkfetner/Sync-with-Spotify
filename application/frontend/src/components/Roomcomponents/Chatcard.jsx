@@ -4,7 +4,6 @@ import Axios from "axios";
 import "../../css/Chat.css";
 
 function Chatcard(props) {
-  console.log(props);
 
   return (
     <div className="chat-card">

@@ -1,18 +1,5 @@
 import React, { Component, useState, Fragment, useEffect } from "react";
-import {
-  Input,
-  Button,
-  Checkbox,
-  Comment,
-  List,
-  AutoComplete,
-  Row,
-  Col,
-  Card,
-  Divider,
-  Typography,
-  Popover,
-} from "antd";
+import { Divider } from "antd";
 import { Container, Image, Form } from "react-bootstrap";
 import Axios from "axios";
 import "../../css/SongSearch.css";
@@ -50,11 +37,6 @@ const SongSearch = (props) => {
   const [viewData, setViewData] = useState([]);
   const [searchedData, setSearchedData] = useState([]);
 
-  const viewRooms = () => {};
-  useEffect(() => {
-    setOptions(props.avaliableSongs);
-  }, []);
-
   useEffect(() => {
     let tempOptions = [];
     props.avaliableSongs.forEach((d) => {
@@ -64,23 +46,11 @@ const SongSearch = (props) => {
     setViewData(props.avaliableSongs);
   }, []);
 
-  console.log(viewData);
-  console.log("options");
-  console.log(options);
-
   useEffect(() => {
     if (searchValue === "") {
       setSearchedData([]);
     }
   }, [searchValue]);
-
-  const searchRoom = () => {
-    if (searchValue === "") return;
-    let result = viewData.filter((d) =>
-      d.room_name.toLowerCase().includes(searchValue.toLowerCase())
-    );
-    setSearchedData(result);
-  };
 
   const handleAddClick = (e) => {
     props.addSongToQueue(e);
@@ -89,20 +59,12 @@ const SongSearch = (props) => {
   /* Functions for spotify search START */
   const user = retrieveCurrentUser();
 
-  const [accessToken, setAccessToken] = useState(Cookies.get("spotifyAuthToken"));
-  console.log("accessToken");
-  console.log(accessToken);
+  const [accessToken, setAccessToken] = useState(
+    Cookies.get("spotifyAuthToken")
+  );
   const [search, setSearch] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [recommendedResults, setRecommendedResults] = useState([]);
-  const [playingTrack, setPlayingTrack] = useState([]);
-
-  function chooseTrack(track) {
-    setPlayingTrack(track);
-    console.log("track");
-    console.log(track);
-    setSearch("");
-  }
 
   useEffect(() => {
     if (!accessToken) return;
@@ -145,8 +107,6 @@ const SongSearch = (props) => {
           };
         })
       );
-      console.log("searchResults");
-      console.log(searchResults);
     });
 
     return () => (cancel = true);
@@ -157,11 +117,8 @@ const SongSearch = (props) => {
     if (!accessToken) return;
     let cancel = false;
 
-    console.log("genre:" + props.roomGenre);
     spotifyApi.searchTracks("genre:" + props.roomGenre).then((res) => {
       if (cancel) return;
-      console.log("res");
-      console.log(res);
       setRecommendedResults(
         res.body.tracks.items.map((track) => {
           const smallestAlbumImage = track.album.images.reduce(
@@ -190,8 +147,6 @@ const SongSearch = (props) => {
           };
         })
       );
-      console.log("recommendedResults");
-      console.log(recommendedResults);
     });
 
     return () => (cancel = true);
@@ -202,7 +157,7 @@ const SongSearch = (props) => {
   return (
     <div className="songsearch-main">
       <SpotifyAuthListener
-      onAccessToken={(token) => {
+        onAccessToken={(token) => {
           setAccessToken(Cookies.get("spotifyAuthToken"));
         }}
       />
@@ -223,8 +178,6 @@ const SongSearch = (props) => {
             placeholder="Search Songs / Artists"
             value={search}
             onChange={(e) => {
-              console.log("e");
-              console.log(e);
               setSearch(e.target.value);
             }}
             style={{ marginBottom: "20px" }}
@@ -239,9 +192,7 @@ const SongSearch = (props) => {
         <Divider />
 
         <div class="main">
-          <div className="searchsong-text">
-            {"Recommended Songs"}
-          </div>
+          <div className="searchsong-text">{"Recommended Songs"}</div>
         </div>
 
         {recommendedResults.map((track) => (

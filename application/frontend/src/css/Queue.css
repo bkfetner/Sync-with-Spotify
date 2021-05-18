@@ -57,6 +57,9 @@
   padding-right: 10px;
   border-bottom-left-radius: 10px;
   border-top-left-radius: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .song-vote-checkbox {

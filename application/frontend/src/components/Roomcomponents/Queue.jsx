@@ -3,6 +3,7 @@ import { Form, Input, Button, Checkbox, Comment, List, Popover } from "antd";
 import Axios from "axios";
 import "../../css/Queue.css";
 import { ConsoleSqlOutlined } from "@ant-design/icons";
+import QueueCards from "./QueueCards";
 
 const Queue = (props) => {
   const handleCheck = (e) => {
@@ -10,6 +11,15 @@ const Queue = (props) => {
   };
 
   const renderQueue = () => {
+    const songPopupContent = (track) => {
+      return (
+        <div>
+          <strong>Title:</strong> {track.songName} <br />
+          <strong> Artist:</strong> {track.songArtist}
+        </div>
+      );
+    };
+
     if (
       typeof props.queueSongs === "undefined" ||
       props.queueSongs.length === 0 ||
@@ -27,12 +37,19 @@ const Queue = (props) => {
           return (
             <div class="songdiv">
               <Popover
-                content={song.songName}
+                placement="left"
+                content={songPopupContent(song)}
                 trigger="hover"
-                className="songdiv-song-title"
               >
-                <img className="songdiv-img" src={song.smallSongImageUrl} />
-                {song.songName}
+                <div className="songdiv-song-title">
+                  <img className="songdiv-img" src={song.smallSongImageUrl} />
+                  <div>
+                    <div>{song.songName}</div>
+                    <div style={{ color: "var(--color2-brighter)" }}>
+                      {song.songArtist}
+                    </div>
+                  </div>
+                </div>
               </Popover>
 
               <div className="song-vote-checkbox">
@@ -46,9 +63,11 @@ const Queue = (props) => {
                   type="checkbox"
                   id={song.queueItemId}
                   onChange={handleCheck}
-                  checked={props.voteMapForQueue.has(song.queueItemId)
-                    ? props.voteMapForQueue.get(song.queueItemId).userVote
-                    : false}
+                  checked={
+                    props.voteMapForQueue.has(song.queueItemId)
+                      ? props.voteMapForQueue.get(song.queueItemId).userVote
+                      : false
+                  }
                 />
               </div>
             </div>

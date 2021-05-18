@@ -42,9 +42,6 @@ const SongSearchOld = (props) => {
     setViewData(props.avaliableSongs);
   }, []);
 
-  console.log(viewData);
-  console.log(options);
-
   useEffect(() => {
     if (searchValue === "") {
       setSearchedData([]);
@@ -60,8 +57,6 @@ const SongSearchOld = (props) => {
   };
 
   const handleAddClick = (e) => {
-    console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
-    console.log(e);
     props.addSongToQueue(e);
   };
 
@@ -79,7 +74,6 @@ const SongSearchOld = (props) => {
             style={{ width: "calc(100% - 15px)", marginBottom: "10px" }}
             onSearch={(value) => {
               setSearchValue(value);
-              console.log(value);
               let result = viewData.filter((d) =>
                 d.title.toLowerCase().includes(value.toLowerCase())
               );
@@ -87,7 +81,6 @@ const SongSearchOld = (props) => {
             }}
             onSelect={(value) => {
               setSearchValue(value);
-              console.log(value);
               let result = viewData.filter((d) =>
                 d.title.toLowerCase().includes(value.toLowerCase())
               );

@@ -45,7 +45,7 @@ class NextsongSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Nextsong
-        fields = ('queue_item_id', 'room_id', 'time_submitted', 'room_song_number', 'song_track_id', 'song_name', 'song_artist', 'song_track_url', 'small_song_image_url', 'large_song_image_url', 'song_duration')
+        fields = ('time_submitted', 'queue_item_id', 'room_id', 'room_song_number', 'song_track_id', 'song_name', 'song_artist', 'song_track_url', 'small_song_image_url', 'large_song_image_url', 'song_duration')
 
 class ContactSerializer(serializers.ModelSerializer):
 

@@ -157,7 +157,6 @@ const Chat = (props) => {
               placeholder="Send a Message"
               onChange={(e) => {
                 setCurrentComment(e);
-                console.log(e.target.value);
               }}
               className="chat-input"
               autoFocus
