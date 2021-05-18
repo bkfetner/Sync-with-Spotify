@@ -34,6 +34,7 @@ class Rooms(models.Model):
     current_song_start_time = models.CharField(max_length=255, default=True) 
     current_song_name = models.CharField(max_length=255, default=True)
     current_song_artist = models.CharField(max_length=255, default=True)
+    current_song_duration = models.CharField(max_length=255, default=True)
 
     def _str_(self):        
         return self.room_name

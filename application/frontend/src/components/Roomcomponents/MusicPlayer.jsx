@@ -89,6 +89,7 @@ function MusicPlayer(props) {
           current_song_track_url: {props.viewData.current_song_track_url}​
           <br />
           current_track_id: {props.viewData.current_track_id}​ <br />
+          current_song_duration: {props.viewData.current_song_duration}​ <br />
           genre: {props.viewData.genre}​ <br />
           roomImageUrl: {props.viewData.roomImageUrl}​ <br />
           room_id: {props.viewData.room_id}​ <br />
@@ -98,10 +99,9 @@ function MusicPlayer(props) {
       ) : (
         <div></div>
       )}
-      <Button onClick={props.handleEndOfSong}>Send next song to db</Button>
-      <Button onClick={props.updateViewData}>Get current song from db</Button>
       <Button onClick={props.submitNextSong}>Submit next song</Button>
-      <Button onClick={props.getNextSong}>Get next song</Button>
+      <Button onClick={props.updateCurrentSong}>Update Current Song</Button>
+      
       <Image
         src={props.viewData.roomImageUrl}
         style={{ width: "300px" }}

@@ -56,7 +56,7 @@ class VoteView(viewsets.ModelViewSet):
     queryset = Vote.objects.all()
 
 class NextsongView(viewsets.ModelViewSet):
-    search_fields = ['queue_item_id', 'room_id']
+    search_fields = ['time_submitted']
     filter_backends = (filters.SearchFilter,)
     serializer_class = NextsongSerializer
     queryset = Nextsong.objects.all()

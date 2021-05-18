@@ -157,6 +157,7 @@ const Create = (props) => {
       roomType : type,
       current_song_start_time: 0,
       room_song_number: 0,
+      current_song_duration: 0,
     };
     console.log("insertData");
     console.log(data);

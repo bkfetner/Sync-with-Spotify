@@ -142,7 +142,22 @@ const albumList = [
 
 const Room = (props) => {
   const roomId = props.match.params.roomId;
-  const [viewData, setViewData] = useState([]);
+  const [viewData, setViewData] = useState({
+    room_name: "",
+    genre: "",
+    roomImageUrl: "",
+    population: "",
+    roomType: "",
+    room_id: "",
+    current_song_end_time: "",
+    current_song_track_url: "",
+    current_track_id: "",
+    current_song_artist: "",
+    current_song_name: "",
+    current_song_start_time: "",
+    room_song_number: "",
+    current_song_duration: "",
+  });
   const [accessToken, setAccessToken] = useState(
     Cookies.get("spotifyAuthToken")
   );
@@ -160,8 +175,10 @@ const Room = (props) => {
   }, []);
 
   useEffect(() => {
-    updateViewData();
-  }, []);
+    if (viewData.room_name === "") {
+      updateViewData();
+    }
+  });
 
   /* useEffect(() => {
     setAccessToken(Cookies.get("spotifyAuthToken"));
@@ -201,13 +218,13 @@ const Room = (props) => {
     };
     Axios.post("http://localhost:8000/api/votes/", data)
       .then((res) => {})
-      .catch((er) => console.log(er));
+      .catch((er) => {});
   };
 
   const testDeleteVote = () => {
     Axios.delete("http://localhost:8000/api/votes/test1/")
       .then((res) => {})
-      .catch((er) => console.log(er));
+      .catch((er) => {});
   };
 
   /* const noOfUsers = props.match.params.noOfUsers; */
@@ -251,6 +268,21 @@ const Room = (props) => {
   const [displayTypeSwitchButton, setDisplayTypeSwitchButton] =
     useState("Search for a Song");
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      updateCurrentSong();
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    submitNextSong();
+    const interval = setInterval(() => {
+      submitNextSong();
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
   const switchQueueSearchsong = () => {
     setShowQueue(!showQueue);
     if (showQueue) {
@@ -273,7 +305,7 @@ const Room = (props) => {
       };
       Axios.post("http://localhost:8000/api/votes/", data)
         .then((res) => {})
-        .catch((er) => console.log(er));
+        .catch((er) => {});
 
       voteMapForQueue.get(incomingQueueSongId).userVote = true;
       voteMapForQueue.get(incomingQueueSongId).voteCount += 1;
@@ -284,7 +316,7 @@ const Room = (props) => {
       var deleteCode = incomingQueueSongId + userInfo.userId;
       Axios.delete("http://localhost:8000/api/votes/" + deleteCode + "/")
         .then((res) => {})
-        .catch((er) => console.log(er));
+        .catch((er) => {});
 
       voteMapForQueue.get(incomingQueueSongId).userVote = false;
       voteMapForQueue.get(incomingQueueSongId).voteCount -= 1;
@@ -297,7 +329,7 @@ const Room = (props) => {
       };
       Axios.post("http://localhost:8000/api/votes/", data)
         .then((res) => {})
-        .catch((er) => console.log(er));
+        .catch((er) => {});
 
       voteMapForQueue.set(incomingQueueSongId, {
         queueItemId: incomingQueueSongId,
@@ -328,7 +360,7 @@ const Room = (props) => {
         console.log("res for queues post");
         console.log(res);
       })
-      .catch((er) => console.log(er));
+      .catch((er) => {});
 
     updateQueueView();
     switchQueueSearchsong();
@@ -390,7 +422,8 @@ const Room = (props) => {
         setArrayForQueue(arrayToSort);
       })
       .catch((er) => {
-        console.log(er);
+        {
+        }
       });
   };
 
@@ -427,7 +460,8 @@ const Room = (props) => {
         });
       })
       .catch((er) => {
-        console.log(er);
+        {
+        }
       });
     setVoteMapForQueue(voteMapForQueue);
   };
@@ -515,10 +549,11 @@ const Room = (props) => {
               "/"
           )
             .then((res) => {})
-            .catch((er) => console.log(er));
+            .catch((er) => {});
         })
         .catch((er) => {
-          console.log(er);
+          {
+          }
         });
     }
   };
@@ -526,126 +561,214 @@ const Room = (props) => {
   const updateViewData = () => {
     Axios.get("http://localhost:8000/api/adds/" + roomId + "/")
       .then((res) => {
-        setViewData(res.data);
+        console.log("get room success");
+        var newViewData = {
+          room_name: res.data.room_name,
+          genre: res.data.genre,
+          roomImageUrl: res.data.roomImageUrl,
+          population: res.data.population,
+          roomType: res.data.roomType,
+          room_id: res.data.room_id,
+          current_song_end_time: res.data.current_song_end_time,
+          current_song_track_url: res.data.current_song_track_url,
+          current_track_id: res.data.current_track_id,
+          current_song_artist: res.data.current_song_artist,
+          current_song_name: res.data.current_song_name,
+          current_song_start_time: res.data.current_song_start_time,
+          room_song_number: res.data.room_song_number,
+          current_song_duration: res.data.current_song_duration,
+        };
+        setViewData(newViewData);
       })
-      .catch((er) => console.log(er));
+      .catch((er) => {console.log("get room fail");});
   };
 
   const submitNextSong = () => {
-    console.log("viewData");
-    console.log(viewData);
+    console.log("submitNextSong");
+    console.log("nextSong");
+    console.log(nextSong);
 
-    var queueArray = Array.from(songsForQueue.values());
-    queueArray.sort(function (a, b) {
-      return a.timeAddedToQueue - b.timeAddedToQueue;
-    });
+    if (typeof nextSong === "undefined" || nextSong === null) {
+      var queueArray = Array.from(songsForQueue.values());
+      queueArray.sort(function (a, b) {
+        return a.timeAddedToQueue - b.timeAddedToQueue;
+      });
 
-    var topCount = -1;
-    var topCountQueueItem = queueArray[1];
+      var topCount = -1;
+      var topCountQueueItem = queueArray[1];
 
-    if (queueArray.length > 1) {
-      for (var i = 1; i < queueArray.length; i++) {
-        if (voteMapForQueue.has(queueArray[i].queueItemId)) {
-          if (
-            voteMapForQueue.get(queueArray[i].queueItemId).voteCount > topCount
-          ) {
-            topCount = voteMapForQueue.get(queueArray[i].queueItemId).voteCount;
+      if (queueArray.length > 1) {
+        for (var i = 1; i < queueArray.length; i++) {
+          if (voteMapForQueue.has(queueArray[i].queueItemId)) {
+            if (
+              voteMapForQueue.get(queueArray[i].queueItemId).voteCount >
+              topCount
+            ) {
+              topCount = voteMapForQueue.get(
+                queueArray[i].queueItemId
+              ).voteCount;
+              topCountQueueItem = queueArray[i];
+            }
+          } else if (0 > topCount) {
+            topCount = 0;
             topCountQueueItem = queueArray[i];
           }
-        } else if (0 > topCount) {
-          topCount = 0;
-          topCountQueueItem = queueArray[i];
         }
+
+        console.log("topCountQueueItem");
+        console.log(topCountQueueItem);
+        console.log("topCount");
+        console.log(topCount);
+
+        console.log("viewData.room_song_number");
+        console.log(viewData.room_song_number);
+
+        var data = {
+          room_id: roomId,
+          queue_item_id: topCountQueueItem.queueItemId,
+          time_submitted: new Date().getTime(),
+          room_song_number: parseInt(viewData.room_song_number, 10) + 1,
+          song_track_id: topCountQueueItem.songId,
+          song_name: topCountQueueItem.songName,
+          song_artist: topCountQueueItem.songArtist,
+          song_track_url: topCountQueueItem.songTrackUrl,
+          small_song_image_url: topCountQueueItem.smallSongImageUrl,
+          large_song_image_url: topCountQueueItem.largeSongImageUrl,
+          song_duration: topCountQueueItem.songDuration,
+        };
+
+        console.log("data");
+        console.log(data);
+
+        Axios.post("http://localhost:8000/api/nextsong/", data)
+          .then((res) => {
+            console.log("Post Nextsong Success");
+            getNextSong();
+          })
+          .catch((er) => {
+            console.log("Post Nextsong Fail");
+            getNextSong();
+          });
       }
-
-      console.log("topCountQueueItem");
-      console.log(topCountQueueItem);
-
-      var data = {
-        room_id: roomId,
-        queue_item_id: topCountQueueItem.queueItemId,
-        time_submitted: new Date().getTime(),
-        room_song_number: parseInt(viewData.room_song_number, 10) + 1,
-        song_track_id: topCountQueueItem.songId,
-        song_name: topCountQueueItem.songName,
-        song_artist: topCountQueueItem.songArtist,
-        song_track_url: topCountQueueItem.songTrackUrl,
-        small_song_image_url: topCountQueueItem.smallSongImageUrl,
-        large_song_image_url: topCountQueueItem.largeSongImageUrl,
-        song_duration: topCountQueueItem.songDuration,
-      };
-
-      Axios.post("http://localhost:8000/api/nextsong/", data)
-        .then((res) => {
-          console.log("nextsong post res");
-          console.log(res);
-        })
-        .catch((er) => {
-          console.log(er);
-        });
     }
   };
 
   const getNextSong = () => {
-    console.log("nextSong");
-    console.log(nextSong);
-    if (!nextSong || nextSong == null) {
-      Axios.get("http://localhost:8000/api/nextsong/")
-        .then((res) => {
-          console.log("nextsong get res");
-          console.log(res);
+    console.log("getNextSong");
 
-          var highestRoomSongNumber = 0;
-          res.data.map((next) => {
-            if (next.room_id === roomId) {
-              if (next.room_song_number > highestRoomSongNumber) {
-                highestRoomSongNumber = next.room_song_number;
-              }
+    Axios.get("http://localhost:8000/api/nextsong/")
+      .then((res) => {
+        var highestRoomSongNumber = 0;
+        res.data.map((next) => {
+          if (next.room_id === roomId) {
+            if (next.room_song_number > highestRoomSongNumber) {
+              highestRoomSongNumber = next.room_song_number;
             }
-          });
-
-          var firstPickTime = 9999999999999;
-          var firstPickSong;
-          res.data.map((next) => {
-            if (
-              next.room_id === roomId &&
-              next.room_song_number == highestRoomSongNumber
-            ) {
-              if (next.time_submitted < firstPickTime) {
-                firstPickTime = next.time_submitted;
-                firstPickSong = next;
-              }
-            }
-          });
-
-          setNextSong({
-            largeSongImageUrl: firstPickSong.large_song_image_url,
-            roomSongNumber: firstPickSong.room_song_number,
-            smallSongImageUrl: firstPickSong.small_song_image_url,
-            songArtist: firstPickSong.song_artist,
-            songDuration: firstPickSong.song_duration,
-            songName: firstPickSong.song_name,
-            songTrackId: firstPickSong.song_track_id,
-            songTrackUrl: firstPickSong.song_track_url,
-          });
-
-          Axios.delete(
-            "http://localhost:8000/api/queues/" +
-              firstPickSong.queue_item_id +
-              "/"
-          )
-            .then((res) => {})
-            .catch((er) => console.log(er));
-        })
-        .catch((er) => {
-          console.log(er);
+          }
         });
-    }
+
+        var firstPickTime = 9999999999999;
+        var firstPickSong;
+        res.data.map((next) => {
+          if (
+            next.room_id === roomId &&
+            next.room_song_number == highestRoomSongNumber
+          ) {
+            if (next.time_submitted < firstPickTime) {
+              firstPickTime = next.time_submitted;
+              firstPickSong = next;
+            }
+          }
+        });
+
+        var newNextSong = {
+          largeSongImageUrl: firstPickSong.large_song_image_url,
+          roomSongNumber: firstPickSong.room_song_number,
+          smallSongImageUrl: firstPickSong.small_song_image_url,
+          songArtist: firstPickSong.song_artist,
+          songDuration: firstPickSong.song_duration,
+          songName: firstPickSong.song_name,
+          songTrackId: firstPickSong.song_track_id,
+          songTrackUrl: firstPickSong.song_track_url,
+        };
+        setNextSong(newNextSong);
+
+        Axios.delete(
+          "http://localhost:8000/api/queues/" +
+            firstPickSong.queue_item_id +
+            "/"
+        )
+          .then((res) => {})
+          .catch((er) => {});
+      })
+      .catch((er) => {
+        {
+        }
+      });
   };
 
   const updateCurrentSong = () => {
+    console.log("updateCurrentSong");
+    console.log("viewData");
+    console.log(viewData);
+    var timeEval = new Date().getTime() - 1000;
+    var songEndTime = 0;
+    if (typeof viewData.current_song_duration === "undefined") {
+      songEndTime = parseInt(viewData.current_song_start_time, 10);
+    } else {
+      songEndTime =
+        parseInt(viewData.current_song_start_time, 10) +
+        parseInt(viewData.current_song_duration, 10);
+    }
+    console.log("viewData.current_song_duration");
+    console.log(viewData.current_song_duration);
+    console.log("viewData.current_song_start_time");
+    console.log(viewData.current_song_start_time);
+    console.log("songEndTime");
+    console.log(songEndTime);
+    console.log("timeEval");
+    console.log(timeEval);
+    console.log("nextSong");
+    console.log(nextSong);
+    if (
+      songEndTime < timeEval &&
+      typeof(nextSong) !== "undefined" &&
+      nextSong !== null
+    ) {
+      var newViewData = {
+        current_song_artist: nextSong.songArtist,
+        current_song_end_time: viewData.current_song_end_time,
+        current_song_name: nextSong.songName,
+        current_song_start_time: new Date().getTime(),
+        current_song_track_url: nextSong.songTrackUrl,
+        current_track_id: nextSong.songTrackId,
+        current_song_duration: nextSong.songDuration,
+        genre: viewData.genre,
+        population: viewData.population,
+        roomImageUrl: nextSong.largeSongImageUrl,
+        roomType: viewData.roomType,
+        room_id: viewData.room_id,
+        room_name: viewData.room_name,
+        room_song_number: nextSong.roomSongNumber,
+      };
 
-  }
+      console.log("newViewData");
+      console.log(newViewData);
+
+      setViewData(newViewData);
+      setNextSong(null);
+
+      /* viewData.current_song_artist = nextSong.songArtist;
+      viewData.​​current_song_name = nextSong.songName;
+      viewData.current_song_start_time = new Date().getTime();
+      viewData.current_song_track_url = nextSong.songTrackUrl;
+      viewData.current_track_id = nextSong.songTrackId;
+      viewData.roomImageUrl = nextSong.largeSongImageUrl;
+      viewData.room_song_number = nextSong.roomSongNumber; */
+
+      /* setViewData(viewData); */
+    }
+  };
 
   if (userInfo == null || !userInfo) {
     return <Redirect to="/" />;
@@ -711,10 +834,8 @@ const Room = (props) => {
             <MusicPlayer
               viewData={viewData}
               nextSong={nextSong}
-              handleEndOfSong={handleEndOfSong}
-              updateViewData={updateViewData}
               submitNextSong={submitNextSong}
-              getNextSong={getNextSong}
+              updateCurrentSong={updateCurrentSong}
               accessToken={accessToken}
             />
           </div>
