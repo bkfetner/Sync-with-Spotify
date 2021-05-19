@@ -1,15 +1,13 @@
-import React, { Component, useState, useEffect } from "react";
-import { Form, Input, Button, Checkbox, Comment, List, Popover } from "antd";
-import Axios from "axios";
+import React from "react";
+import { Checkbox, Popover } from "antd";
 import "../../css/Queue.css";
-import { ConsoleSqlOutlined } from "@ant-design/icons";
-import QueueCards from "./QueueCards";
 
 const Queue = (props) => {
   const handleCheck = (e) => {
     props.updateQueueVote(e.target.id);
   };
 
+  /* Function to return the queue view */
   const renderQueue = () => {
     const songPopupContent = (track) => {
       return (
@@ -20,6 +18,7 @@ const Queue = (props) => {
       );
     };
 
+    /* Set message if queue is missing */
     if (
       typeof props.queueSongs === "undefined" ||
       props.queueSongs.length === 0 ||
@@ -31,16 +30,19 @@ const Queue = (props) => {
         </div>
       );
     }
+    /* Gather all items in queue for display */
     if (props.queueSongs) {
       return props.queueSongs.map((song) => {
         if (!(song.queueItemId === -1)) {
           return (
             <div class="songdiv">
+              {/* Popup to display song title an artist more clearly */}
               <Popover
                 placement="left"
                 content={songPopupContent(song)}
                 trigger="hover"
               >
+                {/* Main display for song information */}
                 <div className="songdiv-song-title">
                   <img className="songdiv-img" src={song.smallSongImageUrl} />
                   <div>
@@ -52,6 +54,7 @@ const Queue = (props) => {
                 </div>
               </Popover>
 
+              {/* Display vote count and vote checkbox */}
               <div className="song-vote-checkbox">
                 <div className="song-vote">
                   {props.voteMapForQueue.has(song.queueItemId)

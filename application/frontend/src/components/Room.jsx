@@ -2,146 +2,24 @@ import React, { useEffect, useState } from "react";
 import { Button, Popover } from "antd";
 import Axios from "axios";
 import MusicPlayer from "./Roomcomponents/MusicPlayer.jsx";
-import Chat from "./Roomcomponents/Chat.jsx";
 import Queue from "./Roomcomponents/Queue.jsx";
 import SongSearch from "./Roomcomponents/SongSearch.jsx";
 import Chatroom from "./Chatroom.jsx";
 import "../css/Room.css";
 import { Redirect } from "react-router-dom";
-import {
-  CodeSandboxCircleFilled,
-  CopyFilled,
-  UserOutlined,
-} from "@ant-design/icons";
-import { SpotifyAuth, Scopes, SpotifyAuthListener } from "react-spotify-auth";
+import { CopyFilled } from "@ant-design/icons";
 import Cookies from "js-cookie";
-
-{
-  /*import albumCover from "./assets/image0.png";
-    import playButton from "../assets/play_button.png";
-  */
-}
 
 const useForceUpdate = () => {
   const [_, setState] = useState(false);
   return () => setState((val) => !val);
 };
 
-const albumList = [
-  {
-    title: "Pick Up Your Feelings",
-    url: "../../../../assets/1.PNG",
-    music: "https://www.freesound.org/data/previews/338/338825_1648170-lq.mp3",
-  },
-  {
-    title: "Hunger",
-    url: "../../../../assets/2.PNG",
-    music:
-      "http://commondatastorage.googleapis.com/codeskulptor-assets/Epoq-Lepidoptera.ogg",
-  },
-  {
-    title: "no love",
-    url: "../../../../assets/3.PNG",
-    music: "../../../../assets/songs/1.mp3",
-  },
-  {
-    title: "Killuminati",
-    url: "../../../../assets/4.PNG",
-    music:
-      "http://commondatastorage.googleapis.com/codeskulptor-demos/riceracer_assets/music/lose.ogg",
-  },
-
-  {
-    title: "no,no",
-    url: "../../../../assets/5.PNG",
-    music:
-      "http://commondatastorage.googleapis.com/codeskulptor-demos/riceracer_assets/music/race1.ogg",
-  },
-  {
-    title: "Crime Pays",
-    url: "../../../../assets/6.jpg",
-    music:
-      "http://commondatastorage.googleapis.com/codeskulptor-demos/riceracer_assets/music/menu.ogg",
-  },
-  {
-    title: "Ninety",
-    url: "../../../../assets/7.jpg",
-    music:
-      "http://commondatastorage.googleapis.com/codeskulptor-demos/riceracer_assets/music/win.ogg",
-  },
-
-  {
-    title: "Souldfood",
-    url: "../../../../assets/8.jpg",
-    music: "../../../../assets/songs/2.mp3",
-  },
-  {
-    title: "Violent Crimes",
-    url: "../../../../assets/9.jpg",
-    music: "../../../../assets/songs/3.mp3",
-  },
-  {
-    title: "Been Waiting!",
-    url: "../../../../assets/10.jpg",
-    music: "../../../../assets/songs/4.mp3",
-  },
-
-  {
-    title: "Leray",
-    url: "../../../../assets/11.jpg",
-    music: "../../../../assets/songs/5.mp3",
-  },
-  {
-    title: "HONEST",
-    url: "../../../../assets/12.jpg",
-    music: "../../../../assets/songs/6.mp3",
-  },
-  {
-    title: "WOLF",
-    url: "../../../../assets/13.jpg",
-    music: "../../../../assets/songs/7.mp3",
-  },
-
-  {
-    title: "Trying",
-    url: "../../../../assets/14.jpg",
-    music: "../../../../assets/songs/8.mp3",
-  },
-  {
-    title: "A Calabasas Freestyle",
-    url: "../../../../assets/15.jpg",
-    music: "../../../../assets/songs/9.mp3",
-  },
-  {
-    title: "Father Stretch My Hands",
-    url: "../../../../assets/16.jpg",
-    music: "../../../../assets/songs/10.mp3",
-  },
-
-  {
-    title: "Frank's Track",
-    url: "../../../../assets/17.jpg",
-    music: "../../../../assets/songs/11.mp3",
-  },
-  {
-    title: "No More Parties In LA",
-    url: "../../../../assets/18.jpg",
-    music: "../../../../assets/songs/12.mp3",
-  },
-  {
-    title: "Champion",
-    url: "../../../../assets/19.png",
-    music: "../../../../assets/songs/13.mp3",
-  },
-  {
-    title: "Once Upon A Time(Freestyle)",
-    url: "../../../../assets/20.PNG",
-    music: "../../../../assets/songs/14.mp3",
-  },
-];
-
 const Room = (props) => {
+  /* Store room id for easy access. */
   const roomId = props.match.params.roomId;
+
+  /* Store and initialize data for room information and the current song. */
   const [viewData, setViewData] = useState({
     room_name: "",
     genre: "",
@@ -158,28 +36,35 @@ const Room = (props) => {
     room_song_number: "",
     current_song_duration: "",
   });
+
+  /* Store access token */
   const [accessToken, setAccessToken] = useState(
     Cookies.get("spotifyAuthToken")
   );
 
+  /* Function to retrieve user information from local storage */
   const retrieveCurrentUser = () => {
     const stringRetrieveUserInfo = localStorage.getItem("currentUser");
     const retrieveUserInfo = JSON.parse(stringRetrieveUserInfo);
     return retrieveUserInfo;
   };
 
+  /* Store user information for quick access */
   const [userInfo, setUserInfo] = useState(retrieveCurrentUser());
 
+  /* Keeps window scrolled to top when entering room */
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
+  /* Calls function to gather room data if it is empty */
   useEffect(() => {
     if (viewData.room_name === "") {
       updateViewData();
     }
   });
 
+  /* Regularly calls function to update the queue */
   useEffect(() => {
     updateQueueView();
     const interval = setInterval(() => {
@@ -188,6 +73,7 @@ const Room = (props) => {
     return () => clearInterval(interval);
   }, []);
 
+  /* Reqularly calls function to update vote counts */
   useEffect(() => {
     const interval = setInterval(() => {
       updateVoteCounts();
@@ -195,33 +81,13 @@ const Room = (props) => {
     return () => clearInterval(interval);
   }, []);
 
-  useEffect(() => {
-    testMakeVote();
-    return () => testDeleteVote();
-  });
-
-  const testMakeVote = () => {
-    var data = {
-      vote_id: "test1",
-      room_id: "test2",
-      user_id: "test3",
-      song_id: "test4",
-    };
-    Axios.post("http://localhost:8000/api/votes/", data)
-      .then((res) => {})
-      .catch((er) => {});
-  };
-
-  const testDeleteVote = () => {
-    Axios.delete("http://localhost:8000/api/votes/test1/")
-      .then((res) => {})
-      .catch((er) => {});
-  };
-
-  /* const noOfUsers = Math.floor(Math.random() * 10 + 20); */
+  /* store room url */
   const roomUrl = window.location.href;
+
+  /* used to force render update */
   const forceUpdate = useForceUpdate();
 
+  /* Setting up starting object for queue */
   var initialSongsForQueue = new Map();
   initialSongsForQueue.set(-1, {
     largeSongImageUrl: "-1",
@@ -236,13 +102,16 @@ const Room = (props) => {
     userVote: false,
     timeAddedToQueue: -1,
   });
+  /* Storing queue information in both map and array for different uses. */
   const [songsForQueue, setSongsForQueue] = useState(initialSongsForQueue);
   const [arrayForQueue, setArrayForQueue] = useState(
     Array.from(songsForQueue.values())
   );
 
+  /* Store vote data */
   const [voteMapForQueue, setVoteMapForQueue] = useState(new Map());
 
+  /* Initial setup for next song data */
   const [nextSong, setNextSong] = useState({
     largeSongImageUrl: "",
     roomSongNumber: "",
@@ -254,24 +123,10 @@ const Room = (props) => {
     songTrackUrl: "",
   });
 
+  /* Manage switching between queue window and song search window */
   const [showQueue, setShowQueue] = useState(true);
   const [displayTypeSwitchButton, setDisplayTypeSwitchButton] =
     useState("Search for a Song");
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      updateCurrentSong();
-    }, 1000);
-    return () => clearInterval(interval);
-  }, [viewData, nextSong]);
-
-  useEffect(() => {
-    submitNextSong();
-    const interval = setInterval(() => {
-      submitNextSong();
-    }, 5000);
-    return () => clearInterval(interval);
-  }, [viewData, nextSong]);
 
   const switchQueueSearchsong = () => {
     setShowQueue(!showQueue);
@@ -282,6 +137,24 @@ const Room = (props) => {
     }
   };
 
+  /* Calls the function to update the current song regularly */
+  useEffect(() => {
+    const interval = setInterval(() => {
+      updateCurrentSong();
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [viewData, nextSong]);
+
+  /* Calls the function to submit a next song option, and recieve a new next song regularly */
+  useEffect(() => {
+    submitNextSong();
+    const interval = setInterval(() => {
+      submitNextSong();
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [viewData, nextSong]);
+
+  /* Function that calls the Sync api and database to update vote counts */
   const updateQueueVote = (incomingQueueSongId) => {
     if (
       voteMapForQueue.has(incomingQueueSongId) &&
@@ -332,6 +205,7 @@ const Room = (props) => {
     forceUpdate();
   };
 
+  /* Function takes in a song to add to the queue database */
   const addSongToQueue = (song) => {
     var data = {
       queue_item_id: Math.floor(Math.random() * 2000000000),
@@ -353,6 +227,7 @@ const Room = (props) => {
     switchQueueSearchsong();
   };
 
+  /* Contacts the database queue to get current queue list */
   const updateQueueView = () => {
     Axios.get("http://localhost:8000/api/queues/")
       .then((res) => {
@@ -414,6 +289,7 @@ const Room = (props) => {
       });
   };
 
+  /* Contacts the vote database table to update currently recorded vote counts */
   const updateVoteCounts = () => {
     var tempVoteMap = new Map();
 
@@ -453,6 +329,7 @@ const Room = (props) => {
     setVoteMapForQueue(voteMapForQueue);
   };
 
+  /* store format for share room popup  */
   const sharePopOver = (
     <div className="share-popover">
       <strong>Copy room link and share with friends:</strong>
@@ -460,6 +337,7 @@ const Room = (props) => {
     </div>
   );
 
+  /* Called the database to get current room data */
   const updateViewData = () => {
     Axios.get("http://localhost:8000/api/adds/" + roomId + "/")
       .then((res) => {
@@ -485,6 +363,7 @@ const Room = (props) => {
       .catch((er) => {});
   };
 
+  /* Counts votes and submits potantial next song to the database */
   const submitNextSong = () => {
     if (nextSong.songTrackId === "" && songsForQueue.size > 1) {
       var queueArray = Array.from(songsForQueue.values());
@@ -538,6 +417,7 @@ const Room = (props) => {
     }
   };
 
+  /* Retrieves chosen next song from the database */
   const getNextSong = () => {
     Axios.get("http://localhost:8000/api/nextsong/")
       .then((res) => {
@@ -596,6 +476,7 @@ const Room = (props) => {
       });
   };
 
+  /* Funtion that updates the current song from the next song selection, and clears next song */
   const updateCurrentSong = () => {
     var timeEval = new Date().getTime() - 3000;
     var songEndTime =
@@ -657,6 +538,7 @@ const Room = (props) => {
     }
   };
 
+  /* Kicks out users who are not logged in */
   if (userInfo == null || !userInfo) {
     return <Redirect to="/" />;
   }
@@ -665,6 +547,7 @@ const Room = (props) => {
       <div class="main room-main">
         <div class="grid1">
           <div class="queue1">
+            {/* Queue component */}
             {showQueue && (
               <Queue
                 queueSongs={arrayForQueue}
@@ -672,9 +555,9 @@ const Room = (props) => {
                 updateQueueVote={updateQueueVote}
               />
             )}
+            {/* Song Search component */}
             {!showQueue && (
               <SongSearch
-                avaliableSongs={albumList}
                 addSongToQueue={addSongToQueue}
                 roomGenre={viewData.genre}
               />
@@ -689,6 +572,7 @@ const Room = (props) => {
             </Button>
           </div>
           <div class="musicplayer">
+            {/* Display room information */}
             <div className="room-info">
               <strong style={{ fontSize: "xxx-large" }}>
                 {viewData.room_name.length > 10
@@ -700,15 +584,9 @@ const Room = (props) => {
 
               <div className="icon-row">
                 <div>
-                  {/* <UserOutlined
-                    style={{ fontSize: "22pt", color: "var(--color3)" }}
-                  />{" "}
-                  {noOfUsers} */}
                 </div>
                 <Popover content={sharePopOver} trigger="click">
-                  <button
-                    className="share-button"
-                  >
+                  <button className="share-button">
                     <CopyFilled
                       style={{ fontSize: "18pt", color: "var(--color3)" }}
                     />
@@ -717,6 +595,7 @@ const Room = (props) => {
                 </Popover>
               </div>
             </div>
+            {/* Music Player Component */}
             <MusicPlayer
               viewData={viewData}
               nextSong={nextSong}
@@ -726,6 +605,7 @@ const Room = (props) => {
             />
           </div>
           <div class="chatflex">
+            {/* Chatroom Component */}
             {viewData.room_id !== "" ? (
               <Chatroom
                 roomName={viewData.room_name}

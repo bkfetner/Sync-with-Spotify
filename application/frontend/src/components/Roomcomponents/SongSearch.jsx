@@ -1,14 +1,11 @@
-import React, { Component, useState, Fragment, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Divider } from "antd";
-import { Container, Image, Form } from "react-bootstrap";
-import Axios from "axios";
+import { Container, Form } from "react-bootstrap";
 import "../../css/SongSearch.css";
-import { PlusOutlined } from "@ant-design/icons";
 import SpotifyWebApi from "spotify-web-api-node";
 import Cookies from "js-cookie";
-import TrackSearchResult from "./TrackSearchResult.js";
 import SearchResultCard from "./SearchReultCard";
-import { SpotifyAuth, Scopes, SpotifyAuthListener } from "react-spotify-auth";
+import { SpotifyAuthListener } from "react-spotify-auth";
 
 const spotifyApi = new SpotifyWebApi({
   clientId: "ad4f63abc34f445d9f82549d5dcfeb67",
@@ -32,40 +29,24 @@ const SongSearch = (props) => {
     return retrieveUserInfo;
   };
 
-  const [searchValue, setSearchValue] = useState("");
-  const [options, setOptions] = useState([]);
-  const [viewData, setViewData] = useState([]);
-  const [searchedData, setSearchedData] = useState([]);
-
-  useEffect(() => {
-    let tempOptions = [];
-    props.avaliableSongs.forEach((d) => {
-      tempOptions.push({ value: d.title });
-    });
-    setOptions(tempOptions);
-    setViewData(props.avaliableSongs);
-  }, []);
-
-  useEffect(() => {
-    if (searchValue === "") {
-      setSearchedData([]);
-    }
-  }, [searchValue]);
-
   const handleAddClick = (e) => {
     props.addSongToQueue(e);
   };
 
-  /* Functions for spotify search START */
+  /* Store user information for use */
   const user = retrieveCurrentUser();
 
+  /* Store Spotify access token */
   const [accessToken, setAccessToken] = useState(
     Cookies.get("spotifyAuthToken")
   );
+
+  /* Store search related data */
   const [search, setSearch] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [recommendedResults, setRecommendedResults] = useState([]);
 
+  /* Retreive Spotify token if needed. */
   useEffect(() => {
     if (!accessToken) return;
     spotifyApi.setAccessToken(accessToken);

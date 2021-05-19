@@ -1,29 +1,26 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import SpotifyPlayer from "react-spotify-web-playback";
 import { Image } from "antd";
-
 import "../../css/MusicPlayer.css";
-import { Button } from "antd";
-
-const useForceUpdate = () => {
-  const [_, setState] = useState(false);
-  return () => setState((val) => !val);
-};
 
 function MusicPlayer(props) {
   const [play, setPlay] = useState(true);
-
   useEffect(() => setPlay(true), [props.viewData.current_song_track_url]);
+
+  /* Retricts access if there is no Spotify token */
   if (!props.accessToken) return null;
 
   return (
     <div className="music-player">
+      {/* Album art image */}
       <Image
         src={props.viewData.roomImageUrl}
         style={{ width: "250" }}
         preview={false}
+        fallback="/assets/logoImage2.png"
       />
-      <div className="spotify-music-player-controls">
+      {/* Spotify Player component shows if there is valid data for it */}
+      {props.viewData.room_song_number !== "0" && props.viewData.room_song_number !== "" ? (<div className="spotify-music-player-controls">
         <SpotifyPlayer
           styles={{ sliderHeight: "0", loaderSize: "110" }}
           initialVolume={0.25}
@@ -39,9 +36,10 @@ function MusicPlayer(props) {
           }
           autoPlay={true}
           play={true}
-        />
-      </div>
-      <div className="music-player-next-song">
+        /> 
+      </div>) : (<div></div>) }
+      {/* Next song is shown if there is valid data for it */}
+      {props.nextSong.largeSongImageUrl ? (<div className="music-player-next-song">
           <div>
             <img
               src={props.nextSong.largeSongImageUrl}
@@ -62,7 +60,7 @@ function MusicPlayer(props) {
                 : props.nextSong.songArtist}
             </div>
           </div>
-      </div>
+      </div>) : (<div></div>)}
     </div>
   );
 }
