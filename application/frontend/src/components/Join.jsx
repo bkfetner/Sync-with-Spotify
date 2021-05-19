@@ -17,11 +17,17 @@ import "../css/Join.css";
 import Footer from "./Footer";
 
 const Join = (props) => {
+  {
+    /* For updating the no of users */
+  }
   const updateCurrentUser = (updateUserInfo) => {
     const stringUpdateUserInfo = JSON.stringify(updateUserInfo);
     localStorage.setItem("currentUser", stringUpdateUserInfo);
   };
 
+  {
+    /* For retrieving details of the current user from the local storage */
+  }
   const retrieveCurrentUser = () => {
     const stringRetrieveUserInfo = localStorage.getItem("currentUser");
     const retrieveUserInfo = JSON.parse(stringRetrieveUserInfo);
@@ -39,7 +45,11 @@ const Join = (props) => {
     textField: 'Search rooms by "name" or "genre"',
     dropDown: "All",
   });
-  const viewRooms = () => {};
+
+  {
+    /* For calling different functions to search based on the menu item selected.  */
+  }
+ 
   const onClickfunction = ({ key }) => {
     if (`${key}` == 1) {
       searchAll();
@@ -62,7 +72,9 @@ const Join = (props) => {
       });
     }
   };
-
+  {
+    /* Menu options for the dropdown */
+  }
   const menu = (
     <Menu onClick={onClickfunction}>
       <Menu.Item key="1">All</Menu.Item>
@@ -70,12 +82,15 @@ const Join = (props) => {
       <Menu.Item key="3">Genre</Menu.Item>
     </Menu>
   );
+
+  {
+    /* For viewing all the rooms */
+  }
   useEffect(() => {
     if (userInfo != null) {
       if (userInfo.administratorStatus == 0) {
         Axios.get("http://localhost:8000/api/room_type/")
           .then((res) => {
-            console.log(res.data);
             setViewData(res.data);
           })
           .catch((er) => {
@@ -85,7 +100,6 @@ const Join = (props) => {
       } else {
         Axios.get("http://localhost:8000/api/adds/")
           .then((res) => {
-            console.log(res.data);
             setViewData(res.data);
           })
           .catch((er) => {
@@ -102,12 +116,19 @@ const Join = (props) => {
     }
   }, [searchValue]);
 
+  {
+    /* For searching all the rooms with roomname or genre*/
+  }
   const searchAll = () => {
     if (userInfo != null) {
       if (userInfo.administratorStatus == 0) {
         Axios.get("http://localhost:8000/api/room_type/")
           .then((res) => {
-            console.log(res.data);
+            let tempOptions = [];
+            res.data.forEach((d) => {
+              tempOptions.push({ value: d.room_name + '-' + d.genre});
+            });
+            setOptions(tempOptions);
             setViewData(res.data);
           })
           .catch((er) => {
@@ -117,7 +138,6 @@ const Join = (props) => {
       } else {
         Axios.get("http://localhost:8000/api/adds/")
           .then((res) => {
-            console.log(res.data);
             setViewData(res.data);
           })
           .catch((er) => {
@@ -128,6 +148,9 @@ const Join = (props) => {
     }
     
   };
+  {
+    /* For searching the rooms based on roomname only */
+  }
   const searchByName = () => {
     if (userInfo != null) {
       if (userInfo.administratorStatus == 0) {
@@ -162,6 +185,9 @@ const Join = (props) => {
     }
     
   };
+  {
+    /* For searching the rooms based on roomname only */
+  }
   const searchByGenre = () => {
     if (userInfo != null) {
       if (userInfo.administratorStatus == 0) {
@@ -198,13 +224,11 @@ const Join = (props) => {
   };
 
   {
-    /* For joining rooms */
+    /* For joining rooms through the join links*/
   }
 
   const joinRoom = (getFromid) => {
-    console.log(getFromid)
     const resultRoomId = getFromid;
-    console.log(resultRoomId)
     props.history.push("/Room/"+ resultRoomId + "/")
   };
   const searchRoom = () => {
@@ -247,7 +271,6 @@ const Join = (props) => {
               style={{ width: "20%" }}
               onSearch={(value) => {
                 setSearchValue(value);
-                //console.log(value);
                 let result = viewData.filter(
                   (d) =>
                     d.room_name.toLowerCase().includes(value.toLowerCase()) ||
@@ -257,7 +280,6 @@ const Join = (props) => {
               }}
               onSelect={(value) => {
                 setSearchValue(value);
-                //console.log(value);
                 let result = viewData.filter(
                   (d) =>
                     d.room_name.toLowerCase().includes(value.toLowerCase()) ||

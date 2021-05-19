@@ -17,18 +17,17 @@ import Footer from "./Footer";
 
 const Home = (props) => {
   {
-    /* For creating rooms */
+    /* For updating the no of users */
   }
-  console.log(props);
-  const [roomName, setRoomName] = useState();
-  const [roomGenre, setGenre] = useState();
-  const history = useHistory();
-
+  
   const updateCurrentUser = (updateUserInfo) => {
     const stringUpdateUserInfo = JSON.stringify(updateUserInfo);
     localStorage.setItem("currentUser", stringUpdateUserInfo);
   };
 
+  {
+    /* For retrieving details of the current user from the local storage */
+  }
   const retrieveCurrentUser = () => {
     const stringRetrieveUserInfo = localStorage.getItem("currentUser");
     const retrieveUserInfo = JSON.parse(stringRetrieveUserInfo);
@@ -38,34 +37,17 @@ const Home = (props) => {
 
   const [userInfo, setUserInfo] = useState(retrieveCurrentUser);
 
-  const insertData = () => {
-    var data = {
-      room_name: roomName,
-      genre: roomGenre,
-    };
-    Axios.post("http://localhost:8000/api/adds/", data)
-      .then((res) => {
-        console.log("hi");
-        setRoomName("");
-        setGenre("");
-      })
-      .catch((er) => console.log(er));
-  };
-
   {
-    /* For searching rooms */
+    /* For viewing all the rooms */
   }
 
   const [viewData, setViewData] = useState([]);
-
-  //const [userInfo, setUserInfo] = useState(retrieveCurrentUser);
 
   useEffect(() => {
     if (userInfo != null) {
       if (userInfo.administratorStatus == 0) {
         Axios.get("http://localhost:8000/api/room_type/")
           .then((res) => {
-            console.log(res.data);
             setViewData(res.data);
           })
           .catch((er) => {
@@ -75,7 +57,6 @@ const Home = (props) => {
       } else {
         Axios.get("http://localhost:8000/api/adds/")
           .then((res) => {
-            console.log(res.data);
             setViewData(res.data);
           })
           .catch((er) => {
@@ -86,28 +67,14 @@ const Home = (props) => {
     }
   }, []);
   {
-    /* For joining rooms */
+    /* For joining rooms through join links*/
   }
 
   const joinRoom = (getFromid) => {
-    //const resultRoomGenre = gen;
-    //const resultRoomName = name;
-    //const resultRoomType = type;
-    console.log(getFromid);
+
     const resultRoomId = getFromid;
-    console.log(resultRoomId);
     props.history.push("/Room/" + resultRoomId + "/");
-    //setRoomType(resultRoomId)
-
-    /* if (resultRoomType == 0) {
-        setRoomType("Public Room")
-        console.log(roomtype)
-    } else {
-        setRoomType("Private Room")
-    }*/
   };
-
-  console.log(props.displayCreate);
 
   const [createStatus, setCreateStatus] = useState(false);
 
@@ -209,86 +176,6 @@ const Home = (props) => {
           </Row>
         </div>
 
-        {/*<h1 style={{ marginTop: "30px", marginBottom: "30px" }}>
-          Welcome to Sync!
-        </h1>
-        <h4>Share your spotify songs in one of our listening rooms!</h4>
-        <h4 style={{ marginBottom: "30px" }}>
-          Listen to music and chat with friends and the community!
-        </h4>
-
-        <Link
-          to="/Create"
-          class="btn btn-dark sync-button-color"
-          style={{ marginBottom: "30px" }}
-        >
-          Create
-        </Link>
-        <h4>A new room or</h4>
-
-        <h4>Search for a room to join</h4>
-
-        <div class="search_box">
-          <div class="dropdown" style="float: left">
-            <button
-              class="btn btn-secondary dropdown-toggle sync-button-color"
-              type="button"
-              id="dropdownMenuButton1"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              All
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-              <li>
-                <a class="dropdown-item" href="{% url 'home' %}">
-                  All
-                </a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="{% url 'searchbyname' %}">
-                  Room name
-                </a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="{% url 'searchbygenre' %}">
-                  Genre
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          <form action="{% url 'search_results' %}" method="get">
-            <input
-              name="q"
-              type="text"
-              placeholder="Search..."
-              class="form-control search_bar"
-              style="float: left; width: 300px"
-            />
-            <input
-              type="submit"
-              value="Search for Room"
-              class="btn btn-dark sync-button-color"
-              style="float: left"
-            />
-          </form>
-        </div>
-
-        <div class="result_box">
-          {% for room in object_list %}
-          <div class="result_card">
-            <a href="{% url 'room' %}">
-              <img src="{% static 'image0.png' %}" />
-            </a>
-            <br />{{ room.room_name }}<br />
-            <em>{{ room.genre }}</em>
-          </div>
-          {% endfor %}
-
-        
-        </div>
-      */}
       </div>
     </div>
   );
