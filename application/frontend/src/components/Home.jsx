@@ -14,6 +14,7 @@ import Axios from "axios";
 import "../css/Home.css";
 import Create from "./Create";
 import Footer from "./Footer";
+import { serverPath } from '../path.js'
 
 const Home = (props) => {
   {
@@ -46,7 +47,7 @@ const Home = (props) => {
   useEffect(() => {
     if (userInfo != null) {
       if (userInfo.administratorStatus == 0) {
-        Axios.get("http://localhost:8000/api/room_type/")
+        Axios.get(serverPath.local + '/api/room_type/')
           .then((res) => {
             setViewData(res.data);
           })
@@ -55,7 +56,7 @@ const Home = (props) => {
             console.log(er);
           });
       } else {
-        Axios.get("http://localhost:8000/api/adds/")
+        Axios.get(serverPath.local + '/api/adds/')
           .then((res) => {
             setViewData(res.data);
           })

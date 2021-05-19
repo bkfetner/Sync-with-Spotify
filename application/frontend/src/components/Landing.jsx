@@ -16,6 +16,7 @@ import { SpotifyApiContext, User, UserTop } from "react-spotify-api";
 import Cookies from "js-cookie";
 import { SpotifyAuth, Scopes, SpotifyAuthListener } from "react-spotify-auth";
 import { Component } from "react";
+import { serverPath } from '../path.js'
 
 const Landing = (props) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -71,8 +72,7 @@ const Landing = (props) => {
           display_name: user.displayName,
           profile_pic: user.profilePictureUrl,
         };
-        Axios.post("http://localhost:8000/api/users/", data)
-          /* Axios.post(serverPath.local + 'api/adds/', data) */
+        Axios.post(serverPath.local + '/api/adds/', data) 
           .then((res) => {})
           .catch((er) => console.log(er));
 
@@ -227,7 +227,7 @@ const Landing = (props) => {
               )}
               {tosStatus && (
                 <SpotifyAuth
-                  redirectUri={"http://localhost:3000"}
+                  redirectUri={"http://18.219.141.181:3000"}
                   clientID="ad4f63abc34f445d9f82549d5dcfeb67"
                   scopes={[
                     Scopes.userReadPrivate,

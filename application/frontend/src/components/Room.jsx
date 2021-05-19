@@ -9,6 +9,7 @@ import "../css/Room.css";
 import { Redirect } from "react-router-dom";
 import { CopyFilled } from "@ant-design/icons";
 import Cookies from "js-cookie";
+import { serverPath } from '../path.js'
 
 const useForceUpdate = () => {
   const [_, setState] = useState(false);
@@ -166,7 +167,7 @@ const Room = (props) => {
         user_id: userInfo.userId,
         song_id: incomingQueueSongId,
       };
-      Axios.post("http://localhost:8000/api/votes/", data)
+      Axios.post(serverPath.local + '/api/votes/', data)
         .then((res) => {})
         .catch((er) => {});
 
@@ -177,7 +178,7 @@ const Room = (props) => {
       voteMapForQueue.get(incomingQueueSongId).userVote === true
     ) {
       var deleteCode = incomingQueueSongId + userInfo.userId;
-      Axios.delete("http://localhost:8000/api/votes/" + deleteCode + "/")
+      Axios.delete(serverPath.local + '/api/votes/' + deleteCode + "/")
         .then((res) => {})
         .catch((er) => {});
 
@@ -190,7 +191,7 @@ const Room = (props) => {
         user_id: userInfo.userId,
         song_id: incomingQueueSongId,
       };
-      Axios.post("http://localhost:8000/api/votes/", data)
+      Axios.post(serverPath.local + '/api/votes/', data)
         .then((res) => {})
         .catch((er) => {});
 
@@ -219,7 +220,7 @@ const Room = (props) => {
       song_track_url: song.songTrackUrl,
       time_added_to_queue: new Date().getTime(),
     };
-    Axios.post("http://localhost:8000/api/queues/", data)
+    Axios.post(serverPath.local + '/api/queues/', data)
       .then((res) => {})
       .catch((er) => {});
 
@@ -229,7 +230,7 @@ const Room = (props) => {
 
   /* Contacts the database queue to get current queue list */
   const updateQueueView = () => {
-    Axios.get("http://localhost:8000/api/queues/")
+    Axios.get(serverPath.local + '/api/queues/')
       .then((res) => {
         res.data.map((queueItem) => {
           if (queueItem.room_id === roomId) {
@@ -293,7 +294,7 @@ const Room = (props) => {
   const updateVoteCounts = () => {
     var tempVoteMap = new Map();
 
-    Axios.get("http://localhost:8000/api/votes/")
+    Axios.get(serverPath.local + '/api/votes/')
       .then((res) => {
         res.data.map((vote) => {
           if (vote.room_id === roomId) {
@@ -339,7 +340,7 @@ const Room = (props) => {
 
   /* Called the database to get current room data */
   const updateViewData = () => {
-    Axios.get("http://localhost:8000/api/adds/" + roomId + "/")
+    Axios.get(serverPath.local + '/api/adds/' + roomId + "/")
       .then((res) => {
         var newViewData = {
           room_name: res.data.room_name,
@@ -406,7 +407,7 @@ const Room = (props) => {
           song_duration: topCountQueueItem.songDuration,
         };
 
-        Axios.post("http://localhost:8000/api/nextsong/", data)
+        Axios.post(serverPath.local + '/api/nextsong/', data)
           .then((res) => {
             getNextSong();
           })
@@ -419,7 +420,7 @@ const Room = (props) => {
 
   /* Retrieves chosen next song from the database */
   const getNextSong = () => {
-    Axios.get("http://localhost:8000/api/nextsong/")
+    Axios.get(serverPath.local + '/api/nextsong/')
       .then((res) => {
         var highestRoomSongNumber = 0;
 
@@ -462,7 +463,7 @@ const Room = (props) => {
           setNextSong(newNextSong);
 
           Axios.delete(
-            "http://localhost:8000/api/queues/" +
+            serverPath.local + '/api/queues/' +
               firstPickSong.queue_item_id +
               "/"
           )
@@ -513,7 +514,7 @@ const Room = (props) => {
         songTrackUrl: "",
       });
 
-      Axios.get("http://localhost:8000/api/adds/" + roomId + "/")
+      Axios.get(serverPath.local + '/api/adds/'+ roomId + "/")
         .then((res) => {
           if (
             parseInt(res.data.room_song_number, 10) <
@@ -529,7 +530,7 @@ const Room = (props) => {
               current_song_duration: newViewData.current_song_duration,
             };
 
-            Axios.patch("http://localhost:8000/api/adds/" + roomId + "/", data)
+            Axios.patch(serverPath.local + '/api/adds/' + roomId + "/", data)
               .then((res) => {})
               .catch((er) => {});
           }

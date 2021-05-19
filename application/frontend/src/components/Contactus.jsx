@@ -10,6 +10,7 @@ import Navbar from "./navbar";
 import { Button } from 'react-bootstrap';
 import Footer from "./Footer";
 import Axios from 'axios';
+import { serverPath } from '../path.js'
 
 const Contactus = () => {
     const [open, setOpen] = React.useState(false);
@@ -32,7 +33,7 @@ const Contactus = () => {
             message : comment,
           }
           console.log(data)
-          Axios.post("http://localhost:8000/api/contact/" , data)
+          Axios.post(serverPath.local + '/api/contact/' , data)
             .then((res) => {
               console.log('contacted')
             })

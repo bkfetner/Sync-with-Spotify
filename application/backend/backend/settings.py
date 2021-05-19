@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-k^3kih1u+lhusxv3dp3*$*vj5f#pz^781w!0l!sgx$#*3hs!z6
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['18.218.242.136','localhost']
+ALLOWED_HOSTS = ['18.219.141.181','localhost']
 
 
 # Application definition
@@ -89,7 +89,7 @@ CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
-            "hosts": [('127.0.0.1', 6379)],
+            "hosts": [('18.219.141.181', 6379)],
         },
     },
 }
@@ -153,7 +153,7 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ORIGIN_WHITELIST = [
-     'http://localhost:3000'
+     'http://18.219.141.181:3000'
 ]
 
 

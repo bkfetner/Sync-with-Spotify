@@ -6,6 +6,7 @@ import { DownOutlined } from "@ant-design/icons";
 import Axios from "axios";
 import Cookies from "js-cookie";
 import "../css/navbar.css";
+import { serverPath } from '../path.js'
 
 const NavBar = (props) => {
   const history = useHistory();
@@ -43,7 +44,7 @@ const NavBar = (props) => {
 
   useEffect(() => {
     var updateUser = userInfo;
-    Axios.get("http://localhost:8000/api/users/")
+    Axios.get(serverPath.local + '/api/users/')
       .then((res) => {
         res.data.map((getUser) => {
           if (getUser.user_id === updateUser.userId) {

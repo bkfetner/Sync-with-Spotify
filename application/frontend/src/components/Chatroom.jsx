@@ -52,7 +52,7 @@ class Chatroom extends Component {
   };
 
   client = new W3CWebSocket(
-    "ws://localhost:8000/ws/chat/" + this.props.roomId + "/"
+    "ws://18.219.141.181:8000/ws/chat/" + this.props.roomId + "/"
   ); /* put id here */
 
   onButtonClicked = (e) => {

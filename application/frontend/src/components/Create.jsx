@@ -16,7 +16,7 @@ import {
 import Axios from "axios";
 import "../css/Create.css";
 import Room from "./Room";
-/* import { serverPath } from '../path.js' */
+import { serverPath } from '../path.js' 
 
 import {
   withRouter,
@@ -161,8 +161,7 @@ const Create = (props) => {
     };
     console.log("insertData");
     console.log(data);
-    Axios.post("http://localhost:8000/api/adds/", data)
-      /* Axios.post(serverPath.local + 'api/adds/', data) */
+    Axios.post(serverPath.local + '/api/adds/', data) 
       .then((res) => {
         console.log("hi");
         setRoomName("");

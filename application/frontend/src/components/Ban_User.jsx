@@ -19,6 +19,7 @@ import {
 } from "antd";
 import Axios from "axios";
 import "../css/banuser.css";
+import { serverPath } from '../path.js'
 
 const Ban_User = () => {
     const formItemLayout = {
@@ -44,7 +45,7 @@ const Ban_User = () => {
         ban_comments : comment,
         ban_status : '1',
       }
-      Axios.patch("http://localhost:8000/api/users/" + userId + "/", data)
+      Axios.patch(serverPath.local + '/api/users/' + userId + "/", data)
         .then((res) => {
           console.log('banned')
         })
@@ -81,7 +82,7 @@ const Ban_User = () => {
   }
   useEffect(() => {
     
-        Axios.get("http://localhost:8000/api/users/")
+        Axios.get(serverPath.local + '/api/users/')
           .then((res) => {
             setViewData(res.data);
           })

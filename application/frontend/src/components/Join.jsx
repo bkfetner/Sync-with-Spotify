@@ -15,6 +15,7 @@ import Axios from "axios";
 import { DownOutlined, SearchOutlined  } from "@ant-design/icons";
 import "../css/Join.css";
 import Footer from "./Footer";
+import { serverPath } from '../path.js'
 
 const Join = (props) => {
   {
@@ -89,7 +90,7 @@ const Join = (props) => {
   useEffect(() => {
     if (userInfo != null) {
       if (userInfo.administratorStatus == 0) {
-        Axios.get("http://localhost:8000/api/room_type/")
+        Axios.get(serverPath.local + '/api/room_type/')
           .then((res) => {
             setViewData(res.data);
           })
@@ -98,7 +99,7 @@ const Join = (props) => {
             console.log(er);
           });
       } else {
-        Axios.get("http://localhost:8000/api/adds/")
+        Axios.get(serverPath.local + '/api/adds/')
           .then((res) => {
             setViewData(res.data);
           })
@@ -122,7 +123,7 @@ const Join = (props) => {
   const searchAll = () => {
     if (userInfo != null) {
       if (userInfo.administratorStatus == 0) {
-        Axios.get("http://localhost:8000/api/room_type/")
+        Axios.get(serverPath.local + '/api/room_type/')
           .then((res) => {
             let tempOptions = [];
             res.data.forEach((d) => {
@@ -136,7 +137,7 @@ const Join = (props) => {
             console.log(er);
           });
       } else {
-        Axios.get("http://localhost:8000/api/adds/")
+        Axios.get(serverPath.local + '/api/adds/')
           .then((res) => {
             setViewData(res.data);
           })
@@ -154,7 +155,7 @@ const Join = (props) => {
   const searchByName = () => {
     if (userInfo != null) {
       if (userInfo.administratorStatus == 0) {
-        Axios.get("http://localhost:8000/api/room_type/")
+        Axios.get(serverPath.local + '/api/room_type/')
           .then((res) => {
             let tempOptions = [];
             res.data.forEach((d) => {
@@ -168,7 +169,7 @@ const Join = (props) => {
             console.log(er);
           });
       } else {
-        Axios.get("http://localhost:8000/api/adds/")
+        Axios.get(serverPath.local + '/api/adds/')
           .then((res) => {
             let tempOptions = [];
               res.data.forEach((d) => {
@@ -191,7 +192,7 @@ const Join = (props) => {
   const searchByGenre = () => {
     if (userInfo != null) {
       if (userInfo.administratorStatus == 0) {
-        Axios.get("http://localhost:8000/api/room_type/")
+        Axios.get(serverPath.local + '/api/room_type/')
           .then((res) => {
             let tempOptions = [];
             res.data.forEach((d) => {
@@ -205,7 +206,7 @@ const Join = (props) => {
             console.log(er);
           });
       } else {
-        Axios.get("http://localhost:8000/api/adds/")
+        Axios.get(serverPath.local + '/api/adds/')
           .then((res) => {
             let tempOptions = [];
               res.data.forEach((d) => {
