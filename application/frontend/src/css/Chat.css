@@ -83,6 +83,7 @@
   display: flex !important;
   flex-direction: column-reverse !important;
   overflow: auto;
+  overflow-x: hidden;
   background-color: black !important;
   box-shadow: 'none';
   height: 100%;

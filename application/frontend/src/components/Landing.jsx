@@ -71,15 +71,20 @@ const Landing = (props) => {
           user_id: user.userId,
           display_name: user.displayName,
           profile_pic: user.profilePictureUrl,
+          admin_status: 0,
+          ban_status: 0,
+          ban_comment: "none"
         };
-        Axios.post(serverPath.local + '/api/adds/', data) 
+        Axios.post(serverPath.local + '/api/users/', data) 
           .then((res) => {})
-          .catch((er) => console.log(er));
+          .catch((er) => {
+            
+          });
 
         history.push("/Home");
       })
       .catch((er) => {
-        console.log(er);
+        
       });
   };
 

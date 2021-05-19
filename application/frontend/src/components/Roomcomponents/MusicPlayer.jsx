@@ -51,12 +51,12 @@ function MusicPlayer(props) {
             <strong>Next Song:</strong>
             <div>
               {props.nextSong.songName.length > 20
-                ? props.nextSong.songName.substring(0, 40) + "..."
+                ? props.nextSong.songName.substring(0, 20) + "..."
                 : props.nextSong.songName}
             </div>
             <div>
               {props.nextSong.songArtist.length > 20
-                ? props.nextSong.songArtist.substring(0, 40) + "..."
+                ? props.nextSong.songArtist.substring(0, 20) + "..."
                 : props.nextSong.songArtist}
             </div>
           </div>

@@ -597,13 +597,16 @@ const Room = (props) => {
               </div>
             </div>
             {/* Music Player Component */}
-            <MusicPlayer
+            {userInfo.product === "premium" ? 
+            (<MusicPlayer
               viewData={viewData}
               nextSong={nextSong}
               submitNextSong={submitNextSong}
               updateCurrentSong={updateCurrentSong}
-              accessToken={accessToken}
-            />
+              accessToken={userInfo.spotifyToken}
+            />) : (<div className="premium-required">
+              Spotify premium is required.
+            </div>) }
           </div>
           <div class="chatflex">
             {/* Chatroom Component */}

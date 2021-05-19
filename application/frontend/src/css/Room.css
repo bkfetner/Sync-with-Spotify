@@ -71,6 +71,13 @@
   justify-content: flex-start;
 }
 
+.premium-required {
+  background-color: white;
+  color: red;
+  padding: 15px;
+  text-align: center;
+}
+
 .chatflex {
   border-radius: 10px;
   width: 300px;
