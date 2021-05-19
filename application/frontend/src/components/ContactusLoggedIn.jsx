@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
@@ -8,28 +8,56 @@ import TextField from '@material-ui/core/TextField'
 import Navbar from "./navbar";
 import { Button } from 'react-bootstrap';
 import FooterLoggedIn from "./FooterLoggedIn";
+import Axios from 'axios';
 
 const Contactus = () => {
     const [open, setOpen] = React.useState(false);
+    const [emailId, setEmailId] = useState();
+    const [comment, setComment] = useState();
 
     const handleClickOpen = () => {
         setOpen(true);
+        
     };
 
     const handleClose = () => {
         setOpen(false);
     };
 
+    const handleOpen = () => {
+        setOpen(false);
+        var data = {
+            email : emailId,
+            message : comment,
+          }
+          console.log(data)
+          Axios.post("http://localhost:8000/api/contact/" , data)
+            .then((res) => {
+              console.log('contacted')
+            })
+            .catch((er) => {
+              {
+              }
+            });
+    };
     return (
         <div style={{ position: 'relative', minHeight: '70vh' }}>
             <div class="main">
                 <div style={{ justifySelf: 'left', fontSize: '24px', paddingTop: '20px', paddingBottom: '5px', color: '#00adb5'}}>Email: </div>
                 <div style={{ paddingBottom: 20 }}>
-                    <input type='text' placeholder='Email' required style={{ backgroundColor: '#393e46', width: 300 }} />
+                    <input type='text' placeholder='Email' required style={{ backgroundColor: '#393e46', width: 300 }} 
+                        onChange={(e) => {
+                            setEmailId(e.target.value);
+                          }}
+                    />
                 </div>
                 <p style={{ fontSize: '24px', color: '#00adb5' }}>Write your question or comment:</p>
                 <div style={{ paddingBottom: 20 }}>
-                    <textarea type="text" rows="8" cols="50" name="contactFormBody" wrap="hard" style={{ backgroundColor: '#393e46' }}></textarea>
+                    <textarea type="text" rows="8" cols="50" name="contactFormBody" wrap="hard" style={{ backgroundColor: '#393e46' }}
+                        onChange={(e) => {
+                            setComment(e.target.value);
+                          }}
+                    ></textarea>
                 </div>
                 <Button style={{ backgroundColor: '#00adb5', marginBottom: 10 }} onClick={handleClickOpen}>
                     Send Form
@@ -47,7 +75,7 @@ const Contactus = () => {
                         <Button onClick={handleClose} color="primary">
                             Cancel
                     </Button>
-                        <Button onClick={handleClose} color="primary" autoFocus>
+                        <Button onClick={handleOpen} color="primary" autoFocus>
                             Send
             </Button>
                     </DialogActions>

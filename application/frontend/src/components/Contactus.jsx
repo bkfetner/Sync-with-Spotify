@@ -18,24 +18,29 @@ const Contactus = () => {
 
     const handleClickOpen = () => {
         setOpen(true);
-        var data = {
-            email : emailId,
-            message : comment,
-          }
-          Axios.post("http://localhost:8000/api/contact/" , data)
-            .then((res) => {
-              console.log('banned')
-            })
-            .catch((er) => {
-              {
-              }
-            });
+        
     };
 
     const handleClose = () => {
         setOpen(false);
     };
 
+    const handleOpen = () => {
+        //setOpen(false);
+        var data = {
+            email : emailId,
+            message : comment,
+          }
+          console.log(data)
+          Axios.post("http://localhost:8000/api/contact/" , data)
+            .then((res) => {
+              console.log('contacted')
+            })
+            .catch((er) => {
+              {
+              }
+            });
+    };
     return (
         <div style={{ position: 'relative', minHeight: '100vh' }}>
             <div className="logo-flex">
@@ -65,7 +70,7 @@ const Contactus = () => {
                           }}
                     ></textarea>
                 </div>
-                <Button style={{ backgroundColor: '#00adb5' }} onClick={handleClickOpen}>
+                <Button style={{ backgroundColor: '#00adb5' }} onClick={() => handleClickOpen()}>
                     Send Form
             </Button>
                 <Dialog open={open} onClose={handleClose}>
@@ -81,7 +86,7 @@ const Contactus = () => {
                         <Button onClick={handleClose} color="primary">
                             Cancel
                     </Button>
-                        <Button onClick={handleClose} color="primary" autoFocus>
+                        <Button onClick={() => handleOpen()} color="primary" autoFocus>
                             Send
             </Button>
                     </DialogActions>
