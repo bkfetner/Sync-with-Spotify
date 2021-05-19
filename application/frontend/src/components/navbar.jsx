@@ -139,7 +139,7 @@ const NavBar = (props) => {
                     />
                   )}
                   <div style={{ marginLeft: "10px" }}>
-                    {userInfo.displayName}({userInfo.product})
+                    {userInfo.displayName}
                   </div>
                   <DownOutlined />
                 </div>
