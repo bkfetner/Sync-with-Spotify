@@ -36,9 +36,11 @@ const Ban_User = () => {
           offset: 5,
         },
       };
+    {
+    /* For banning a user based on the id */
+    }
     const onClickFunks = () => {
       var data = {
-        //user_id : userId,
         ban_comments : comment,
         ban_status : '1',
       }
@@ -74,13 +76,13 @@ const Ban_User = () => {
       const [viewData, setViewData] = useState([]);
       const [userId, setUserId] = useState();
       const [comment, setComment] = useState();
-  //const [userInfo, setUserInfo] = useState(retrieveCurrentUser);
-
+  {
+    /* For viewing all the users */
+  }
   useEffect(() => {
     
         Axios.get("http://localhost:8000/api/users/")
           .then((res) => {
-            console.log(res.data);
             setViewData(res.data);
           })
           .catch((er) => {
@@ -96,7 +98,6 @@ const Ban_User = () => {
             <Form 
                 {...formItemLayout}
                 className="text-color"
-            /*  style={{ marginTop: "150px", marginLeft: "400px" }} */
             >
                 <Form.Item
                 label="User Id"
@@ -107,10 +108,8 @@ const Ban_User = () => {
                     message: "Please input a user name.",
                     },
                 ]}
-                //rules={[{ required: true, message: "Please input your roomname!" }]}
                 >
           <Input
-            //placeholder="e.g. Bill's Room of Splendor"
             onChange={(e) => {
               setUserId(e.target.value);
             }}
@@ -126,9 +125,7 @@ const Ban_User = () => {
               message: "Please add some comments on ban purpose.",
             },
           ]}
-        //rules={[{ required: true, message: 'Province is required' }]}
-        >
-          
+        > 
           <Input.TextArea
             onChange={(e) => {
               setComment(e.target.value);
@@ -136,8 +133,6 @@ const Ban_User = () => {
           />
         </Form.Item>
 
-    
-        
         <Form.Item {...otherItemLayout} style={{ marginBottom: "0px" }}>
             <Popconfirm
             title="Are you sure you want to ban this user"
@@ -149,7 +144,6 @@ const Ban_User = () => {
           <Button
             type="primary"
             htmlType="submit"
-            /* href={"/Room/" + roomGenre + "/" + roomName} */
             onClick={showPopconfirm}
             className="sync-button-color"
           >
@@ -179,7 +173,6 @@ const Ban_User = () => {
                   hoverable
                   bordered
                   style={{ width: "80%", marginLeft: "30px" }}
-                 // cover={<img alt="example" src={d.roomImageUrl} />}
                 >
                   <Row>
                     <Col xs={24} className="join_text">

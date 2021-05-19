@@ -17,22 +17,23 @@ import Footer from "./Footer";
 
 const DeleteRoom = (props) => {
 
+    {
+    /* For viewing all the rooms */
+    }
     const [viewData, setViewData] = useState([]);
     const history = useHistory()
     const [roomType, setRoomType] = useState();
 
-
     useEffect(() => {
         Axios.get("http://localhost:8000/api/adds/")
         .then((res) => {
-            console.log(res.data);
             setViewData(res.data);
-            console.log(viewData)
-            //viewData.roomType == 0 ? setRoomType("Public Room") : setRoomType("Private Room")
         })
         .catch((er) => console.log(er));
     }, []);
-
+    {
+      /* For joining the room using join links */
+    }
     const joinRoom = (roomid) => {
    
         const resultRoomId = roomid;
@@ -42,14 +43,9 @@ const DeleteRoom = (props) => {
             "/" 
         );
       };
-      const refreshpage = () => {
-        Axios.get("http://localhost:8000/api/adds/")
-        .then((res) => {
-            console.log(res.data);
-            setViewData(res.data);
-        })
-        .catch((er) => console.log(er));
-      }
+      {
+        /* For deleting a room based on the id */
+      }  
       const deleteRoom = (roomid) => {
         
         var data = {
@@ -59,10 +55,8 @@ const DeleteRoom = (props) => {
         console.log(data.id)
         Axios.delete("http://localhost:8000/api/adds/"+ data.id + "/")
         .then((res) => {
-         //refreshpage()
           Axios.get("http://localhost:8000/api/adds/")
           .then((res) => {
-              console.log(res.data);
               setViewData(res.data);
           })
         .catch((er) => console.log(er));
