@@ -27,9 +27,9 @@ const Footer = () => {
                     <div className="col" style={{ paddingRight: '5rem' }}>
                         <h4 style={{ color: 'var(--color3)' }}>SYNC MUSIC STREAMING</h4>
                         <ul className="list-unstyled">
-                            <li>111-111-1111</li>
-                            <li>City, Country</li>
-                            <li>Street Number Street Name</li>
+                            <li>syncgators06@gmail.com</li>
+                            <li>Property of</li>
+                            <li>Team 06 aka SYNC</li>
                         </ul>
                     </div>
                     <div className="col" style={{ paddingRight: '8rem' }}>
