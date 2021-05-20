@@ -7,6 +7,7 @@ url: http://18.219.141.181:3000/
 Provided Premium Spotify Account: 
 
 Email: sickgatorz06@gmail.com
+
 Password: letzSYNC
 
 ## Please do the following steps before completing Milestone 0.
