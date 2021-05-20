@@ -25,7 +25,6 @@ function MusicPlayer(props) {
           styles={{ sliderHeight: "0", loaderSize: "110" }}
           initialVolume={0.25}
           token={props.accessToken}
-          showSaveIcon
           callback={(state) => {
             if (!state.isPlaying) setPlay(true);
           }}
