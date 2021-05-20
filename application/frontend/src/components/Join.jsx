@@ -345,15 +345,6 @@ const Join = (props) => {
                               </Typography.Text>
                             </Col>
                             <Col xs={24} className="join_text">
-                              No of members:
-                              <Typography.Text
-                                className="join_text"
-                                style={{ float: "right" }}
-                              >
-                                {Math.floor(Math.random() * 50)}
-                              </Typography.Text>
-                            </Col>
-                            <Col xs={24} className="join_text">
                               Link to join :
                               <Button
                                 type="link"
@@ -414,15 +405,6 @@ const Join = (props) => {
                             style={{ float: "right" }}
                           >
                             {d.genre}
-                          </Typography.Text>
-                        </Col>
-                        <Col xs={24} className="join_text">
-                          No of members:
-                          <Typography.Text
-                            className="join_text"
-                            style={{ float: "right" }}
-                          >
-                            {Math.floor(Math.random() * 50)}
                           </Typography.Text>
                         </Col>
                         <Col xs={24} className="join_text">
